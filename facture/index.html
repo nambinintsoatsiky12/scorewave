@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#151f29">
+<title>Facture+ · SLATE — Devis & factures pro gratuits</title>
+<meta name="description" content="Facture+ by Slate : devis et factures professionnels avec calculs automatiques, export PDF et partage WhatsApp. 100 % gratuit, sans inscription.">
+<link rel="icon" type="image/png" href="../assets/img/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.tool-head{background:#fff;border-bottom:1px solid var(--line);padding:14px 0;position:sticky;top:69px;z-index:40}
+.tool-head .container{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tool-head h1{font-family:var(--serif);font-size:20px;color:var(--slate)}
+.tool-head .actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.tool-head .btn{padding:10px 16px;font-size:13px}
+.btn-wa{background:#1fa855;color:#fff}
+.btn-wa:hover{background:#178a44}
+.seg{display:none;gap:6px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:4px;margin:16px 0 0}
+.seg button{flex:1;background:none;border:none;color:var(--muted);font-weight:700;font-size:13px;padding:9px;border-radius:8px;cursor:pointer;font-family:var(--sans)}
+.seg button.on{background:var(--slate);color:#fff}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:22px;align-items:start;padding:22px 0 50px}
+.preview-col{position:sticky;top:150px}
+.paper-scaler{width:100%;overflow:hidden;position:relative}
+.paper{width:794px;height:1123px;background:#fff;transform-origin:top left;box-shadow:0 20px 60px rgba(34,49,63,.22);overflow:hidden;position:absolute;top:0;left:0}
+.row-item{background:var(--ivory);border:1px solid var(--line);border-radius:11px;padding:14px;margin-bottom:10px}
+.row-item .del{float:right;background:none;border:none;color:#c23b3b;cursor:pointer;font-size:11px;font-weight:700;font-family:var(--sans)}
+.add-btn{width:100%;background:none;border:1.5px dashed var(--line);color:var(--gold-d);border-radius:10px;padding:10px;font-weight:700;font-size:13px;cursor:pointer;font-family:var(--sans)}
+.add-btn:hover{border-color:var(--gold)}
+/* ---------- Modèle d'édition ---------- */
+.inv{width:794px;height:1123px;padding:56px 60px;font-family:var(--sans);color:#2a3038;font-size:11px;line-height:1.55;position:relative}
+.inv .top{display:flex;justify-content:space-between;gap:30px;margin-bottom:34px}
+.inv .co b{font-family:"Playfair Display",Georgia,serif;font-size:22px;color:#22313f;display:block;margin-bottom:6px}
+.inv .co span{display:block;font-size:9.5px;color:#6b7280}
+.inv .doc{text-align:right}
+.inv .doc .tp{font-family:"Playfair Display",Georgia,serif;font-size:30px;font-weight:800;color:#c9a227;letter-spacing:2px;text-transform:uppercase}
+.inv .doc .num{font-size:12px;font-weight:700;color:#22313f;margin-top:2px}
+.inv .doc .dt{font-size:9.5px;color:#6b7280;margin-top:4px}
+.inv .billed{background:#f6f4ee;border:1px solid #eee8db;border-radius:10px;padding:16px 18px;margin-bottom:26px;display:inline-block;min-width:280px}
+.inv .billed h6{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#a8851c;margin-bottom:6px}
+.inv .billed b{font-size:12.5px;color:#22313f}
+.inv .billed span{display:block;font-size:9.5px;color:#6b7280}
+.inv table{width:100%;border-collapse:collapse;margin-bottom:22px}
+.inv th{background:#22313f;color:#fff;font-size:9px;letter-spacing:1.6px;text-transform:uppercase;padding:10px 12px;text-align:left}
+.inv th:nth-child(2),.inv th:nth-child(3),.inv th:nth-child(4){text-align:right}
+.inv td{padding:10px 12px;border-bottom:1px solid #eee8db;font-size:10.5px}
+.inv td:nth-child(2),.inv td:nth-child(3),.inv td:nth-child(4){text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.inv .tot{margin-left:auto;width:270px;font-size:10.5px}
+.inv .tot .ln{display:flex;justify-content:space-between;padding:6px 0;color:#4b5563;border-bottom:1px dashed #eee8db}
+.inv .tot .tt{display:flex;justify-content:space-between;padding:12px 0 0;font-size:15px;font-weight:800;color:#22313f}
+.inv .tot .tt b{color:#c9a227;font-family:"Playfair Display",Georgia,serif}
+.inv .nt{margin-top:26px;font-size:9.5px;color:#6b7280;white-space:pre-wrap}
+.inv .ft{position:absolute;bottom:40px;left:60px;right:60px;text-align:center;font-size:9px;color:#9aa5b1;border-top:1.5px solid #c9a227;padding-top:10px;letter-spacing:.5px}
+@media(max-width:980px){
+  .workspace{grid-template-columns:1fr}
+  .preview-col{position:static;display:none}
+  .workspace.showP .preview-col{display:block}
+  .workspace.showP .form-col{display:none}
+  .seg{display:flex}
+  .tool-head{top:0;position:static}
+}
+@media print{
+  body{background:#fff}
+  .sl-header,.tool-head,.form-col,.seg,#toast,.ad-slot,.advice{display:none!important}
+  .container{max-width:none;padding:0}
+  .workspace{display:block;padding:0}
+  .preview-col{position:static;display:block!important}
+  .paper-scaler{height:auto!important}
+  .paper{transform:none!important;box-shadow:none;position:static}
+}
+@page{size:A4;margin:0}
+</style>
+</head>
+<body>
+
+<header class="sl-header">
+  <div class="container">
+    <a class="brand" href="../">
+      <img src="../assets/img/logo-mark.png" alt="Logo Slate">
+      <span><span class="wm">SLATE</span><span class="tag">Écrivez votre réussite</span></span>
+    </a>
+    <div class="sl-spacer"></div>
+    <nav class="sl-nav"><a href="../">← Accueil</a></nav>
+  </div>
+</header>
+
+<div class="tool-head">
+  <div class="container">
+    <h1>Facture+</h1>
+    <div class="actions">
+      <button class="btn btn-outline" id="newBtn" style="border-color:var(--line);color:var(--muted)">＋ Nouveau</button>
+      <button class="btn btn-wa" id="waBtn">Partager WhatsApp</button>
+      <button class="btn btn-gold" id="pdfBtn">Télécharger en PDF
+        <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="seg" id="seg">
+    <button class="on" data-t="edit">✏️ Éditer</button>
+    <button data-t="view">👁️ Aperçu</button>
+  </div>
+  <div class="workspace" id="ws">
+
+    <div class="form-col">
+      <div class="panel">
+        <h3>Document</h3>
+        <div class="grid3">
+          <div class="field"><label>Type</label><select id="f-type"><option value="Facture">Facture</option><option value="Devis">Devis</option></select></div>
+          <div class="field"><label>Numéro</label><input id="f-num"></div>
+          <div class="field"><label>Devise</label><select id="f-devise"><option value="Ar">Ariary (Ar)</option><option value="€">Euro (€)</option><option value="$">Dollar ($)</option></select></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>Date d'émission</label><input id="f-dateEm" type="date"></div>
+          <div class="field"><label>Échéance / validité</label><input id="f-dateEc" type="date"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Votre entreprise (émetteur)</h3>
+        <div class="field"><label>Nom / Entreprise</label><input id="f-emNom" placeholder="Ex : Rakoto SARL"></div>
+        <div class="grid2">
+          <div class="field"><label>Téléphone</label><input id="f-emTel" placeholder="+261 34 00 000 00"></div>
+          <div class="field"><label>Email</label><input id="f-emMail" placeholder="contact@entreprise.mg"></div>
+        </div>
+        <div class="field"><label>Adresse</label><input id="f-emAdr" placeholder="Lot II, Antananarivo 101"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Client</h3>
+        <div class="field"><label>Nom du client</label><input id="f-clNom" placeholder="Ex : Madame Rasoa"></div>
+        <div class="grid2">
+          <div class="field"><label>Téléphone</label><input id="f-clTel"></div>
+          <div class="field"><label>Adresse</label><input id="f-clAdr"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Articles / Services</h3>
+        <div id="itemList"></div>
+        <button class="add-btn" id="addItem">+ Ajouter une ligne</button>
+      </div>
+
+      <div class="panel">
+        <h3>TVA & notes</h3>
+        <div class="grid2">
+          <div class="field"><label>Appliquer la TVA ?</label><select id="f-tvaOn"><option value="0">Non</option><option value="1">Oui</option></select></div>
+          <div class="field"><label>Taux TVA (%)</label><input id="f-tva" type="number" value="20" min="0" max="100"></div>
+        </div>
+        <div class="field"><label>Notes / conditions de paiement</label><textarea id="f-notes" placeholder="Ex : Paiement sous 15 jours par MVola ou virement."></textarea></div>
+      </div>
+
+      <p class="hint advice">💾 Tout est sauvegardé sur votre appareil. Après le PDF, envoyez-le à votre client via le bouton WhatsApp.</p>
+    </div>
+
+    <div class="preview-col">
+      <div class="paper-scaler" id="scaler"><div class="paper" id="paper"></div></div>
+      <p class="hint" style="text-align:center;margin-top:10px">Aperçu en direct (format A4)</p>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="../assets/app.js"></script>
+<script src="../assets/ads.js"></script>
+<script src="facture.js"></script>
+</body>
+</html>
