@@ -1,14 +1,15 @@
 /* ============================================================
-   💰 PUBLICITÉ MONETAG — COLLEZ VOTRE CODE ICI (une seule fois)
+   💰 PUBLICITÉ MONETAG — ÉTAT ACTUEL
    ------------------------------------------------------------
-   1) Dans votre tableau de bord Monetag : ajoutez ce site
-      (Settings → Sites → Add site) puis copiez le code de la zone.
-   2) Collez ce code ci-dessous entre les guillemets inversés (backticks).
-   3) Il apparaîtra automatiquement dans TOUS les emplacements
-      pub du site (page d'accueil + outils).
+   ✅ Push Notification (zone 11645525) : installée dans le <head>
+      des 3 pages (index.html, cv/, facture/)
+   ✅ Smartlink (https://omg10.com/4/11645531) : boutons
+      « Offre du moment » (hero), « Bonus Slate » (accueil),
+      « Offre sponsorisée » (CV Pro + Facture+)
 
-   Exemple :
-   const MONETAG_SNIPPET = `<script src="https://exemple.com/zone.js"></script>`;
+   BANNIÈRES SUPPLÉMENTAIRES — si vous créez une zone bannière
+   dans Monetag, collez son code ci-dessous entre les backticks :
+   elle apparaîtra dans tous les emplacements .ad-slot du site.
    ============================================================ */
 const MONETAG_SNIPPET = ``;
 

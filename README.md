@@ -14,13 +14,15 @@ créée pour les étudiants, freelances et entrepreneurs ambitieux.
 
 ## 💰 Comment SLATE gagne de l'argent
 
-1. **Pubs Monetag** (maintenant) → collez votre code dans `assets/ads.js`
-   (une seule fois, il apparaît partout). Ajoutez aussi le domaine du site
-   dans votre tableau de bord Monetag (*Settings → Sites*).
-2. **Premium** (plus tard) → modèles CV supplémentaires, filigrane retiré…
-   payables par Mobile Money (MVola / Orange Money).
-3. **L'argent vient des visiteurs** : chaque outil est fait pour être partagé
-   (un beau CV envoyé à un recruteur = une pub gratuite pour SLATE).
+1. **Monetag Push Notifications** (✅ installé) → les visiteurs s'abonnent,
+   puis reçoivent des notifs : revenus récurrents.
+2. **Monetag Smartlink** (✅ installé) → boutons « Offre du moment »,
+   « Bonus Slate » et cartes sponsorisées dans les outils.
+3. **Bannières Monetag** (option) → collez le code d'une zone dans
+   `assets/ads.js`, elle apparaît dans les emplacements `.ad-slot`.
+   Ajoutez aussi le domaine du site dans votre tableau de bord Monetag.
+4. **Premium** (plus tard) → modèles CV supplémentaires payables
+   par Mobile Money (MVola / Orange Money).
 
 ## 🚀 Mettre le site en ligne gratuitement (GitHub Pages)
 
