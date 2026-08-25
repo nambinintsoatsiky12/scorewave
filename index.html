@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0d0a">
+<title>ScoreWave — Scores en direct</title>
+<style>
+:root{--bg:#0b0d0a;--card:#14180f;--card2:#1b2114;--line:#232a1b;--text:#f2f7ea;--muted:#9aaa8b;--lime:#c9f24e;--red:#ff5c5c;--radius:16px}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:calc(76px + env(safe-area-inset-bottom));max-width:560px;margin:0 auto}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(700px 400px at 80% -10%,rgba(201,242,78,.08),transparent 60%),radial-gradient(500px 300px at -10% 30%,rgba(201,242,78,.05),transparent 60%)}
+.app-header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(11,13,10,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:#c9f24e;color:#121503;font-size:22px}
+.brand h1{font-size:20px;letter-spacing:.5px}
+.brand h1 span{color:var(--lime)}
+.brand p{font-size:11px;color:var(--muted)}
+.updated{padding:8px 16px;font-size:11px;color:var(--muted)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:20;max-width:560px;margin:0 auto;display:flex;background:rgba(15,18,12,.92);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.nav-btn{flex:1;background:none;border:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 0 12px;font-size:18px;cursor:pointer}
+.nav-btn span{font-size:10px;font-weight:600}
+.nav-btn.active{color:var(--lime)}
+.view{display:none;padding:8px 12px 12px}
+.view.active{display:block;animation:fade .2s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:8px 4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;background:var(--card);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.chip.active{background:var(--lime);color:#121503;border-color:var(--lime)}
+.card-list{display:flex;flex-direction:column;gap:12px;padding-top:6px}
+.card{background:linear-gradient(145deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:var(--radius);padding:14px}
+.match-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px}
+.league{font-size:11px;color:var(--muted);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.badge{font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px;letter-spacing:.5px;white-space:nowrap}
+.badge.live{background:rgba(255,92,92,.15);color:var(--red);animation:pulse 1.4s infinite}
+.badge.ft{background:rgba(154,170,139,.15);color:var(--muted)}
+.badge.soon{background:rgba(201,242,78,.12);color:var(--lime)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.teams{display:flex;flex-direction:column;gap:8px}
+.team{display:flex;justify-content:space-between;align-items:center;font-size:15px}
+.team .name{font-weight:600}
+.team .score{font-size:19px;font-weight:800;font-variant-numeric:tabular-nums;min-width:28px;text-align:right}
+.team.winner .name,.team.winner .score{color:var(--lime)}
+.card-actions{display:flex;gap:8px;margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.mini-btn{background:none;border:1px solid var(--line);color:var(--muted);font-size:12px;padding:6px 12px;border-radius:999px;cursor:pointer}
+.mini-btn:active{background:var(--lime);color:#121503}
+.news-card .tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:1px;color:var(--lime);text-transform:uppercase;margin-bottom:6px}
+.news-card h3{font-size:16px;line-height:1.35;margin-bottom:6px}
+.news-card p{font-size:13px;color:var(--muted);line-height:1.5}
+.news-card time{display:block;margin-top:10px;font-size:11px;color:var(--muted)}
+.fixture{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.fixture .vs{font-size:14px;font-weight:600;line-height:1.4}
+.fixture .when{font-size:11px;color:var(--lime);font-weight:700;text-align:right;white-space:nowrap}
+.fixture .where{font-size:11px;color:var(--muted);margin-top:4px}
+.section-title{font-size:15px;margin:10px 4px}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--card)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:10px 8px;text-align:center}
+th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--line)}
+td{border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:none}
+td:nth-child(2),th:nth-child(2){text-align:left;font-weight:600}
+tr.leader td{background:rgba(201,242,78,.06)}
+td.pts{font-weight:800;color:var(--lime)}
+.app-footer{padding:24px 16px;text-align:center;color:var(--muted);font-size:12px;line-height:1.6}
+.share-app{margin-top:10px;background:var(--lime);color:#121503;border:none;font-weight:700;padding:12px 22px;border-radius:999px;font-size:14px;cursor:pointer}
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty span{font-size:42px;display:block;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="brand">
+    <div class="logo">⚡</div>
+    <div>
+      <h1>Score<span>Wave</span></h1>
+      <p>Tous les sports. En direct.</p>
+    </div>
+  </div>
+</header>
+
+<p class="updated" id="updatedAt">🛰️ Chargement des scores…</p>
+
+<main>
+  <section id="view-scores" class="view active">
+    <div class="chips" id="sportChips"></div>
+    <div id="matchList" class="card-list"></div>
+  </section>
+
+  <section id="view-news" class="view">
+    <div id="newsList" class="card-list"></div>
+  </section>
+
+  <section id="view-upcoming" class="view">
+    <div id="fixtureList" class="card-list"></div>
+  </section>
+
+  <section id="view-table" class="view">
+    <h2 class="section-title" id="tableTitle">Classement</h2>
+    <div class="table-wrap">
+      <table id="standingsTable">
+        <thead><tr><th>#</th><th>Équipe</th><th>J</th><th>G</th><th>N</th><th>P</th><th>Pts</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer class="app-footer">
+  <p>⚡ ScoreWave — appli gratuite · Scores internationaux via TheSportsDB · Local 🇲🇬 par nos soins</p>
+  <button id="shareApp" class="share-app">Partager l'appli 📲</button>
+</footer>
+
+<nav class="bottom-nav">
+  <button data-view="scores" class="nav-btn active">🏆<span>Scores</span></button>
+  <button data-view="news" class="nav-btn">📰<span>Actus</span></button>
+  <button data-view="upcoming" class="nav-btn">📅<span>À venir</span></button>
+  <button data-view="table" class="nav-btn">📊<span>Classement</span></button>
+</nav>
+
+<script src="app.js"></script>
+</body>
+</html>
