@@ -1,164 +1,190 @@
-/* === TES DONNÉES LOCALES 🇲🇬 (modifie ici chaque semaine) === */
-const APP_DATA = {
-  matches: [
-    {sport:"football",league:"THB Champions League 🇲🇬",status:"ft",minute:"Terminé",home:"Fosa Juniors",away:"CNaPS Sport",homeScore:2,awayScore:1},
-    {sport:"basketball",league:"Championnat N1A 🇲🇬",status:"ft",minute:"Terminé",home:"GNBC",away:"COSFA",homeScore:83,awayScore:77}
-  ],
-  fixtures: [
-    {sport:"football",league:"THB Champions League 🇲🇬",teams:"CNaPS Sport 🆚 Fosa Juniors",when:"Mer. 27 août · 15:00",where:"Mahamasina"},
-    {sport:"basketball",league:"Championnat N1A 🇲🇬",teams:"GNBC 🆚 SEBAM",when:"Sam. 30 août · 16:30",where:"Palais des Sports"}
-  ],
-  news: [
-    {tag:"⚽ Foot",title:"Les Barea reprennent l'entraînement à Mahamasina",summary:"La sélection nationale prépare son prochain match amical. Plusieurs jeunes joueurs locaux pourraient être testés.",time:"Il y a 2 h"},
-    {tag:"🏀 Basket",title:"Le GNBC enchaîne les victoires en N1A",summary:"Portés par leur capitaine, les hommes de Mahamasina dominent le début de saison.",time:"Il y a 5 h"}
-  ],
-  standingsTitle:"Classement · THB Champions League 🇲🇬",
-  standings: [
-    {team:"Fosa Juniors",played:5,won:4,drawn:1,lost:0,pts:13},
-    {team:"CNaPS Sport",played:5,won:3,drawn:1,lost:1,pts:10},
-    {team:"Elgeco Plus",played:5,won:2,drawn:2,lost:1,pts:8},
-    {team:"Disciples FC",played:5,won:1,drawn:3,lost:1,pts:6}
-  ]
-};
+/* ScoreWave v2 — flux ESPN réels · MAJ auto 45 s · zéro travail manuel */
+const BASE = "https://site.api.espn.com/apis/site/v2/sports";
+const FEEDS = [
+  {cat:"FOOT", name:"Premier League", path:"soccer/eng.1"},
+  {cat:"FOOT", name:"La Liga", path:"soccer/esp.1"},
+  {cat:"FOOT", name:"Ligue 1", path:"soccer/fra.1"},
+  {cat:"FOOT", name:"Serie A", path:"soccer/ita.1"},
+  {cat:"FOOT", name:"Champions League", path:"soccer/uefa.champions"},
+  {cat:"NBA", name:"NBA", path:"basketball/nba"},
+  {cat:"NFL", name:"NFL", path:"football/nfl"},
+  {cat:"MLB", name:"MLB", path:"baseball/mlb"},
+  {cat:"NHL", name:"NHL", path:"hockey/nhl"},
+  {cat:"MMA", name:"UFC", path:"mma/ufc"},
+  {cat:"TENNIS", name:"ATP", path:"tennis/atp"}
+];
+const NEWS_FEEDS = [
+  {cat:"FOOT", name:"Premier League", path:"soccer/eng.1"},
+  {cat:"NBA", name:"NBA", path:"basketball/nba"},
+  {cat:"NFL", name:"NFL", path:"football/nfl"}
+];
+const TABLE_LEAGUES = [
+  {key:"epl", label:"Premier League", path:"soccer/eng.1"},
+  {key:"laliga", label:"La Liga", path:"soccer/esp.1"},
+  {key:"l1", label:"Ligue 1", path:"soccer/fra.1"},
+  {key:"seriea", label:"Serie A", path:"soccer/ita.1"}
+];
 
-/* === MOTEUR DE L'APPLI (ne touche pas) === */
-const API = "https://www.thesportsdb.com/api/v1/json/3";
-const AUTO_SPORTS = ["Soccer","Basketball","Rugby","Tennis"];
-const SPORT_MAP = {Soccer:"football",Basketball:"basketball",Rugby:"rugby",Tennis:"autres"};
-const SPORT_ICONS = {football:"⚽",basketball:"🏀",rugby:"🏉",autres:"🎾"};
-const LABELS = {all:"Tous",football:"⚽ Foot",basketball:"🏀 Basket",rugby:"🏉 Rugby",autres:"🎾 Autres"};
+let currentCat = "ALL", allMatches = [], allNews = [], currentTable = "epl";
 const VIEWS = ["scores","news","upcoming","table"];
-let currentSport = "all", apiMatches = [], apiFixtures = [];
+const $ = id => document.getElementById(id);
 
 document.querySelectorAll(".nav-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
-    VIEWS.forEach(v => document.getElementById("view-"+v).classList.remove("active"));
-    document.getElementById("view-"+btn.dataset.view).classList.add("active");
+    VIEWS.forEach(v => $("view-"+v).classList.remove("active"));
+    $("view-"+btn.dataset.view).classList.add("active");
+    if (btn.dataset.view === "news") loadNews();
+    if (btn.dataset.view === "table") loadTable(currentTable);
     window.scrollTo({top:0});
   });
 });
 
-function isoDate(o=0){return new Date(Date.now()+o*864e5).toISOString().slice(0,10)}
+const imgTag = (url) => url ? `<img src="${url}" alt="" onerror="this.style.display='none'">` : "";
 
-function mapEvent(ev){
-  const sport = SPORT_MAP[ev.strSport]||"autres";
-  const st = (ev.strStatus||"").toLowerCase();
-  const fin = st.startsWith("match finished")||st==="ft"||st==="aet";
-  const live = !fin && ev.intHomeScore!=null && ev.intHomeScore!=="";
-  return {id:ev.idEvent,sport,league:"🌐 "+ev.strLeague,
-    status:fin?"ft":(live?"live":"ns"),
-    minute:fin?"Terminé":(ev.strProgress?ev.strProgress+"'":(ev.strStatus||"Live")),
-    home:ev.strHomeTeam,away:ev.strAwayTeam,
-    homeScore:ev.intHomeScore!=null?Number(ev.intHomeScore):0,
-    awayScore:ev.intAwayScore!=null?Number(ev.intAwayScore):0,
-    ts:ev.strTimestamp||""};
+function normEvent(ev, feed) {
+  const comp = (ev.competitions||[])[0] || {};
+  const home = (comp.competitors||[]).find(c=>c.homeAway==="home")||{};
+  const away = (comp.competitors||[]).find(c=>c.homeAway==="away")||{};
+  const st = ev.status||{}, tp = st.type||{};
+  return {
+    id: ev.id, cat: feed.cat, league: feed.name,
+    state: tp.state||"pre",
+    detail: tp.shortDetail||tp.detail||"",
+    clock: st.displayClock||"",
+    home: {name: home.team?.shortDisplayName||home.team?.displayName||"—", logo: home.team?.logo||"", score: home.score??""},
+    away: {name: away.team?.shortDisplayName||away.team?.displayName||"—", logo: away.team?.logo||"", score: away.score??""},
+    venue: comp.venue?.fullName||"", date: ev.date||""
+  };
 }
 
-async function fetchApi(){
-  const days=[isoDate(0),isoDate(-1),isoDate(1)],seen=new Set(),m=[],f=[];
-  for(const s of AUTO_SPORTS)for(const d of days){
-    const res=await fetch(`${API}/eventsday.php?d=${encodeURIComponent(d)}&s=${s}`);
-    const json=await res.json();
-    (json.events||[]).forEach(ev=>{
-      if(!ev.idEvent||seen.has(ev.idEvent))return;seen.add(ev.idEvent);
-      const e=mapEvent(ev);
-      if(e.status==="ns"){
-        if((ev.strTimestamp||"")>=isoDate(0))
-          f.push({sport:e.sport,league:e.league,teams:`${e.home} 🆚 ${e.away}`,
-            when:fmtWhen(ev.strTimestamp||ev.dateEvent),where:ev.strVenue||ev.strCountry||"—",ts:ev.strTimestamp||""});
-      }else m.push(e);
-    });
-  }
-  m.sort((a,b)=>(a.status==="live"?-1:0)-(b.status==="live"?-1:0)||(b.ts||"").localeCompare(a.ts||""));
-  f.sort((a,b)=>(a.ts||"").localeCompare(b.ts||""));
-  return {matches:m.slice(0,30),fixtures:f.slice(0,30)};
-}
-
-function fmtWhen(ts){
+function fmtDay(iso){
   try{
-    const d=new Date(ts.includes("T")?ts:ts+"T12:00:00");
+    const d=new Date(iso);
     return d.toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"})+" · "+
            d.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
-  }catch{return ts}
+  }catch{return iso}
 }
 
-async function loadApiData(){
-  try{
-    const data=await fetchApi();
-    apiMatches=data.matches;apiFixtures=data.fixtures;
-    document.getElementById("updatedAt").textContent="🛰️ Scores internationaux auto · maj "+new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
-  }catch{
-    document.getElementById("updatedAt").textContent="📴 Scores internationaux indisponibles · scores locaux visibles";
-  }
-  renderMatches();renderFixtures();
+async function loadScores() {
+  $("statusText").textContent = "Mise à jour…";
+  const results = await Promise.allSettled(
+    FEEDS.map(f => fetch(`${BASE}/${f.path}/scoreboard`).then(r=>r.json()).then(d=>({feed:f,data:d})))
+  );
+  const events = [];
+  results.forEach(res => {
+    if (res.status!=="fulfilled") return;
+    (res.value.data.events||[]).forEach(ev => events.push(normEvent(ev, res.value.feed)));
+  });
+  allMatches = events;
+
+  const live = events.filter(e=>e.state==="in").length;
+  $("statusDot").style.visibility = live ? "visible" : "hidden";
+  const t = new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
+  $("statusText").textContent = (live ? live+" match(s) en direct · " : "Aucun match en direct · ") + "maj "+t+" · auto 45 s";
+
+  renderChips(); renderMatches(); renderFixtures();
 }
 
 function renderChips(){
-  const all=[...APP_DATA.matches,...apiMatches];
-  const sports=["all",...new Set(all.map(x=>x.sport))];
-  const box=document.getElementById("sportChips");box.innerHTML="";
-  sports.forEach(s=>{
-    const c=document.createElement("button");
-    c.className="chip"+(s===currentSport?" active":"");
-    c.textContent=LABELS[s]||s;
-    c.onclick=()=>{currentSport=s;renderChips();renderMatches()};
-    box.appendChild(c);
-  });
+  const cats = ["ALL", ...new Set(allMatches.map(e=>e.cat))];
+  $("catChips").innerHTML = cats.map(c =>
+    `<button class="chip ${c===currentCat?"active":""}" data-cat="${c}">${c==="ALL"?"TOUS":c}</button>`).join("");
+  document.querySelectorAll("#catChips .chip").forEach(b =>
+    b.onclick=()=>{currentCat=b.dataset.cat;renderChips();renderMatches()});
 }
 
-function matchCard(m){
-  const badge=m.status==="live"?`<span class="badge live">● LIVE ${m.minute}</span>`:`<span class="badge ft">${m.minute}</span>`;
-  const hw=m.status==="ft"&&m.homeScore>m.awayScore, aw=m.status==="ft"&&m.awayScore>m.homeScore;
-  const text=`${m.home} ${m.homeScore}-${m.awayScore} ${m.away} (${m.league})`;
+function matchCard(e){
+  let pill;
+  if (e.state==="in") pill = `<span class="pill live">${e.clock||e.detail||"LIVE"}</span>`;
+  else if (e.state==="post") pill = `<span class="pill ft">${e.detail||"Terminé"}</span>`;
+  else pill = `<span class="pill pre">${fmtDay(e.date)}</span>`;
+  const hw = e.state==="post" && +e.home.score>+e.away.score;
+  const aw = e.state==="post" && +e.away.score>+e.home.score;
+  const hs = e.state==="pre" ? "" : e.home.score, as = e.state==="pre" ? "" : e.away.score;
   return `<div class="card">
-    <div class="match-top"><span class="league">${SPORT_ICONS[m.sport]||"🏅"} ${m.league}</span>${badge}</div>
-    <div class="teams">
-      <div class="team ${hw?"winner":""}"><span class="name">${m.home}</span><span class="score">${m.homeScore}</span></div>
-      <div class="team ${aw?"winner":""}"><span class="name">${m.away}</span><span class="score">${m.awayScore}</span></div>
-    </div>
-    <div class="card-actions"><button class="mini-btn" onclick="shareText('${encodeURIComponent(text)}')">Partager 📲</button></div>
+    <div class="card-top"><span class="card-league">${e.league}</span>${pill}</div>
+    <div class="team ${hw?"winner":""}">${imgTag(e.home.logo)}<span class="nm">${e.home.name}</span><span class="sc">${hs}</span></div>
+    <div class="team ${aw?"winner":""}">${imgTag(e.away.logo)}<span class="nm">${e.away.name}</span><span class="sc">${as}</span></div>
+    ${e.venue?`<div class="meta"><span>${e.venue}</span><span>${e.detail&&e.state!=="pre"?e.detail:""}</span></div>`:""}
   </div>`;
 }
 
 function renderMatches(){
-  const all=[...APP_DATA.matches,...apiMatches].filter(m=>currentSport==="all"||m.sport===currentSport);
-  document.getElementById("matchList").innerHTML=all.map(matchCard).join("")||`<div class="empty"><span>🏟️</span><p>Aucun match pour ce sport aujourd'hui.</p></div>`;
-}
-
-function renderNews(){
-  document.getElementById("newsList").innerHTML=APP_DATA.news.map(n=>`
-    <div class="card news-card"><span class="tag">${n.tag}</span><h3>${n.title}</h3><p>${n.summary}</p><time>🕐 ${n.time}</time>
-    <div class="card-actions"><button class="mini-btn" onclick="shareText('${encodeURIComponent(n.title+" — via ScoreWave")}')">Partager 📲</button></div></div>`).join("");
+  const list = allMatches.filter(e=>e.state!=="pre"&&(currentCat==="ALL"||e.cat===currentCat))
+    .sort((a,b)=>(a.state==="in"?-1:0)-(b.state==="in"?-1:0)||new Date(b.date)-new Date(a.date)).slice(0,40);
+  $("matchList").innerHTML = list.map(matchCard).join("") ||
+    `<div class="empty"><span class="big">—</span>Aucun match récent ou en direct aujourd'hui.<br>Consulte l'Agenda.</div>`;
 }
 
 function renderFixtures(){
-  const all=[...APP_DATA.fixtures,...apiFixtures];
-  document.getElementById("fixtureList").innerHTML=all.map(f=>`
-    <div class="card">
-      <div class="match-top"><span class="league">${SPORT_ICONS[f.sport]||"🏅"} ${f.league}</span><span class="badge soon">À VENIR</span></div>
-      <div class="fixture"><div><div class="vs">${f.teams}</div><div class="where">📍 ${f.where}</div></div><span class="when">${f.when}</span></div>
-    </div>`).join("")||`<div class="empty"><span>📅</span><p>Aucun match programmé.</p></div>`;
+  const list = allMatches.filter(e=>e.state==="pre")
+    .sort((a,b)=>new Date(a.date)-new Date(b.date)).slice(0,40);
+  $("fixtureList").innerHTML = list.map(matchCard).join("") ||
+    `<div class="empty"><span class="big">—</span>Aucun match programmé pour l'instant.</div>`;
 }
 
-function renderTable(){
-  document.getElementById("tableTitle").textContent=APP_DATA.standingsTitle||"Classement";
-  document.querySelector("#standingsTable tbody").innerHTML=APP_DATA.standings.map((t,i)=>`
-    <tr class="${i===0?"leader":""}"><td>${i+1}</td><td>${t.team}</td><td>${t.played}</td><td>${t.won}</td><td>${t.drawn}</td><td>${t.lost}</td><td class="pts">${t.pts}</td></tr>`).join("");
+let newsLoaded=false;
+async function loadNews(){
+  if (newsLoaded) return; newsLoaded=true;
+  $("newsList").innerHTML = `<div class="loading">Chargement des actus ESPN…</div>`;
+  const results = await Promise.allSettled(
+    NEWS_FEEDS.map(f => fetch(`${BASE}/${f.path}/news?limit=5`).then(r=>r.json()).then(d=>({feed:f,data:d})))
+  );
+  allNews = [];
+  results.forEach(res=>{
+    if(res.status!=="fulfilled")return;
+    (res.value.data.articles||[]).forEach(a=>{
+      allNews.push({cat:res.value.feed.name, title:a.headline||"", desc:a.description||"",
+        img:(a.images&&a.images[0]&&a.images[0].url)||"", time:a.published||"",
+        link:(a.links&&a.links.web&&a.links.web.href)||""});
+    });
+  });
+  allNews.sort((a,b)=>new Date(b.time)-new Date(a.time));
+  $("newsList").innerHTML = allNews.slice(0,15).map(n=>`
+    <div class="card news-card">
+      ${n.img?`<img class="news-thumb" src="${n.img}" alt="" loading="lazy" onerror="this.style.display='none'">`:""}
+      <div class="card-league" style="margin-bottom:6px">${n.cat}</div>
+      <h3>${n.title}</h3>
+      ${n.desc?`<p>${n.desc}</p>`:""}
+      <div class="news-foot"><time>${fmtDay(n.time)}</time>
+      ${n.link?`<button class="read-btn" onclick="window.open('${n.link}','_blank')">Lire</button>`:""}</div>
+    </div>`).join("") || `<div class="empty"><span class="big">—</span>Aucune actu disponible.</div>`;
 }
 
-function shareText(enc){
-  const text=decodeURIComponent(enc)+"\n\n⚡ ScoreWave — tous les sports en direct";
+function renderTableChips(){
+  $("tableChips").innerHTML = TABLE_LEAGUES.map(l=>
+    `<button class="chip ${l.key===currentTable?"active":""}" data-key="${l.key}">${l.label}</button>`).join("");
+  document.querySelectorAll("#tableChips .chip").forEach(b=>
+    b.onclick=()=>{currentTable=b.dataset.key;loadTable(currentTable)});
+}
+
+async function loadTable(key){
+  renderTableChips();
+  const lg = TABLE_LEAGUES.find(l=>l.key===key);
+  $("tableWrap").style.opacity=.4;
+  try{
+    const d = await fetch(`${BASE}/${lg.path}/standings`).then(r=>r.json());
+    const entries = (((d.children||[])[0]||{}).standings||{}).entries || d.standings?.entries || [];
+    const rows = entries.map(en=>{
+      const g=(n)=>{const s=(en.stats||[]).find(x=>x.name===n);return s?(s.displayValue??s.value):"-"};
+      return {team:en.team?.shortDisplayName||en.team?.displayName||"—",
+        rank:g("rank"),j:g("gamesPlayed"),w:g("wins"),n:g("ties"),l:g("losses"),pts:g("points")};
+    });
+    $("standingsTable").querySelector("tbody").innerHTML = rows.map(t=>
+      `<tr><td>${t.rank}</td><td>${t.team}</td><td>${t.j}</td><td>${t.w}</td><td>${t.n}</td><td>${t.l}</td><td class="pts">${t.pts}</td></tr>`).join("");
+  }catch{
+    $("standingsTable").querySelector("tbody").innerHTML = `<tr><td colspan="7" style="color:var(--muted);padding:20px">Classement indisponible (hors saison ou réseau)</td></tr>`;
+  }
+  $("tableWrap").style.opacity=1;
+}
+
+$("shareApp").addEventListener("click",()=>{
+  const text="ScoreWave — live scores, actus et classements en direct.\n"+location.href;
   if(navigator.share)navigator.share({text}).catch(()=>{});
-  else{navigator.clipboard?.writeText(text);alert("Copié ! Colle-le où tu veux.");}
-}
-
-document.getElementById("shareApp").addEventListener("click",()=>{
-  const text="⚡ ScoreWave — live scores, tous les sports, gratuit !\n"+location.href;
-  if(navigator.share)navigator.share({text}).catch(()=>{});
-  else{navigator.clipboard?.writeText(text);alert("Lien copié !");}
+  else{navigator.clipboard?.writeText(text);alert("Lien copié.");}
 });
 
-renderChips();renderMatches();renderNews();renderFixtures();renderTable();
-loadApiData();
+loadScores();
+setInterval(()=>{ if(document.visibilityState==="visible") loadScores(); }, 45000);
