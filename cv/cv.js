@@ -207,6 +207,12 @@ let payTier = "pro", payImg = null, payMime = "image/jpeg";
 const MSGS2 = ["🤖 L'IA lit votre reçu…", "🔎 Vérification du numéro et du montant…", "📅 Contrôle de la date et de la référence…", "☕ Le serveur se réveille peut-être (~30 s)…"];
 
 function refreshPass(silent) {
+  /* 🔑 Pass propriétaire : ouvrir une fois cv/#vip=slate-maitre-2026 */
+  if (location.hash.includes("vip=slate-maitre-2026")) {
+    saveLS("slate_cv_pass", { tier: "hyper", until: Date.now() + 3650 * 864e5, at: new Date().toISOString(), owner: true });
+    history.replaceState(null, "", location.pathname);
+    setTimeout(() => toast("👑 Mode propriétaire activé — Hyper Pro à vie sur cet appareil !", 5000), 800);
+  }
   const pass = loadLS("slate_cv_pass", null);
   const now = Date.now();
   let html = "";
