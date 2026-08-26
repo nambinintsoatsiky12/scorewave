@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#151f29">
+<title>LinkShop · SLATE — Votre mini-boutique en ligne, commandes sur WhatsApp</title>
+<meta name="description" content="Créez votre mini-boutique gratuitement : catalogue de produits avec prix, partage par simple lien, commandes directes sur WhatsApp. Idéal pour vendre à Madagascar.">
+<link rel="icon" type="image/png" href="../assets/img/logo-mark.png">
+
+<!-- Vérification Monetag -->
+<meta name="monetag" content="b39527e315a4b6ab7a47745830e9c869">
+
+<!-- Monetag Push Notification -->
+<script>/* SLATE : pack premium = zéro pub */window.__SLATE_ADS=(function(){try{var p=JSON.parse(localStorage.getItem("slate_cv_pass")||"null");return !(p&&p.until>Date.now());}catch(e){return true}})();if(window.__SLATE_ADS){var _ms=document.createElement("script");_ms.src="https://5gvci.com/act/files/tag.min.js?z=11655246";_ms.async=true;document.head.appendChild(_ms);}else{addEventListener("DOMContentLoaded",function(){document.querySelectorAll("a[href*='omg10.com'],.promo-mini").forEach(function(el){el.style.display="none";});});}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.tool-head{background:#fff;border-bottom:1px solid var(--line);padding:14px 0}
+.tool-head .container{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tool-head h1{font-family:var(--serif);font-size:20px;color:var(--slate)}
+.tool-head .actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.wrap{max-width:820px;margin:0 auto;padding:22px 0 60px}
+label.f{display:block;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-d);margin:14px 0 6px}
+.inp{width:100%;background:#fff;border:1.5px solid var(--line);border-radius:11px;padding:12px 14px;font-size:14px;font-family:var(--sans);color:var(--text)}
+.inp:focus{outline:none;border-color:var(--gold)}
+.frow{display:grid;gap:12px}
+@media(min-width:600px){.frow.c2{grid-template-columns:1fr 2fr}.frow.c3{grid-template-columns:1fr 1fr 1fr}}
+/* --- produits --- */
+.prod{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:10px 14px;margin-top:8px}
+.prod .pe{font-size:24px}
+.prod .pn{font-weight:700;font-size:14px;color:var(--slate)}
+.prod .pp{font-size:12.5px;color:var(--gold-d);font-weight:800}
+.prod .pd{font-size:11.5px;color:var(--muted)}
+.prod .del{margin-left:auto;background:#fdeaea;border:none;color:#c62828;border-radius:9px;padding:8px 11px;cursor:pointer;font-size:13px}
+/* --- vitrine --- */
+.shophead{background:linear-gradient(120deg,var(--slate),var(--slate-2));color:#fff;border-radius:var(--radius);padding:26px 22px;text-align:center;margin:18px 0;border:1px solid rgba(201,162,39,.35)}
+.shophead .logo{font-size:40px}
+.shophead h2{font-family:var(--serif);font-size:26px;margin:8px 0 4px}
+.shophead p{font-size:13px;color:rgba(255,255,255,.7);margin:0}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin:18px 0}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px 16px;text-align:center;transition:transform .15s,box-shadow .15s}
+.pcard:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(34,49,63,.12)}
+.pcard .e{font-size:36px}
+.pcard h3{font-family:var(--serif);font-size:16.5px;color:var(--slate);margin:8px 0 2px}
+.pcard .price{font-weight:800;color:var(--gold-d);font-size:15px;margin-bottom:4px}
+.pcard .d{font-size:12px;color:var(--muted);min-height:16px;margin-bottom:12px}
+.wabtn{display:inline-flex;align-items:center;gap:7px;background:#25D366;color:#fff;font-weight:800;font-size:12.5px;border-radius:99px;padding:10px 16px;text-decoration:none}
+.wabtn:hover{background:#1eb856}
+/* --- partage --- */
+.sharebox{background:#fff;border:1px solid var(--gold);border-radius:var(--radius);padding:20px;margin-top:18px}
+.sharebox h3{font-family:var(--serif);color:var(--slate);margin-bottom:8px}
+.urlrow{display:flex;gap:8px;margin-top:8px}
+.urlrow input{flex:1;font-size:11.5px;background:var(--ivory)}
+.qrrow{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:14px}
+.qrrow img{width:150px;height:150px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:6px}
+.client-note{text-align:center;margin:24px 0 40px;font-size:12.5px;color:var(--muted)}
+.client-note a{color:var(--gold-d);font-weight:700}
+#poster{display:none}
+@media print{
+  body>*{display:none!important}
+  #poster{display:flex!important;flex-direction:column;align-items:center;justify-content:center;min-height:95vh;text-align:center}
+}
+#poster h1{font-family:var(--serif);font-size:34px;color:#22313f;margin:0 0 4px}
+#poster p{font-size:14px;color:#5b6773;margin:0 0 20px}
+#poster img{width:320px;height:320px}
+#poster .scan{font-size:18px;font-weight:800;color:#22313f;margin-top:20px}
+#poster .bl{font-size:10px;color:#9aa4ad;letter-spacing:2px;text-transform:uppercase;margin-top:26px}
+#poster .bl b{color:#c9a227}
+</style>
+</head>
+<body>
+
+<header class="sl-header">
+  <div class="container">
+    <a class="brand" href="../">
+      <img src="../assets/img/logo-mark.png" alt="Logo Slate">
+      <span><span class="wm">SLATE</span><span class="tag">Écrivez votre réussite</span></span>
+    </a>
+    <div class="sl-spacer"></div>
+    <nav class="sl-nav"><a href="../">← Accueil</a></nav>
+  </div>
+</header>
+
+<!-- ============ MODE VENDEUR ============ -->
+<div id="sellerMode" style="display:none">
+  <div class="tool-head">
+    <div class="container">
+      <h1>🛍️ LinkShop — Ma boutique</h1>
+      <div class="actions">
+        <button class="btn btn-outline" id="previewBtn" style="border-color:var(--line);color:var(--muted)">👁 Voir ma vitrine</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="container wrap">
+    <div class="panel">
+      <h3>1 · Votre boutique</h3>
+      <label class="f" for="sName">Nom de la boutique</label>
+      <input class="inp" id="sName" maxlength="40" placeholder="Ex : Chez Nambinina — Saveurs de Tana">
+      <div class="frow c2">
+        <div>
+          <label class="f" for="sWa">Numéro WhatsApp (commandes)</label>
+          <input class="inp" id="sWa" maxlength="16" placeholder="Ex : 034 12 345 67" inputmode="tel">
+        </div>
+        <div>
+          <label class="f" for="sDesc">Petite description</label>
+          <input class="inp" id="sDesc" maxlength="90" placeholder="Ex : Plats faits maison, livraison sur Tana 🚲">
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>2 · Vos produits</h3>
+      <div class="frow c3">
+        <div>
+          <label class="f" for="pEmoji">Emoji</label>
+          <input class="inp" id="pEmoji" maxlength="4" placeholder="👗">
+        </div>
+        <div>
+          <label class="f" for="pName">Nom du produit</label>
+          <input class="inp" id="pName" maxlength="40" placeholder="Ex : Robe wax taille M">
+        </div>
+        <div>
+          <label class="f" for="pPrice">Prix (Ariary)</label>
+          <input class="inp" id="pPrice" inputmode="numeric" maxlength="10" placeholder="Ex : 25000">
+        </div>
+      </div>
+      <label class="f" for="pDesc">Détail (optionnel)</label>
+      <input class="inp" id="pDesc" maxlength="90" placeholder="Ex : Plusieurs couleurs, sur commande en 48 h">
+      <button class="btn btn-slate" id="addBtn" style="margin-top:14px;width:100%">+ Ajouter ce produit</button>
+      <div id="prodList"></div>
+    </div>
+
+    <div class="sharebox">
+      <h3>3 · Partagez votre boutique 🚀</h3>
+      <p class="hint" style="margin:0">Votre boutique tient dans <b>un seul lien</b> : envoyez-le à vos clients, ils commandent directement sur votre WhatsApp.</p>
+      <div class="urlrow">
+        <input class="inp" id="shareUrl" readonly>
+        <button class="btn btn-gold" id="copyBtn">Copier</button>
+      </div>
+      <div class="qrrow">
+        <img id="qrImg" alt="QR code de la boutique">
+        <div style="flex:1;min-width:200px">
+          <b style="font-family:var(--serif);color:var(--slate)">📄 L'affiche QR</b>
+          <p class="hint">Imprimez-la et collez-la devant votre kiosque, votre boutique ou votre école : les gens scannent et commandent !</p>
+          <button class="btn btn-slate" id="printBtn" style="margin-top:6px">🖨 Imprimer l'affiche</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ============ MODE CLIENT (lien partagé) ============ -->
+<div id="clientMode" style="display:none">
+  <div class="tool-head"><div class="container"><h1 id="cTitle">🛍️ Boutique</h1></div></div>
+  <main class="container wrap">
+    <div class="shophead">
+      <div class="logo">🛍️</div>
+      <h2 id="cName"></h2>
+      <p id="cDesc"></p>
+    </div>
+    <div class="pgrid" id="cGrid"></div>
+    <p class="client-note">🛍️ Boutique créée gratuitement avec <a href="../">SLATE</a> — <a id="cMine" href="#">Crée la tienne en 2 minutes ✨</a></p>
+  </main>
+</div>
+
+<!-- ============ AFFICHE QR (impression) ============ -->
+<div id="poster">
+  <h1 id="poName"></h1>
+  <p id="poDesc"></p>
+  <img id="poQr" alt="QR code">
+  <div class="scan">📱 Scannez ce code pour voir nos produits<br>et commander sur WhatsApp !</div>
+  <div class="bl">Boutique créée avec <b>SLATE</b> · slate-vh8d.onrender.com</div>
+</div>
+
+<div id="toast"></div>
+<script src="../assets/app.js"></script>
+<script src="../assets/ads.js"></script>
+<script src="shop.js"></script>
+<!-- Monetag In-Page Push -->
+<script>if(window.__SLATE_ADS)(function(s){s.dataset.zone='11655269',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+</body>
+</html>

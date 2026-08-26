@@ -1,0 +1,12 @@
+{
+  "name": "slate-api",
+  "version": "1.0.0",
+  "description": "Mini-serveur SLATE — proxy sécurisé vers Gemini (correcteur photo IA)",
+  "main": "index.js",
+  "scripts": { "start": "node index.js" },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5"
+  }
+}

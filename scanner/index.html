@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#151f29">
+<title>Correcteur photo IA · SLATE — Photographiez votre sujet, obtenez la correction</title>
+<meta name="description" content="Photographiez un sujet d'examen ou votre copie : l'IA corrige chaque question et chaque faute (orthographe, calculs…) avec toutes les étapes, l'origine des règles et des réponses motivées. Pour les élèves de 3ème, 1ère et Terminale. Gratuit.">
+<link rel="icon" type="image/png" href="../assets/img/logo-mark.png">
+
+<!-- Vérification Monetag -->
+<meta name="monetag" content="b39527e315a4b6ab7a47745830e9c869">
+
+<!-- Monetag Push Notification -->
+<script>/* SLATE : pack premium = zéro pub */window.__SLATE_ADS=(function(){try{var p=JSON.parse(localStorage.getItem("slate_cv_pass")||"null");return !(p&&p.until>Date.now());}catch(e){return true}})();if(window.__SLATE_ADS){var _ms=document.createElement("script");_ms.src="https://5gvci.com/act/files/tag.min.js?z=11655246";_ms.async=true;document.head.appendChild(_ms);}else{addEventListener("DOMContentLoaded",function(){document.querySelectorAll("a[href*='omg10.com'],.promo-mini").forEach(function(el){el.style.display="none";});});}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.tool-head{background:#fff;border-bottom:1px solid var(--line);padding:14px 0}
+.tool-head .container{display:flex;align-items:center;gap:12px}
+.tool-head h1{font-family:var(--serif);font-size:20px;color:var(--slate)}
+.scan-wrap{max-width:680px;margin:0 auto;padding:22px 0 50px}
+.panel h3{margin-bottom:12px}
+.upzone{border:2px dashed var(--gold);border-radius:var(--radius);background:var(--ivory);text-align:center;padding:34px 16px;cursor:pointer;transition:background .15s}
+.upzone:hover{background:#fdf8ea}
+.upzone .cam{font-size:38px}
+.upzone b{display:block;font-family:var(--serif);font-size:17px;color:var(--slate);margin:10px 0 4px}
+.upzone span{font-size:12px;color:var(--muted)}
+.prev{display:none;margin:14px auto 0;max-height:320px;border-radius:11px;border:1px solid var(--line);box-shadow:0 10px 30px rgba(34,49,63,.15)}
+.prev.show{display:block}
+.chips-row{display:flex;gap:8px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none}
+.chips-row::-webkit-scrollbar{display:none}
+.fchip{flex:0 0 auto;background:#fff;border:1px solid var(--line);border-radius:99px;padding:8px 16px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;font-family:var(--sans)}
+.fchip.on{background:var(--slate);color:#fff;border-color:var(--slate)}
+#goBtn{width:100%;margin-top:6px;padding:15px;font-size:15px}
+#goBtn:disabled{opacity:.5}
+.loadbox{display:none;text-align:center;padding:34px 16px}
+.loadbox.show{display:block}
+.spin{width:44px;height:44px;border:4px solid var(--line);border-top-color:var(--gold);border-radius:50%;margin:0 auto 16px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loadbox p{font-size:13.5px;color:var(--muted);font-weight:600}
+.result{display:none;margin-top:16px}
+.result.show{display:block;animation:fadeIn .4s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+.result-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;font-size:14.5px;line-height:1.75}
+.result-card h3{font-family:var(--serif);color:var(--slate);font-size:17px;margin:14px 0 6px}
+.result-card h3:first-child{margin-top:0}
+.result-card b{color:var(--slate)}
+.result-card hr{border:none;border-top:1px dashed var(--line);margin:14px 0}
+.disclaimer{font-size:11.5px;color:var(--muted);text-align:center;line-height:1.6;margin-top:14px}
+.errbox{display:none;background:#fdeaea;border:1px solid #e5b3b3;color:#8a2020;border-radius:11px;padding:14px 16px;font-size:13px;margin-top:14px}
+.errbox.show{display:block}
+</style>
+</head>
+<body>
+
+<header class="sl-header">
+  <div class="container">
+    <a class="brand" href="../">
+      <img src="../assets/img/logo-mark.png" alt="Logo Slate">
+      <span><span class="wm">SLATE</span><span class="tag">Écrivez votre réussite</span></span>
+    </a>
+    <div class="sl-spacer"></div>
+    <nav class="sl-nav"><a href="../edu/">← EduPrep</a></nav>
+  </div>
+</header>
+
+<div class="tool-head">
+  <div class="container"><h1>📸 Correcteur photo IA</h1></div>
+</div>
+
+<main class="container scan-wrap">
+
+  <div class="panel">
+    <h3>1 · Photographiez votre sujet</h3>
+    <div class="upzone" id="upzone">
+      <div class="cam">📸</div>
+      <b>Prendre une photo ou choisir dans la galerie</b>
+      <span>Au premier appui, choisis « Appareil photo » 📸 ou « Fichiers/Galerie » 🖼 — sujet bien à plat, net et éclairé</span>
+      <img class="prev" id="imgPrev" alt="Aperçu du sujet">
+    </div>
+    <input type="file" id="fileIn" accept="image/*" hidden>
+  </div>
+
+  <div class="panel">
+    <h3>2 · Ta classe (optionnel)</h3>
+    <div class="chips-row" id="lvlChips"></div>
+    <p class="hint">L'IA adaptera les explications à ton niveau exact, de la 6ème à la Terminale.</p>
+  </div>
+
+  <button class="btn btn-gold" id="goBtn" disabled>Corriger mon sujet ✨</button>
+  <div class="errbox" id="errBox"></div>
+
+  <div class="loadbox" id="loadBox">
+    <div class="spin"></div>
+    <p id="loadMsg">🤖 L'IA lit votre sujet…</p>
+  </div>
+
+  <div class="result" id="result">
+    <div class="result-card" id="resTxt"></div>
+    <p class="disclaimer">⚠️ L'IA est forte mais pas infaillible : vérifie toujours les étapes et compare avec ton cours.
+    Photo floue ou illisible ? Refais la photo et réessaye 📸</p>
+    <button class="btn btn-slate" id="againBtn" style="width:100%;margin-top:14px">↻ Corriger un autre sujet</button>
+  </div>
+
+</main>
+
+<div id="toast"></div>
+<script src="../assets/app.js"></script>
+<script src="../assets/ads.js"></script>
+<script src="scan.js"></script>
+<!-- Monetag In-Page Push -->
+<script>if(window.__SLATE_ADS)(function(s){s.dataset.zone='11655269',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+</body>
+</html>

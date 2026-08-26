@@ -3,161 +3,259 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0a0d12">
-<title>ScoreWave — Live Scores</title>
-<style>
-:root{--bg:#0a0d12;--panel:#11161d;--panel2:#171e27;--line:#202835;--text:#f5f7fa;--muted:#8a93a3;--accent:#c9f24e;--live:#ff4d4d;--gold:#ffc94d;--radius:12px}
-body.light{--bg:#f4f6f8;--panel:#ffffff;--panel2:#eef1f4;--line:#dde3ea;--text:#141a21;--muted:#5d6678;--accent:#4d7c0f;--live:#dc2626}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:calc(70px + env(safe-area-inset-bottom));max-width:680px;margin:0 auto;transition:background .25s}
-.app-header{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--bg);border-bottom:1px solid var(--line)}
-.logo{width:32px;height:32px;border-radius:9px;background:var(--accent);display:grid;place-items:center;flex:0 0 auto}
-.brand h1{font-size:16px;font-weight:800;letter-spacing:.2px}
-.brand h1 span{color:var(--accent)}
-.brand p{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:2px}
-.hspacer{flex:1}
-.icon-btn{width:36px;height:36px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--text);display:grid;place-items:center;cursor:pointer}
-.icon-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8}
-.icon-btn.on{color:var(--accent);border-color:var(--accent)}
-.status-line{padding:7px 14px;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:7px}
-.dot-live{width:7px;height:7px;border-radius:50%;background:var(--live);animation:pulse 1.4s infinite}
-.search-wrap{padding:4px 12px 8px}
-.search{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:10px;color:var(--text);font-size:13px;padding:11px 13px;outline:none}
-.search:focus{border-color:var(--accent)}
-.chips{display:flex;gap:7px;overflow-x:auto;padding:6px 12px;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.chip{flex:0 0 auto;background:var(--panel);color:var(--muted);border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-size:10px;font-weight:800;letter-spacing:1px;cursor:pointer;text-transform:uppercase}
-.chip.active{background:var(--accent);color:#12140a;border-color:var(--accent)}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:30;max-width:680px;margin:0 auto;display:flex;background:var(--bg);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
-.nav-btn{flex:1;background:none;border:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0;cursor:pointer;font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
-.nav-btn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8}
-.nav-btn.active{color:var(--accent)}
-.view{display:none;padding:6px 12px}
-.view.active{display:block;animation:fade .18s ease}
-@keyframes fade{from{opacity:0}to{opacity:1}}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:12px 13px;margin-bottom:9px;cursor:pointer}
-.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;gap:8px}
-.card-league{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.8px;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
-.pill{font-size:10px;font-weight:800;padding:4px 8px;border-radius:6px;letter-spacing:.5px;white-space:nowrap;text-transform:uppercase}
-.pill.live{background:rgba(255,77,77,.14);color:var(--live);display:flex;align-items:center;gap:5px}
-.pill.live::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--live);animation:pulse 1.4s infinite}
-.pill.ft{background:var(--panel2);color:var(--muted)}
-.pill.pre{background:var(--panel2);color:var(--accent)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-.star-btn{background:none;border:none;padding:2px;cursor:pointer;color:var(--muted);flex:0 0 auto}
-.star-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
-.star-btn.on{color:var(--gold)}
-.star-btn.on svg{fill:currentColor}
-.team{display:flex;align-items:center;gap:9px;padding:4px 0}
-.team img{width:21px;height:21px;object-fit:contain}
-.team .nm{flex:1;font-size:14px;font-weight:600}
-.team .sc{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums}
-.team.winner .nm{color:var(--accent)}
-.meta{font-size:10px;color:var(--muted);margin-top:7px;padding-top:7px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:8px}
-.count{color:var(--accent);font-weight:700}
-.news-thumb{width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:9px;background:var(--panel2)}
-.news-card{cursor:default}
-.news-card h3{font-size:15px;line-height:1.4;margin-bottom:6px;font-weight:700}
-.news-card p{font-size:12px;color:var(--muted);line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.news-foot{display:flex;justify-content:space-between;align-items:center;margin-top:9px;padding-top:8px;border-top:1px solid var(--line)}
-.news-foot time{font-size:10px;color:var(--muted)}
-.read-btn{background:var(--panel2);border:1px solid var(--line);color:var(--text);font-size:11px;font-weight:700;padding:7px 14px;border-radius:7px;cursor:pointer}
-.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);transition:opacity .2s}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th,td{padding:9px 8px;text-align:center}
-th{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--line);font-weight:700}
-td{border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
-tr:last-child td{border-bottom:none}
-td:nth-child(2),th:nth-child(2){text-align:left;font-weight:600}
-td.pts{font-weight:800;color:var(--accent)}
-.app-footer{padding:20px 14px;text-align:center;color:var(--muted);font-size:11px;line-height:1.7}
-.share-app{margin-top:9px;background:var(--accent);color:#12140a;border:none;font-weight:800;padding:11px 22px;border-radius:8px;font-size:12px;cursor:pointer}
-.empty{text-align:center;padding:44px 20px;color:var(--muted);font-size:12px;line-height:1.7}
-.loading{text-align:center;padding:26px;color:var(--muted);font-size:12px}
-.overlay{position:fixed;inset:0;z-index:50;background:var(--bg);overflow-y:auto;display:none;animation:fade .2s}
-.overlay.open{display:block}
-.dhead{position:sticky;top:0;display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid var(--line);background:var(--bg)}
-.back-btn{background:none;border:none;color:var(--text);cursor:pointer;display:grid;place-items:center;padding:4px}
-.back-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
-.dhead h2{font-size:14px;font-weight:800}
-.dbody{padding:14px;max-width:680px;margin:0 auto}
-.dscore{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px 14px;text-align:center;margin-bottom:14px}
-.dscore .lg{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;font-weight:800}
-.dteams{display:flex;justify-content:space-around;align-items:flex-start;margin-top:16px;gap:8px}
-.dteam{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0}
-.dteam img{width:48px;height:48px;object-fit:contain}
-.dteam .tn{font-size:13px;font-weight:700;text-align:center;word-wrap:break-word}
-.ddigits{font-size:36px;font-weight:900;font-variant-numeric:tabular-nums}
-.dmid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 6px}
-.dst{font-size:10px;font-weight:800;padding:5px 10px;border-radius:6px;text-transform:uppercase;letter-spacing:.6px}
-.dsec{margin:18px 0 4px;font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
-.evrow{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-bottom:7px;font-size:12px}
-.evmin{flex:0 0 auto;font-weight:800;color:var(--accent);font-size:11px;min-width:36px;font-variant-numeric:tabular-nums}
-.evtxt{flex:1;line-height:1.4}
-.statrow{margin-bottom:10px}
-.statnames{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px}
-.statbar{display:flex;height:6px;border-radius:99px;overflow:hidden;background:var(--panel2);gap:3px}
-.statbar .sA{background:var(--accent)}
-.statbar .sB{background:var(--muted)}
-#toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%) translateY(20px);background:var(--accent);color:#12140a;font-size:12px;font-weight:800;padding:11px 18px;border-radius:10px;opacity:0;pointer-events:none;transition:all .3s;z-index:60;max-width:88%;text-align:center}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-</style>
+<meta name="theme-color" content="#151f29">
+<title>SLATE — Écrivez votre réussite · CV Pro, Factures & Outils gratuits</title>
+
+<!-- ===== SEO ===== -->
+<meta name="description" content="SLATE : la suite d'outils professionnels gratuits. Créez un CV élégant en PDF, des factures pro, et bien plus. Sans inscription, directement sur votre téléphone.">
+<meta name="keywords" content="cv gratuit, creater cv en ligne, cv pdf, facture en ligne, devis gratuit, outils professionnels, madagascar">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://slate-vh8d.onrender.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SLATE">
+<meta property="og:title" content="SLATE — Écrivez votre réussite">
+<meta property="og:description" content="CV Pro, factures, études & business : la suite d'outils professionnels 100 % gratuite.">
+<meta property="og:url" content="https://slate-vh8d.onrender.com/">
+<meta property="og:image" content="https://slate-vh8d.onrender.com/assets/img/hero.jpg">
+<link rel="icon" type="image/png" href="assets/img/logo-mark.png">
+
+<!-- Vérification Monetag -->
+<meta name="monetag" content="b39527e315a4b6ab7a47745830e9c869">
+<!-- Vérification Google Search Console -->
+<meta name="google-site-verification" content="_2AZ02eYdKym_uGxJKyCLYGmmG_E_JmaQ-2WHqswEyY" />
+
+<!-- Monetag Push Notification -->
+<script>/* SLATE : pack premium = zéro pub */window.__SLATE_ADS=(function(){try{var p=JSON.parse(localStorage.getItem("slate_cv_pass")||"null");return !(p&&p.until>Date.now());}catch(e){return true}})();if(window.__SLATE_ADS){var _ms=document.createElement("script");_ms.src="https://5gvci.com/act/files/tag.min.js?z=11655246";_ms.async=true;document.head.appendChild(_ms);}else{addEventListener("DOMContentLoaded",function(){document.querySelectorAll("a[href*='omg10.com'],.promo-mini").forEach(function(el){el.style.display="none";});});}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 
-<header class="app-header">
-  <div class="logo"><svg width="17" height="17" viewBox="0 0 24 24" fill="#12140a"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></div>
-  <div class="brand"><h1>Score<span>Wave</span></h1><p>Live · Multi-sports</p></div>
-  <div class="hspacer"></div>
-  <button class="icon-btn" id="bellBtn" title="Notifications"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
-  <button class="icon-btn" id="themeBtn" title="Thème"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+<!-- ===== Header ===== -->
+<header class="sl-header">
+  <div class="container">
+    <a class="brand" href="./">
+      <img src="assets/img/logo-mark.png" alt="Logo Slate">
+      <span><span class="wm">SLATE</span><span class="tag">Écrivez votre réussite</span></span>
+    </a>
+    <div class="sl-spacer"></div>
+    <nav class="sl-nav">
+      <a href="./">Accueil</a>
+      <a href="#outils">Nos Outils</a>
+      <a href="#apropos">À propos</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="./">Accueil</a>
+    <a href="#outils">Nos Outils</a>
+    <a href="#apropos">À propos</a>
+    <a href="#contact">Contact</a>
+  </div>
 </header>
 
-<div class="status-line"><span class="dot-live" id="statusDot" style="visibility:hidden"></span><span id="statusText">Connexion aux flux…</span></div>
-
-<main>
-  <section id="view-scores" class="view active">
-    <div class="search-wrap"><input class="search" id="searchInput" type="search" placeholder="Rechercher une équipe… (Arsenal, Lakers…)"></div>
-    <div class="chips" id="dateChips"></div>
-    <div class="chips" id="catChips"></div>
-    <div id="matchList"></div>
-  </section>
-
-  <section id="view-news" class="view"><div id="newsList"></div></section>
-  <section id="view-upcoming" class="view"><div id="fixtureList"></div></section>
-
-  <section id="view-table" class="view">
-    <div class="chips" id="tableChips"></div>
-    <div class="table-wrap" id="tableWrap">
-      <table id="standingsTable"><thead><tr><th>#</th><th>Équipe</th><th>J</th><th>G</th><th>N</th><th>P</th><th>Pts</th></tr></thead><tbody></tbody></table>
+<!-- ===== Hero ===== -->
+<section class="hero">
+  <img class="bgimg" src="assets/img/hero.jpg" alt="">
+  <div class="veil"></div>
+  <div class="inner">
+    <span class="kicker">Bienvenue sur Slate</span>
+    <h1>Écrivez votre <em>réussite</em>.</h1>
+    <p>La suite d'outils qui transforme vos ambitions en réalité — CV professionnels, factures, études et business. Gratuit, sans inscription, directement sur votre téléphone.</p>
+    <div class="cta">
+      <a class="btn btn-gold" href="#outils">Découvrir nos outils</a>
+      <a class="btn btn-outline" href="cv/">Créer mon CV</a>
+      <a class="btn btn-outline" href="https://omg10.com/4/11655260" target="_blank" rel="noopener sponsored" style="border-color:rgba(201,162,39,.7);color:var(--gold)">🎁 Offre du moment</a>
     </div>
-  </section>
-</main>
-
-<footer class="app-footer">
-  <p>ScoreWave · Données en direct : ESPN · Actualisation auto 45 s</p>
-  <button class="share-app" id="shareApp">Partager l'app</button>
-</footer>
-
-<nav class="bottom-nav">
-  <button class="nav-btn active" data-view="scores"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18" opacity=".4"/></svg>Scores</button>
-  <button class="nav-btn" data-view="news"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h6"/></svg>Actus</button>
-  <button class="nav-btn" data-view="upcoming"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Agenda</button>
-  <button class="nav-btn" data-view="table"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>Classement</button>
-</nav>
-
-<div class="overlay" id="detailOverlay">
-  <div class="dhead">
-    <button class="back-btn" id="detailBack"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
-    <h2>Détail du match</h2>
   </div>
-  <div class="dbody" id="detailBody"></div>
+</section>
+
+<!-- ===== Chiffres ===== -->
+<section class="stats">
+  <div class="container reveal">
+    <div class="stat"><b>4+</b><span>Outils pro</span></div>
+    <div class="stat"><b>100%</b><span>Gratuit</span></div>
+    <div class="stat"><b>0</b><span>Inscription</span></div>
+    <div class="stat"><b>24/7</b><span>Accessible</span></div>
+  </div>
+</section>
+
+<!-- ===== À propos ===== -->
+<section class="section" id="apropos">
+  <div class="container about-grid">
+    <div class="about-img reveal"><img src="assets/img/about.jpg" alt="Professionnel avec son CV"></div>
+    <div class="about-txt reveal">
+      <span class="kicker">À propos de Slate</span>
+      <h2>Une suite pensée pour les ambitieux</h2>
+      <p>SLATE est né d'une conviction simple : les outils des professionnels ne devraient pas coûter un salaire. Depuis Madagascar, pour l'Afrique francophone et le monde, nous créons des outils simples, élégants et gratuits.</p>
+      <p>Un beau CV peut changer une vie. Une facture pro inspire confiance. La réussite devrait être accessible à tous — pas seulement à ceux qui peuvent payer.</p>
+      <ul class="checks">
+        <li>Qualité professionnelle, sans abonnement</li>
+        <li>Aucun compte : vos données restent chez vous</li>
+        <li>Pensé d'abord pour le mobile</li>
+      </ul>
+      <a class="btn btn-slate" href="#outils">Voir nos outils</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Nos outils ===== -->
+<section class="section" id="outils" style="background:#fff;border-top:1px solid var(--line)">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">Nos outils</span>
+      <h2>Des outils d'exception</h2>
+      <p>Chaque outil résout un vrai problème. Cliquez, créez, téléchargez.</p>
+    </div>
+    <div class="tools-grid">
+
+      <a class="tcard reveal" href="cv/">
+        <div class="thumb"><img src="assets/img/tool-cv.jpg" alt="CV Pro" loading="lazy"><span class="bstate ok">Disponible</span><span class="tchip">Carrière</span></div>
+        <div class="body">
+          <h3>CV Pro</h3>
+          <p>Un CV qui décroche des entretiens : éditeur guidé étape par étape, phrases d'accroche et missions prêtes à cliquer, lettre de motivation générée, PDF impeccable.</p>
+          <div class="fchips"><span class="fc">Gratuit</span><span class="fc">Modèles premium</span><span class="fc">Lettre de motivation</span><span class="fc">PDF A4</span></div>
+          <span class="tlink">Créer mon CV <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div>
+      </a>
+
+      <a class="tcard reveal" href="facture/">
+        <div class="thumb"><img src="assets/img/tool-facture.jpg" alt="Facture+" loading="lazy"><span class="bstate ok">Disponible</span><span class="tchip">Business</span></div>
+        <div class="body">
+          <h3>Facture+</h3>
+          <p>Facturez vos clients comme une grande entreprise : devis & factures numérotés automatiquement, calcul de TVA, partage direct sur WhatsApp, impression PDF.</p>
+          <div class="fchips"><span class="fc">Devis & Factures</span><span class="fc">TVA auto</span><span class="fc">Ariary · € · $</span><span class="fc">WhatsApp</span></div>
+          <span class="tlink">Créer une facture <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div>
+      </a>
+
+      <a class="tcard reveal" href="shop/">
+        <div class="thumb"><img src="assets/img/tool-shop.jpg" alt="LinkShop" loading="lazy"><span class="bstate ok">Disponible</span><span class="tchip">Commerce</span></div>
+        <div class="body">
+          <h3>LinkShop</h3>
+          <p>Vendez sans site marchand compliqué : votre catalogue de produits en un seul lien à partager, les clients commandent directement sur votre WhatsApp. Affiche QR à imprimer offerte.</p>
+          <div class="fchips"><span class="fc">Boutique en ligne</span><span class="fc">Lien unique</span><span class="fc">Commandes WhatsApp</span><span class="fc">Affiche QR</span></div>
+          <span class="tlink">Créer ma boutique <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div>
+      </a>
+
+      <a class="tcard reveal" href="edu/">
+        <div class="thumb"><img src="assets/img/tool-study.jpg" alt="EduPrep" loading="lazy"><span class="bstate ok">Disponible</span><span class="tchip">Études</span></div>
+        <div class="body">
+          <h3>EduPrep</h3>
+          <p>La réussite scolaire illustrée : quiz chronométrés avec corrections expliquées pas à pas, résumés de toutes les leçons du programme malgache, de la 6ème à la Terminale.</p>
+          <div class="fchips"><span class="fc">6ème → Terminale</span><span class="fc">Corrections détaillées</span><span class="fc">Résumés de leçons</span><span class="fc">BEPC & BAC</span></div>
+          <span class="tlink">S'entraîner <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== Bannière smartlink (bouton sponsorisé) ===== -->
+<div class="container reveal">
+  <div class="promo">
+    <div>
+      <b>🎁 Bonus Slate</b>
+      <p>Une offre sélectionnée pour vous, chaque jour.</p>
+    </div>
+    <a class="btn btn-slate" href="https://omg10.com/4/11655260" target="_blank" rel="noopener sponsored">Découvrir l'offre →</a>
+  </div>
 </div>
 
-<div id="toast"></div>
+<!-- ===== SLOT PUB #1 — collez votre code Monetag dans assets/ads.js ===== -->
+<div class="ad-slot"></div>
 
-<script src="app.js"></script>
-<script src="extras.js"></script>
-<script src="detail.js"></script>
+<!-- ===== Pourquoi Slate (sombre) ===== -->
+<section class="why section">
+  <div class="water">SLATE</div>
+  <div class="container">
+    <div class="why-grid">
+      <div class="reveal">
+        <span class="kicker" style="color:var(--gold)">Pourquoi Slate</span>
+        <h2>Plus qu'un site,<br><em>un tremplin</em>.</h2>
+      </div>
+      <p class="lead reveal">Nous croyons que le talent est partout, mais que les outils ne le sont pas. SLATE met la qualité des logiciels professionnels entre toutes les mains — sans prix, sans barrières.</p>
+    </div>
+    <div class="why-tiles">
+      <div class="wtile reveal">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></div>
+        <b>100 % gratuit</b>
+        <span>Pas de version bridée, pas de piège. Tous les outils, gratuits, pour toujours.</span>
+      </div>
+      <div class="wtile reveal">
+        <div class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+        <b>Zéro inscription</b>
+        <span>Pas de compte, pas d'email. Vos données restent sur votre appareil.</span>
+      </div>
+      <div class="wtile reveal">
+        <div class="ic"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div>
+        <b>Pensé pour mobile</b>
+        <span>Tout fonctionne parfaitement sur téléphone, même avec une connexion lente.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Newsletter ===== -->
+<section class="news">
+  <div class="container reveal">
+    <span class="kicker">Newsletter</span>
+    <h2>Restez informé</h2>
+    <p>Recevez les nouveaux outils Slate en avant-première.</p>
+    <form id="newsForm"><input type="email" id="newsEmail" placeholder="Votre adresse email" required><button class="btn btn-gold" type="submit">S'abonner</button></form>
+  </div>
+</section>
+
+<!-- ===== SLOT PUB #2 ===== -->
+<div class="ad-slot"></div>
+
+<!-- ===== Footer ===== -->
+<footer class="sl-footer" id="contact">
+  <div class="container cols">
+    <div>
+      <div class="fbrand">
+        <img src="assets/img/logo-mark.png" alt="Logo Slate">
+        <span class="wm">SLATE</span>
+      </div>
+      <p>La suite d'outils professionnels gratuits, créée à Madagascar pour les ambitieux d'ici et d'ailleurs. CV, factures, études, commerce : écrivez votre réussite.</p>
+      <div class="socials">
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M15 3h-2.5A3.5 3.5 0 0 0 9 6.5V9H6v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h2V3z"/></svg></a>
+        <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5 13.6c-.2.6-1.2 1.1-1.7 1.2-.4 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.6c-.1.2-.3.4-.1.7.1.3.7 1.2 1.5 1.9 1 .9 1.9 1.2 2.2 1.3.3.1.4.1.6-.1l.8-.9c.2-.3.4-.2.7-.1l1.9.9c.3.2.5.3.6.4 0 .1 0 .7-.2 1.4z"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <h4>Liens rapides</h4>
+      <ul class="fl">
+        <li><a href="./">Accueil</a></li>
+        <li><a href="#outils">Nos outils</a></li>
+        <li><a href="cv/">CV Pro</a></li>
+        <li><a href="facture/">Facture+</a></li>
+        <li><a href="edu/">EduPrep</a></li>
+        <li><a href="#apropos">À propos</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <div class="cl"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Antananarivo, Madagascar</span></div>
+      <div class="cl"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span>contact@slate.mg</span></div>
+    </div>
+  </div>
+  <div class="container fbot">
+    <span>© <span id="year">2026</span> SLATE — Tous droits réservés.</span>
+    <span>Fait avec ❤️ à Madagascar</span>
+  </div>
+</footer>
+
+<div id="toast"></div>
+<script src="assets/app.js"></script>
+<script src="assets/ads.js"></script>
+<!-- Monetag In-Page Push -->
+<script>if(window.__SLATE_ADS)(function(s){s.dataset.zone='11655269',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 </body>
 </html>
