@@ -526,6 +526,60 @@ document.addEventListener("DOMContentLoaded", () => {
   refreshPass(); fillForm(); render(); fit();
   window.addEventListener("resize", fit);
 
+  /* ---------- Éditeur guidé : étapes ---------- */
+  const STEPS = [
+    { i: "👤", t: "Identité" }, { i: "🎨", t: "Modèle & style" }, { i: "💼", t: "Expérience" },
+    { i: "🎓", t: "Formation" }, { i: "⚡", t: "Compétences" }, { i: "👑", t: "Bonus Pro" }
+  ];
+  let curStep = 0;
+  function goStep(n) {
+    curStep = Math.max(0, Math.min(STEPS.length - 1, n));
+    $$(".form-col [data-step]").forEach(el => el.classList.toggle("on", +el.dataset.step === curStep));
+    $("#stepper").innerHTML = STEPS.map((s, k) =>
+      `<button class="stc ${k === curStep ? "on" : k < curStep ? "done" : ""}" data-k="${k}"><span class="n">${k < curStep ? "✓" : k + 1}</span>${s.i} ${s.t}</button>`).join("");
+    $$("#stepper .stc").forEach(b => b.onclick = () => goStep(+b.dataset.k));
+    $("#stepLbl").textContent = (curStep + 1) + " / " + STEPS.length;
+    $("#prevStep").style.visibility = curStep === 0 ? "hidden" : "visible";
+    $("#nextStep").textContent = curStep === STEPS.length - 1 ? "Terminer ✔" : "Continuer →";
+    applyTier();
+    setTimeout(fit, 30);
+    const wsTop = $("#ws").getBoundingClientRect().top + window.scrollY - 90;
+    window.scrollTo({ top: wsTop, behavior: "smooth" });
+  }
+  goStep(0);
+  $("#prevStep").onclick = () => goStep(curStep - 1);
+  $("#nextStep").onclick = () => {
+    if (curStep < STEPS.length - 1) { goStep(curStep + 1); return; }
+    toast("🎉 CV prêt ! Clique sur « Télécharger en PDF » en haut 📄", 5000);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  /* ---------- Vignettes de modèles ---------- */
+  function markTpl() {
+    $$("#tplGrid .tcard").forEach(c => {
+      c.classList.toggle("on", c.dataset.tpl === state.tpl);
+      c.classList.toggle("lock", RANK[c.dataset.t] > RANK[myTier]);
+    });
+  }
+  $$("#tplGrid .tcard").forEach(c => c.onclick = () => {
+    if (RANK[c.dataset.t] > RANK[myTier]) {
+      toast("🔒 Ce modèle est réservé à l'offre " + (c.dataset.t === "hyper" ? "Hyper Pro 👑" : "Pro 💼"));
+      openPay(c.dataset.t);
+      return;
+    }
+    state.tpl = c.dataset.tpl;
+    $("#f-tpl").value = state.tpl;
+    markTpl(); render(); save();
+    toast("Modèle « " + { cl: "Classique", md: "Moderne ✨", pt: "Prestige 👑" }[c.dataset.tpl] + " » appliqué !");
+  });
+  markTpl();
+
+  /* ---------- Zone photo ---------- */
+  const setPhCirc = () => { $("#phCirc").innerHTML = state.photo ? `<img src="${state.photo}" alt="Photo">` : "📷"; };
+  setPhCirc();
+  $("#phCirc").onclick = () => $("#f-photo").click();
+  const _origPhotoHandler = null;
+
   /* Modal paiement */
   $("#proBtn").onclick = () => openPay();
   $("#payClose").onclick = () => $("#payModal").classList.remove("show");
@@ -583,7 +637,11 @@ document.addEventListener("DOMContentLoaded", () => {
   $("#f-photo").addEventListener("change", e => {
     const f = e.target.files[0]; if (!f) return;
     const r = new FileReader();
-    r.onload = () => { state.photo = r.result; render(); save(); toast("Photo ajoutée ✨"); };
+    r.onload = () => {
+      state.photo = r.result;
+      $("#phCirc").innerHTML = `<img src="${r.result}" alt="Photo">`;
+      render(); save(); toast("Photo ajoutée ✨");
+    };
     r.readAsDataURL(f);
   });
 
