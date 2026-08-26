@@ -169,5 +169,43 @@ app.post("/api/verifie-paiement", async (req, res) => {
   }
 });
 
+/* ===== BOÎTE À AVIS (suggestions & critiques des visiteurs) =====
+   Lecture par le propriétaire via /api/avis?secret=slate-maitre-2026 */
+const AVIS_FILE = "./avis.json";
+const AVIS_SECRET = "slate-maitre-2026";
+const loadAvis = () => { try { return JSON.parse(fs.readFileSync(AVIS_FILE, "utf8")); } catch { return { avis: [] }; } };
+
+app.post("/api/avis", (req, res) => {
+  try {
+    const { stars, msg, page } = req.body || {};
+    const n = parseInt(stars, 10);
+    if (!n || n < 1 || n > 5) return res.status(400).json({ ok: false, error: "note invalide" });
+    if (!msg || String(msg).trim().length < 2) return res.status(400).json({ ok: false, error: "message vide" });
+    const d = loadAvis();
+    d.avis.push({ stars: n, msg: String(msg).trim().slice(0, 500), page: String(page || "/").slice(0, 60), at: new Date().toISOString() });
+    if (d.avis.length > 500) d.avis = d.avis.slice(-500);
+    try { fs.writeFileSync(AVIS_FILE, JSON.stringify(d)); } catch {}
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ ok: false, error: e.message }); }
+});
+
+app.get("/api/avis", (req, res) => {
+  if ((req.query.secret || "") !== AVIS_SECRET) return res.status(403).send("Accès refusé 🔒");
+  const d = loadAvis();
+  const rows = d.avis.slice().reverse().map(a => {
+    const date = new Date(a.at).toLocaleString("fr-FR", { timeZone: "Indian/Antananarivo" });
+    const escH = s => String(s).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+    return `<tr><td>${"⭐".repeat(a.stars)}</td><td>${escH(a.msg)}</td><td>${escH(a.page)}</td><td>${date}</td></tr>`;
+  }).join("");
+  const moyenne = d.avis.length ? (d.avis.reduce((s, a) => s + a.stars, 0) / d.avis.length).toFixed(1) : "—";
+  res.send(`<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Avis SLATE (privé)</title><style>body{font-family:system-ui;margin:16px;background:#faf9f6;color:#22313f}
+  h1{font-size:20px}table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;font-size:13px}
+  td,th{padding:9px 10px;border-bottom:1px solid #eee;text-align:left}th{background:#22313f;color:#fff;font-size:11px;letter-spacing:1px}
+  tr:last-child td{border:none}</style></head><body>
+  <h1>📊 Avis SLATE — ${d.avis.length} message(s) · Moyenne : ${moyenne} ⭐</h1>
+  <table><tr><th>Note</th><th>Message</th><th>Page</th><th>Date (Mada)</th></tr>${rows || '<tr><td colspan="4">Aucun avis pour le moment 🌱</td></tr>'}</table></body></html>`);
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("SLATE API démarrée sur le port " + PORT));
