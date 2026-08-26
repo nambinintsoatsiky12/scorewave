@@ -127,9 +127,19 @@ const certHTML = () => state.certs.filter(x => x.nom || x.org).map(x =>
   `<div class="it"><div class="r1"><span class="t" style="font-size:10px">${esc(x.nom)}</span><span class="d">${esc(x.annees)}</span></div>${x.org ? `<div class="o">${esc(x.org)}</div>` : ""}</div>`).join("");
 const refHTML = () => state.refs.filter(x => x.nom || x.contact).map(x =>
   `<div class="it"><span class="t" style="font-size:10px">${esc(x.nom)}</span>${x.poste ? `<div class="o">${esc(x.poste)}</div>` : ""}${x.contact ? `<p style="margin:1px 0 0">${esc(x.contact)}</p>` : ""}</div>`).join("");
+const initials = () => {
+  const n = (state.name || "").trim().split(/\s+/).filter(Boolean);
+  return (((n[0]?.[0] || "") + (n.length > 1 ? n[n.length - 1][0] : "")).toUpperCase()) || "✒";
+};
+const contactLI = () => [[state.email, "✉"], [state.phone, "☎"], [state.city, "📍"], [state.link, "🔗"]]
+  .filter(x => x[0]).map(x => `<p>${x[1]} ${esc(x[0])}</p>`).join("");
 const langBars = () => state.langs.filter(l => l.lang).map(l => {
   const i = LEVELS.indexOf(l.niveau) + 1 || 3;
   return `<div style="font-size:9.5px;font-weight:700;color:#4b4637">${esc(l.lang)}</div><div class="bar"><i style="width:${i * 20}%"></i></div>`;
+}).join("");
+const langBarsW = () => state.langs.filter(l => l.lang).map(l => {
+  const i = LEVELS.indexOf(l.niveau) + 1 || 3;
+  return `<div class="lg"><b>${esc(l.lang)}</b><div class="bar"><i style="width:${i * 20}%"></i></div></div>`;
 }).join("");
 
 function render() {
@@ -139,11 +149,11 @@ function render() {
     /* ===== PRESTIGE (Hyper Pro) ===== */
     inner = `
     <div class="pt-head">
-      ${s.photo ? `<img class="pt-ph" src="${s.photo}" alt="">` : ""}
+      ${s.photo ? `<img class="pt-ph" src="${s.photo}" alt="">` : `<div class="pt-av">${initials()}</div>`}
       <div>
         <div class="pt-name">${esc(s.name) || "Votre Nom"}</div>
         <div class="pt-role">${esc(s.role) || "Titre du poste"}</div>
-        <div class="pt-ct">${contactLine() || "email · téléphone · ville"}</div>
+        <div class="pt-ct">${contactSpans() || "✉ email · ☎ téléphone · 📍 ville"}</div>
       </div>
     </div>
     <div class="pt-body">
@@ -162,19 +172,17 @@ function render() {
   } else if (s.tpl === "md") {
     inner = `
     <aside>
-      ${s.photo ? `<img class="ph" src="${s.photo}" alt="">` : ""}
-      <div class="blk"><h6>Contact</h6><p>
-        ${[s.email, s.phone, s.city, s.link].filter(Boolean).map(v => esc(v)).join("</p><p>") || '<span class="muted">—</span>'}
-      </p></div>
-      ${skillsArr().length ? `<div class="blk"><h6>Compétences</h6><p>${skillsArr().map(esc).join("</p><p>")}</p></div>` : ""}
-      ${s.langs.some(l => l.lang) ? `<div class="blk"><h6>Langues</h6>${s.langs.filter(l => l.lang).map(l => `<div class="dotrow"><span style="flex:1">${esc(l.lang)}</span>${dots(l.niveau)}</div>`).join("")}</div>` : ""}
+      ${s.photo ? `<img class="ph" src="${s.photo}" alt="">` : `<div class="av">${initials()}</div>`}
+      <div class="blk"><h6>Contact</h6>${contactLI() || "<p>—</p>"}</div>
+      ${skillsArr().length ? `<div class="blk"><h6>Compétences</h6>${skillsArr().map(x => `<div class="sk">${esc(x)}</div>`).join("")}</div>` : ""}
+      ${s.langs.some(l => l.lang) ? `<div class="blk"><h6>Langues</h6>${langBarsW()}</div>` : ""}
     </aside>
     <main>
       <div class="name">${esc(s.name) || "Votre Nom"}</div>
       <div class="role">${esc(s.role) || "Titre du poste"}</div>
-      ${s.summary ? `<div class="sec" style="margin-top:18px"><h6>Profil</h6><p style="text-align:justify">${esc(s.summary)}</p></div>` : ""}
-      ${expHTML() ? `<div class="sec"><h6>Expérience</h6>${expHTML()}</div>` : ""}
-      ${eduHTML() ? `<div class="sec"><h6>Formation</h6>${eduHTML()}</div>` : ""}
+      ${s.summary ? `<div class="sec" style="margin-top:20px"><h6>Profil</h6><div class="prof">${esc(s.summary)}</div></div>` : ""}
+      ${expHTML() ? `<div class="sec"><h6>Expérience</h6><div class="tl">${expHTML()}</div></div>` : ""}
+      ${eduHTML() ? `<div class="sec"><h6>Formation</h6><div class="tl">${eduHTML()}</div></div>` : ""}
     </main>`;
   } else {
     inner = `
