@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#151f29">
+<title>CV Pro · SLATE — Créez un CV professionnel gratuit</title>
+<meta name="description" content="CV Pro by Slate : créez un CV élégant et professionnel en quelques minutes. Modèles premium, export PDF, 100 % gratuit et sans inscription.">
+<link rel="icon" type="image/png" href="../assets/img/logo-mark.png">
+<!-- Monetag Push Notification -->
+<script src="https://alwingulla.com/88/tag.min.js" data-zone="11645525" async data-cfasync="false"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+/* ---------- Page CV Pro ---------- */
+.tool-head{background:#fff;border-bottom:1px solid var(--line);padding:14px 0;position:sticky;top:69px;z-index:40}
+.tool-head .container{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tool-head h1{font-family:var(--serif);font-size:20px;color:var(--slate)}
+.tool-head .actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.tool-head .btn{padding:10px 16px;font-size:13px}
+
+.seg{display:none;gap:6px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:4px;margin:16px 0 0}
+.seg button{flex:1;background:none;border:none;color:var(--muted);font-weight:700;font-size:13px;padding:9px;border-radius:8px;cursor:pointer;font-family:var(--sans)}
+.seg button.on{background:var(--slate);color:#fff}
+
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:22px;align-items:start;padding:22px 0 50px}
+.preview-col{position:sticky;top:150px}
+.paper-scaler{width:100%;overflow:hidden;position:relative}
+.paper{width:794px;height:1123px;background:#fff;transform-origin:top left;box-shadow:0 20px 60px rgba(34,49,63,.22);overflow:hidden;position:absolute;top:0;left:0}
+
+.row-item{background:var(--ivory);border:1px solid var(--line);border-radius:11px;padding:14px;margin-bottom:10px}
+.row-item .del{float:right;background:none;border:none;color:#c23b3b;cursor:pointer;font-size:11px;font-weight:700;font-family:var(--sans)}
+.add-btn{width:100%;background:none;border:1.5px dashed var(--line);color:var(--gold-d);border-radius:10px;padding:10px;font-weight:700;font-size:13px;cursor:pointer;font-family:var(--sans)}
+.add-btn:hover{border-color:var(--gold)}
+.swatches{display:flex;gap:9px}
+.sw{width:34px;height:34px;border-radius:10px;cursor:pointer;border:2.5px solid transparent}
+.sw.on{border-color:var(--gold-d);box-shadow:0 0 0 2px #fff inset}
+
+/* ---------- Modèles CV ---------- */
+.cv{--ac:#22313f;width:794px;height:1123px;font-family:var(--sans);color:#2a3038;font-size:10.5px;line-height:1.5}
+.cv h6{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ac);font-weight:800;margin:0 0 8px;padding-bottom:4px;border-bottom:1.5px solid var(--ac)}
+.cv .sec{margin-bottom:16px}
+.cv .muted{color:#6b7280}
+/* Classique */
+.cv.cl{padding:52px 60px}
+.cv.cl .hd{text-align:center;margin-bottom:18px}
+.cv.cl .name{font-family:"Playfair Display",Georgia,serif;font-size:30px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#1e2833}
+.cv.cl .role{font-size:12px;letter-spacing:3.5px;text-transform:uppercase;color:var(--ac);font-weight:700;margin-top:5px}
+.cv.cl .ct{margin-top:9px;font-size:9.5px;color:#6b7280}
+.cv.cl hr{border:none;border-top:2px solid #c9a227;width:64px;margin:14px auto 0}
+.it{margin-bottom:10px}
+.it .r1{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.it .t{font-weight:700;font-size:11px;color:#1e2833}
+.it .d{font-size:9px;color:#6b7280;white-space:nowrap;font-style:italic}
+.it .o{color:var(--ac);font-weight:600;font-size:10px}
+.it p{font-size:9.8px;color:#4b5563;margin-top:2px}
+/* Moderne */
+.cv.md{display:grid;grid-template-columns:250px 1fr}
+.cv.md aside{background:var(--ac);color:#fff;padding:40px 26px;display:flex;flex-direction:column;gap:18px}
+.cv.md .ph{width:130px;height:130px;border-radius:50%;object-fit:cover;margin:0 auto;border:4px solid rgba(255,255,255,.25)}
+.cv.md aside h6{color:#fff;border-color:rgba(255,255,255,.4)}
+.cv.md aside .blk p{font-size:9.5px;color:rgba(255,255,255,.85);margin-bottom:5px;word-break:break-word}
+.cv.md main{padding:44px 36px}
+.cv.md .name{font-family:"Playfair Display",Georgia,serif;font-size:27px;font-weight:800;color:#1e2833;line-height:1.15}
+.cv.md .role{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--ac);font-weight:700;margin:6px 0 0}
+.dotrow{display:flex;align-items:center;gap:6px;font-size:9.5px;margin-bottom:6px;color:rgba(255,255,255,.9)}
+.dots{display:inline-flex;gap:3px}
+.dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.3)}
+.dots i.f{background:#c9a227}
+
+@media(max-width:980px){
+  .workspace{grid-template-columns:1fr}
+  .preview-col{position:static;display:none}
+  .workspace.showP .preview-col{display:block}
+  .workspace.showP .form-col{display:none}
+  .seg{display:flex}
+  .tool-head{top:0;position:static}
+}
+@media print{
+  body{background:#fff}
+  .sl-header,.tool-head,.form-col,.seg,#toast,.ad-slot,.advice{display:none!important}
+  .container{max-width:none;padding:0}
+  .workspace{display:block;padding:0}
+  .preview-col{position:static;display:block!important}
+  .paper-scaler{height:auto!important}
+  .paper{transform:none!important;box-shadow:none;position:static}
+}
+@page{size:A4;margin:0}
+</style>
+</head>
+<body>
+
+<header class="sl-header">
+  <div class="container">
+    <a class="brand" href="../">
+      <img src="../assets/img/logo-mark.png" alt="Logo Slate">
+      <span><span class="wm">SLATE</span><span class="tag">Écrivez votre réussite</span></span>
+    </a>
+    <div class="sl-spacer"></div>
+    <nav class="sl-nav"><a href="../">← Accueil</a></nav>
+  </div>
+</header>
+
+<div class="tool-head">
+  <div class="container">
+    <h1>CV Pro</h1>
+    <div class="actions">
+      <button class="btn btn-outline" id="resetBtn" style="border-color:var(--line);color:var(--muted)">Effacer</button>
+      <button class="btn btn-gold" id="pdfBtn">Télécharger en PDF
+        <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="seg" id="seg">
+    <button class="on" data-t="edit">✏️ Éditer</button>
+    <button data-t="view">👁️ Aperçu</button>
+  </div>
+  <div class="workspace" id="ws">
+
+    <div class="form-col">
+      <div class="panel">
+        <h3>Identité</h3>
+        <div class="field"><label>Nom complet</label><input id="f-name" placeholder="Ex : Andry Rakoto"></div>
+        <div class="field"><label>Titre / Poste visé</label><input id="f-role" placeholder="Ex : Développeur Web"></div>
+        <div class="grid2">
+          <div class="field"><label>Email</label><input id="f-email" placeholder="andry@mail.com"></div>
+          <div class="field"><label>Téléphone</label><input id="f-phone" placeholder="+261 34 00 000 00"></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>Ville</label><input id="f-city" placeholder="Antananarivo"></div>
+          <div class="field"><label>LinkedIn / Site</label><input id="f-link" placeholder="linkedin.com/in/…"></div>
+        </div>
+        <div class="field"><label>Photo (optionnel — modèle Moderne)</label><input id="f-photo" type="file" accept="image/*"></div>
+        <div class="field"><label>Résumé / Profil</label><textarea id="f-summary" placeholder="2-3 phrases qui donnent envie de vous embaucher…"></textarea></div>
+      </div>
+
+      <div class="panel">
+        <h3>Modèle & couleur</h3>
+        <div class="field"><label>Modèle</label>
+          <select id="f-tpl"><option value="cl">Classique</option><option value="md">Moderne (avec colonne)</option></select>
+        </div>
+        <div class="field"><label>Couleur d'accent</label>
+          <div class="swatches" id="swatches">
+            <div class="sw on" data-c="#22313f" style="background:#22313f" title="Ardoise"></div>
+            <div class="sw" data-c="#1f4e79" style="background:#1f4e79" title="Bleu"></div>
+            <div class="sw" data-c="#1e5e46" style="background:#1e5e46" title="Vert"></div>
+            <div class="sw" data-c="#7b2d3b" style="background:#7b2d3b" title="Bordeaux"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Expériences professionnelles</h3>
+        <div id="expList"></div>
+        <button class="add-btn" id="addExp">+ Ajouter une expérience</button>
+      </div>
+
+      <div class="panel">
+        <h3>Formation</h3>
+        <div id="eduList"></div>
+        <button class="add-btn" id="addEdu">+ Ajouter une formation</button>
+      </div>
+
+      <div class="panel">
+        <h3>Compétences</h3>
+        <div class="field"><label>Séparées par des virgules</label><input id="f-skills" placeholder="Excel, Communication, Anglais…"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Langues</h3>
+        <div id="langList"></div>
+        <button class="add-btn" id="addLang">+ Ajouter une langue</button>
+      </div>
+
+      <p class="hint advice">💾 Vos informations restent sur votre appareil (rien n'est envoyé en ligne). Pour le PDF : appuyez sur « Télécharger en PDF » puis choisissez « Enregistrer au format PDF ».</p>
+
+      <div class="promo-mini">
+        <span class="lab">⭐ Offre sponsorisée</span>
+        <b>Soutenez Slate gratuitement</b>
+        <p>Découvrez l'offre de notre partenaire — chaque visite aide Slate à rester 100 % gratuit.</p>
+        <a class="btn btn-gold" href="https://omg10.com/4/11645531" target="_blank" rel="noopener sponsored">Voir l'offre</a>
+      </div>
+    </div>
+
+    <div class="preview-col">
+      <div class="paper-scaler" id="scaler"><div class="paper" id="paper"></div></div>
+      <p class="hint" style="text-align:center;margin-top:10px">Aperçu en direct du rendu final (format A4)</p>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="../assets/app.js"></script>
+<script src="../assets/ads.js"></script>
+<script src="cv.js"></script>
+</body>
+</html>
