@@ -1,6 +1,5 @@
-/* ===== SLATE · Correcteur photo IA =====
-   ⚠️ CONFIG : collez ici l'URL du Web Service Render (fait une seule fois) */
-const API_URL = "https://A-CONFIGURER.onrender.com";
+/* ===== SLATE · Correcteur photo IA ===== */
+const API_URL = "https://slate-app-05xa.onrender.com";
 
 let imgData = null, imgMime = "image/jpeg", niveau = "", loadTick = null;
 
