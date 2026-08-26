@@ -235,5 +235,197 @@ window.SUBJECTS = [
         c: ["la mitochondrie", "le chloroplaste", "le noyau", "le ribosome"], a: 1,
         e: "Le chloroplaste contient la chlorophylle qui capte la lumière. (La mitochondrie, elle, réalise la respiration cellulaire.)" }
     ]
+  },
+
+  /* ================= Encore plus de matières ================= */
+  {
+    id: "pc-3e", matiere: "Physique-Chimie", niveau: "3ème", icon: "⚗️", minutes: 8,
+    titre: "Atomes, molécules & circuits",
+    qs: [
+      { q: "La formule chimique de l'eau est :",
+        c: ["H₂O", "CO₂", "O₂", "NaCl"], a: 0,
+        e: "Une molécule d'eau = 2 atomes d'hydrogène + 1 atome d'oxygène → H₂O." },
+      { q: "L'unité de la tension électrique est :",
+        c: ["l'ampère (A)", "le volt (V)", "le watt (W)", "l'ohm (Ω)"], a: 1,
+        e: "Tension → volt (V). Intensité → ampère (A). Résistance → ohm (Ω)." },
+      { q: "Le poids d'un objet est :",
+        c: ["une masse en kg", "une force en newtons", "une énergie en joules", "une tension en volts"], a: 1,
+        e: "Le poids est la force d'attraction de la Terre : il se mesure en newtons (P = m × g)." },
+      { q: "Quel métal est attiré par un aimant ?",
+        c: ["le cuivre", "l'aluminium", "le fer", "le zinc"], a: 2,
+        e: "Le fer (et l'acier) est attiré par l'aimant. Cuivre, aluminium et zinc ne le sont pas." },
+      { q: "Le noyau d'un atome contient :",
+        c: ["uniquement des électrons", "des protons et des neutrons", "uniquement des protons", "des molécules"], a: 1,
+        e: "Le noyau = protons + neutrons. Les électrons, eux, tournent autour." }
+    ]
+  },
+  {
+    id: "ang-3e", matiere: "Anglais", niveau: "3ème", icon: "🇬🇧", minutes: 8,
+    titre: "English basics — BEPC",
+    qs: [
+      { q: "Choose the correct sentence :",
+        c: ["She go to school every day", "She goes to school every day", "She going to school", "She gone to school"], a: 1,
+        e: "Au présent simple avec he/she/it, le verbe prend un -s : she goes." },
+      { q: "Traduis : « un chat noir »",
+        c: ["a black cat", "a cat black", "an black cat", "the cat black"], a: 0,
+        e: "En anglais, l'adjectif se place AVANT le nom : a black cat (ordre inversé par rapport au français !)." },
+      { q: "What is the past of « eat » ?",
+        c: ["eated", "ate", "eats", "eaten"], a: 1,
+        e: "Eat est un verbe irrégulier : eat → ate → eaten." },
+      { q: "___ are you ? — I'm fine, thanks !",
+        c: ["What", "Who", "How", "Where"], a: 2,
+        e: "How are you = Comment vas-tu ? What = quoi, Who = qui, Where = où." },
+      { q: "Choose : They ___ TV at the moment.",
+        c: ["watch", "are watching", "watches", "watched"], a: 1,
+        e: "« At the moment » (en ce moment) → present continuous : be + verbe-ing → are watching." }
+    ]
+  },
+  {
+    id: "mg-3e", matiere: "Malagasy", niveau: "3ème", icon: "💬", minutes: 8,
+    titre: "Fiteny & ohabolana",
+    qs: [
+      { q: "Amin'ny fehezanteny « Mihira ny ankizy », inona no matoanteny ?",
+        c: ["Mihira", "ny", "ankizy", "tsy misy"], a: 0,
+        e: "Ny matoanteny dia ny teny maneho asa na fihetseham-po : eto hoe « Mihira »." },
+      { q: "Ny teny hoe « tsara » dia :",
+        c: ["anarana", "matoanteny", "mpamaritra", "tambajotra"], a: 2,
+        e: "« Tsara » dia manoritsoritra ny zavatra na olona iray → mpamaritra (adjectif)." },
+      { q: "Amin'ny fehezanteny « Mihinana vary i Koto », iza no tompon'oratra (sujet) ?",
+        c: ["Mihinana", "vary", "i Koto", "tsy misy"], a: 2,
+        e: "Amin'ny fiteny malagasy, ny tompon'oratra dia eo an-tsofam-pihezanteny matetika — tsy toy ny amin'ny frantsay !" },
+      { q: "Inona ny dikan'ny ohabolana hoe « Tsy misy tsy voavadika fa ny maty » ?",
+        c: ["Tsy misy vahaolana na inona na inona", "Ny olana rehetra dia manana vahaolana, afa-tsy ny fahafatesana", "Ny maty dia tsy olona", "Tsy mila mikatsaka vahaolana mihitsy"], a: 1,
+        e: "Ity ohabolana ity dia mampahatsiahy fa ny olana rehetra azo vahana, ka tsy tokony kivy na aiza na aiza." },
+      { q: "Ny hoe « fa » amin'ny fehezanteny « Mandeha aho fa marary izy » dia :",
+        c: ["matoanteny", "mpamaritra", "tambajotra", "anarana"], a: 2,
+        e: "« Fa » dia mampitohy fehezanteny roa → tambajotra (conjonction)." }
+    ]
+  },
+  {
+    id: "svt-1e", matiere: "SVT", niveau: "1ère", icon: "🌿", minutes: 8,
+    titre: "Cellules, neurones & nutrition",
+    qs: [
+      { q: "L'unité fonctionnelle du système nerveux est :",
+        c: ["le muscle", "le neurone", "l'os", "le globule rouge"], a: 1,
+        e: "Le neurone reçoit, transmet et traite l'information nerveuse (message nerveux)." },
+      { q: "La mitose permet :",
+        c: ["de fabriquer les gamètes", "la multiplication des cellules (2 cellules identiques)", "la digestion", "la photosynthèse"], a: 1,
+        e: "Mitose : 1 cellule mère → 2 cellules filles identiques (croissance, renouvellement). À ne pas confondre avec la méiose !" },
+      { q: "Les protéines sont constituées de :",
+        c: ["sucres", "acides aminés", "vitamines", "graisses"], a: 1,
+        e: "Les protéines sont de longues chaînes d'acides aminés (viande, œufs, voanjo…)." },
+      { q: "Quel est le rôle des racines chez une plante ?",
+        c: ["capter la lumière", "absorber l'eau et les sels minéraux", "fabriquer les graines", "rejeter l'oxygène"], a: 1,
+        e: "Les racines fixent la plante et absorbent l'eau + sels minéraux qui montent vers les feuilles." },
+      { q: "La digestion des aliments commence dans :",
+        c: ["l'estomac", "l'intestin", "la bouche", "l'œsophage"], a: 2,
+        e: "Dès la bouche : mastication + salive (enzymes) commencent la digestion des glucides." }
+    ]
+  },
+  {
+    id: "hg-1e", matiere: "Histoire-Géo", niveau: "1ère", icon: "🌍", minutes: 8,
+    titre: "Histoire de Madagascar & mondialisation",
+    qs: [
+      { q: "Quel royaume dominait les Hautes Terres de Madagascar au XIXe siècle ?",
+        c: ["Le royaume Sakalava", "Le royaume Merina (Imerina)", "Le royaume Betsimisaraka", "Le royaume Antakarana"], a: 1,
+        e: "Le royaume Merina, avec Antananarivo pour capitale (Rova), a unifié une grande partie de l'île." },
+      { q: "Madagascar devient officiellement colonie française en :",
+        c: ["1885", "1896", "1945", "1960"], a: 1,
+        e: "En 1896, le Parlement français vote l'annexion ; la reine Ranavalona III est exilée." },
+      { q: "La reine Ranavalona Ire reste célèbre pour :",
+        c: ["avoir vendu l'île", "sa résistance à l'influence étrangère", "avoir fondé l'ONU", "son invention de l'écriture latine"], a: 1,
+        e: "Ranavalona Ire a cherché à limiter l'influence européenne pour préserver l'indépendance du royaume." },
+      { q: "La mondialisation, c'est :",
+        c: ["l'isolement des pays", "l'interconnexion croissante des économies et des cultures", "une guerre mondiale", "un régime politique"], a: 1,
+        e: "Échanges, communications, transport : le monde fonctionne de plus en plus comme un réseau unique." },
+      { q: "Dans quelles structures cultive-t-on surtout le riz sur les Hauts Plateaux ?",
+        c: ["dans les déserts", "dans les rizières en terrasses", "dans les forêts", "dans les lagunes"], a: 1,
+        e: "Les rizières en terrasses, irriguées, dominent les paysages des Hautes Terres." }
+    ]
+  },
+  {
+    id: "ang-1e", matiere: "Anglais", niveau: "1ère", icon: "🇬🇧", minutes: 8,
+    titre: "Tenses & relatifs — 1ère",
+    qs: [
+      { q: "Choose : I ___ in Antananarivo since 2010.",
+        c: ["live", "have lived", "am living", "lived"], a: 1,
+        e: "Avec « since » (depuis un point de départ), on utilise le present perfect : have lived." },
+      { q: "Passive voice : « The cake was ___ by Marie. »",
+        c: ["ate", "eaten", "eats", "eating"], a: 1,
+        e: "Passif = be + participe passé. Eat → eaten : « The cake was eaten by Marie. »" },
+      { q: "Choose the future : « Tomorrow we ___ football. »",
+        c: ["will play", "played", "plays", "playing"], a: 0,
+        e: "Demain → futur avec will : we will play." },
+      { q: "« The girl ___ won the prize is my sister. »",
+        c: ["which", "who", "whose", "whom"], a: 1,
+        e: "Pour une PERSONNE sujet, on utilise who. Which = pour les choses." },
+      { q: "What is a synonym of « rapid » ?",
+        c: ["slow", "fast", "lazy", "weak"], a: 1,
+        e: "Rapid = fast = quick = rapide." }
+    ]
+  },
+  {
+    id: "fr-t", matiere: "Français", niveau: "Terminale", icon: "📖", minutes: 8,
+    titre: "Argumentation & dissertation",
+    qs: [
+      { q: "Le but principal d'un texte argumentatif est :",
+        c: ["raconter une histoire", "convaincre ou persuader", "décrire un paysage", "donner des nouvelles"], a: 1,
+        e: "Argumenter = défendre une thèse avec des arguments (convaincre par la raison, persuader par les émotions)." },
+      { q: "Dans l'introduction d'une dissertation, la problématique sert à :",
+        c: ["faire joli", "poser la question qui guide tout le devoir", "résumer le roman", "donner son avis sans arguments"], a: 1,
+        e: "Introduction = sujet amené → sujet posé → problématique → annonce du plan." },
+      { q: "« Les vagues furieuses frappaient le rocher » : figure de style ?",
+        c: ["métaphore", "comparaison", "personnification", "antithèse"], a: 2,
+        e: "On prête un sentiment humain (« furieuses ») à des vagues : personnification." },
+      { q: "Quel connecteur exprime la CONSÉQUENCE ?",
+        c: ["mais", "donc", "bien que", "avant"], a: 1,
+        e: "« Donc », « ainsi », « par conséquent » introduisent une conséquence. « Mais » = opposition." },
+      { q: "La thèse dans un texte argumentatif est :",
+        c: ["le titre du livre", "l'opinion défendue par l'auteur", "la biographie du personnage", "une figure de style"], a: 1,
+        e: "Thèse = position soutenue. Le devoir consiste à la discuter avec des arguments et des exemples." }
+    ]
+  },
+  {
+    id: "hg-t", matiere: "Histoire-Géo", niveau: "Terminale", icon: "🌍", minutes: 8,
+    titre: "Histoire contemporaine & géopolitique",
+    qs: [
+      { q: "Madagascar accède à l'indépendance le :",
+        c: ["26 juin 1960", "14 juillet 1789", "11 novembre 1918", "1er janvier 2000"], a: 0,
+        e: "Le 26 juin 1960 : fin de la colonisation française — fête nationale malgache." },
+      { q: "Le premier président de la République malgache est :",
+        c: ["Didier Ratsiraka", "Philibert Tsiranana", "Albert Zafy", "Marc Ravalomanana"], a: 1,
+        e: "Philibert Tsiranana, « père de l'indépendance », dirige la Première République (1959-1972)." },
+      { q: "L'Organisation des Nations unies (ONU) est créée en :",
+        c: ["1918", "1939", "1945", "1989"], a: 2,
+        e: "Créée en 1945, au lendemain de la Seconde Guerre mondiale, pour maintenir la paix." },
+      { q: "La guerre froide (1947-1991) opposait principalement :",
+        c: ["la France et l'Angleterre", "les États-Unis et l'URSS", "la Chine et le Japon", "l'Allemagne et l'Italie"], a: 1,
+        e: "Un conflit idéologique sans bataille directe entre le bloc capitaliste (USA) et le bloc communiste (URSS)." },
+      { q: "Quelle région de Madagascar est surnommée « le grenier à riz » ?",
+        c: ["le Sud (Androy)", "le lac Alaotra", "la côte ouest", "le cap Sainte-Marie"], a: 1,
+        e: "La région du lac Alaotra (nord-est) est la grande zone rizicole du pays." }
+    ]
+  },
+  {
+    id: "ang-t", matiere: "Anglais", niveau: "Terminale", icon: "🇬🇧", minutes: 8,
+    titre: "BAC English — conditionals & modals",
+    qs: [
+      { q: "Choose : « If I ___ rich, I would travel the world. »",
+        c: ["am", "was", "were", "be"], a: 2,
+        e: "Conditionnel irréel (2e type) : if + past simple → « If I were rich… »." },
+      { q: "Reported speech : She said she ___ tired.",
+        c: ["is", "was", "be", "were been"], a: 1,
+        e: "Au discours indirect, le présent recule au passé : is → was." },
+      { q: "« You ___ smoke here. It's forbidden. »",
+        c: ["mustn't", "don't have to", "can", "should"], a: 0,
+        e: "Interdiction → mustn't. (Don't have to = pas obligé, ce n'est pas interdit.)" },
+      { q: "Passive : « English ___ all over the world. »",
+        c: ["speaks", "is spoken", "is speak", "spoken"], a: 1,
+        e: "Passif : be + participe passé → is spoken." },
+      { q: "The phrasal verb « to give up » means :",
+        c: ["donner", "continuer", "abandonner", "commencer"], a: 2,
+        e: "To give up = abandonner, arrêter : « Never give up! » = N'abandonne jamais !" }
+    ]
   }
 ];
+
