@@ -9,7 +9,7 @@ app.use(express.json({ limit: "8mb" }));
 const KEY = process.env.GEMINI_API_KEY;
 const MODEL = "gemini-2.0-flash";
 
-const PROMPT = `Tu es un professeur expérimenté de Madagascar (système scolaire francophone : 3ème, 1ère, Terminale — BEPC et BAC).
+const PROMPT = `Tu es un professeur expérimenté de Madagascar (programme officiel MEN, système francophone : collège 6ème→3ème/BEPC, lycée 2nde→Terminale/BAC).
 
 CAS A — Si la photo montre un SUJET d'examen ou de devoir :
 1. LIS et identifie chaque question ou exercice (même manuscrit si possible).

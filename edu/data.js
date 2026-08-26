@@ -426,6 +426,266 @@ window.SUBJECTS = [
         c: ["donner", "continuer", "abandonner", "commencer"], a: 2,
         e: "To give up = abandonner, arrêter : « Never give up! » = N'abandonne jamais !" }
     ]
+  },
+
+  /* ================= 6ème (entrée au collège) ================= */
+  {
+    id: "math-6e", matiere: "Maths", niveau: "6ème", icon: "📐", minutes: 10,
+    titre: "Fractions, décimaux & aires",
+    qs: [
+      { q: "Calcule : 3/4 + 1/4",
+        c: ["4/8", "4/4 = 1", "3/4", "1/2"], a: 1,
+        e: "Même dénominateur : on additionne les numérateurs : 3 + 1 = 4 → 4/4 = 1." },
+      { q: "Périmètre d'un rectangle de longueur 8 cm et largeur 5 cm ?",
+        c: ["13 cm", "26 cm", "40 cm", "21 cm"], a: 1,
+        e: "P = (L + l) × 2 = (8 + 5) × 2 = 13 × 2 = 26 cm." },
+      { q: "Calcule : 0,5 × 100",
+        c: ["5", "50", "500", "0,05"], a: 1,
+        e: "Multiplier par 100 décale la virgule de 2 rangs vers la droite : 0,5 → 50." },
+      { q: "Quelle fraction est la plus grande ?",
+        c: ["1/2", "1/3", "1/4", "1/5"], a: 0,
+        e: "À numérateur égal, plus le dénominateur est petit, plus la part est grande : 1/2 est la plus grande." },
+      { q: "Dans un triangle, deux angles mesurent 90° et 35°. Le 3e angle mesure :",
+        c: ["45°", "55°", "65°", "35°"], a: 1,
+        e: "La somme des angles d'un triangle = 180° : 180 − 90 − 35 = 55°." }
+    ]
+  },
+  {
+    id: "fr-6e", matiere: "Français", niveau: "6ème", icon: "📖", minutes: 8,
+    titre: "Classes de mots & pluriels",
+    qs: [
+      { q: "Quel est le pluriel de « cheval » ?",
+        c: ["chevals", "chevaux", "chevaus", "chevalles"], a: 1,
+        e: "Les noms en -al font leur pluriel en -aux : cheval → chevaux (comme journal → journaux)." },
+      { q: "Quelle est la nature du mot « rapidement » ?",
+        c: ["Un adjectif", "Un verbe", "Un adverbe", "Un nom"], a: 2,
+        e: "Il précise COMMENT se fait l'action (il court rapidement) : c'est un adverbe en -ment." },
+      { q: "Dans « Le petit chat dort sur le mur », le sujet du verbe « dort » est :",
+        c: ["Le petit chat", "dort", "sur le mur", "le mur"], a: 0,
+        e: "Qui est-ce qui dort ? → « Le petit chat ». C'est le groupe sujet." },
+      { q: "Quelle phrase est correctement accordée ?",
+        c: ["des fleurs rouge", "des fleurs rouges", "des fleure rouges", "des fleurs roudes"], a: 1,
+        e: "L'adjectif s'accorde avec le nom : « fleurs » est féminin pluriel → rouges." },
+      { q: "Quel est le pluriel de « un hibou » ?",
+        c: ["des hibous", "des hiboux", "des hibousx", "des hibeaux"], a: 1,
+        e: "Les noms en -ou comme hibou, chou, bijou prennent un x : des hiboux." }
+    ]
+  },
+  {
+    id: "svt-6e", matiere: "SVT", niveau: "6ème", icon: "🌿", minutes: 8,
+    titre: "Le vivant & son milieu",
+    qs: [
+      { q: "Lequel N'EST PAS un caractère des êtres vivants ?",
+        c: ["Se nourrir", "Se reproduire", "Être fabriqué en usine", "Grandir"], a: 2,
+        e: "Les êtres vivants naissent, se nourrissent, respirent, grandissent, se reproduisent et meurent — ils ne sont pas fabriqués." },
+      { q: "Dans la chaîne herbe → sauterelle → caméléon, le caméléon est :",
+        c: ["un producteur", "un herbivore", "un carnivore", "un décomposeur"], a: 2,
+        e: "Il mange un animal (la sauterelle) : c'est un consommateur carnivore. La plante est le producteur." },
+      { q: "À quelle classe appartient le zébu ?",
+        c: ["Reptiles", "Oiseaux", "Mammifères", "Poissons"], a: 2,
+        e: "Le zébu allaite ses petits et a des poils : c'est un mammifère (vertébré)." },
+      { q: "De quoi une plante verte a-t-elle besoin pour fabriquer sa matière ?",
+        c: ["De viande", "D'eau, de sels minéraux et de lumière", "De sucre seulement", "D'obscurité totale"], a: 1,
+        e: "La plante puise eau + sels minéraux (sève brute) et utilise la lumière : c'est la photosynthèse." },
+      { q: "Quel geste d'hygiène protège le mieux des microbes avant le repas ?",
+        c: ["Se laver les mains", "Se brosser les cheveux", "Courir", "Regarder la télé"], a: 0,
+        e: "Le lavage des mains élimine les microbes responsables de nombreuses maladies (diarrhées…)." }
+    ]
+  },
+
+  /* ================= 5ème ================= */
+  {
+    id: "math-5e", matiere: "Maths", niveau: "5ème", icon: "📐", minutes: 10,
+    titre: "Relatifs, proportionnalité & triangles",
+    qs: [
+      { q: "Calcule : (−3) + (−5)",
+        c: ["−8", "+8", "−2", "+2"], a: 0,
+        e: "Mêmes signes : on ajoute les distances à zéro (3 + 5 = 8) et on garde le signe − → −8." },
+      { q: "3 cahiers coûtent 6 000 Ar. Combien coûtent 5 cahiers ?",
+        c: ["8 000 Ar", "9 000 Ar", "10 000 Ar", "12 000 Ar"], a: 2,
+        e: "Proportionnalité : 1 cahier = 6 000 ÷ 3 = 2 000 Ar → 5 cahiers = 5 × 2 000 = 10 000 Ar." },
+      { q: "Quelle est la somme des angles d'un triangle ?",
+        c: ["90°", "180°", "270°", "360°"], a: 1,
+        e: "Dans tout triangle, la somme des trois angles vaut exactement 180°." },
+      { q: "Calcule : (−4) × (+2)",
+        c: ["+8", "−8", "−6", "+6"], a: 1,
+        e: "Signes contraires → résultat négatif ; 4 × 2 = 8 → −8." },
+      { q: "Combien font 45 % de 200 ?",
+        c: ["45", "90", "100", "92"], a: 1,
+        e: "45 % de 200 = 0,45 × 200 = 90 (ou produit en croix : 45 × 200 ÷ 100)." }
+    ]
+  },
+  {
+    id: "fr-5e", matiere: "Français", niveau: "5ème", icon: "📖", minutes: 8,
+    titre: "Le récit au passé & expansions du nom",
+    qs: [
+      { q: "« Hier, nous (finir) nos devoirs » au passé composé :",
+        c: ["nous finissions", "nous avons fini", "nous finirons", "nous finîmes"], a: 1,
+        e: "Passé composé = auxiliaire avoir au présent + participe passé : nous avons fini (action achevée, hier)." },
+      { q: "Quel temps exprime une habitude ou une description dans le passé ?",
+        c: ["Le passé composé", "Le futur", "L'imparfait", "Le présent"], a: 2,
+        e: "L'imparfait décrit le décor et les habitudes ; le passé composé raconte les actions ponctuelles." },
+      { q: "Dans « une maison blanche », le mot « blanche » est :",
+        c: ["un complément du nom", "un adjectif épithète", "une apposition", "un adverbe"], a: 1,
+        e: "« Blanche » qualifie directement le nom « maison » : c'est un adjectif épithète." },
+      { q: "Le futur simple de « il (être) » est :",
+        c: ["il est", "il était", "il sera", "il serait"], a: 2,
+        e: "Futur de l'infinitif + -ai, -as, -a : être → il sera (serait = conditionnel)." },
+      { q: "Dans « la maison de briques », « de briques » est :",
+        c: ["le sujet", "un complément du nom", "un COD", "un adjectif"], a: 1,
+        e: "Il complète le nom « maison » (une maison DE QUOI ?) : c'est un complément du nom." }
+    ]
+  },
+  {
+    id: "pc-5e", matiere: "Physique-Chimie", niveau: "5ème", icon: "⚗️", minutes: 8,
+    titre: "Matière & électricité",
+    qs: [
+      { q: "Le passage de l'état solide à l'état liquide s'appelle :",
+        c: ["la solidification", "la fusion", "la vaporisation", "la condensation"], a: 1,
+        e: "Solide → liquide = fusion (la glace fond). Liquide → solide = solidification." },
+      { q: "À pression normale, l'eau bout à :",
+        c: ["0 °C", "37 °C", "100 °C", "1000 °C"], a: 2,
+        e: "L'eau gèle à 0 °C et bout (vaporisation) à 100 °C à pression atmosphérique normale." },
+      { q: "Quelle est l'unité de la tension électrique ?",
+        c: ["L'ampère (A)", "Le volt (V)", "L'ohm (Ω)", "Le watt (W)"], a: 1,
+        e: "Tension U en volts (voltmètre) ; intensité I en ampères ; résistance R en ohms." },
+      { q: "Dans un circuit en SÉRIE, si une lampe grille :",
+        c: ["les autres brillent plus fort", "tout le circuit s'éteint", "rien ne change", "la pile explose"], a: 1,
+        e: "En série, il n'y a qu'une seule boucle : si elle est coupée, le courant ne passe plus nulle part." },
+      { q: "Un atome est électriquement :",
+        c: ["positif", "négatif", "neutre", "alternatif"], a: 2,
+        e: "Il contient autant de protons (+) que d'électrons (−) : sa charge totale est nulle." }
+    ]
+  },
+
+  /* ================= 4ème ================= */
+  {
+    id: "math-4e", matiere: "Maths", niveau: "4ème", icon: "📐", minutes: 10,
+    titre: "Pythagore, fractions & puissances",
+    qs: [
+      { q: "Triangle rectangle : côtés de l'angle droit 3 cm et 4 cm. L'hypoténuse mesure :",
+        c: ["5 cm", "6 cm", "7 cm", "12 cm"], a: 0,
+        e: "Pythagore : c² = 3² + 4² = 9 + 16 = 25 → c = √25 = 5 cm." },
+      { q: "Calcule : 2/3 × 3/4",
+        c: ["5/7", "6/12 = 1/2", "2/4", "3/2"], a: 1,
+        e: "On multiplie numérateurs entre eux et dénominateurs entre eux : (2×3)/(3×4) = 6/12 = 1/2." },
+      { q: "Combien vaut 10³ ?",
+        c: ["30", "100", "1 000", "10 000"], a: 2,
+        e: "10³ = 10 × 10 × 10 = 1 000 (l'exposant 3 donne 3 zéros)." },
+      { q: "Dans un triangle rectangle, cos(angle) = ?",
+        c: ["opposé / hypoténuse", "adjacent / hypoténuse", "opposé / adjacent", "hypoténuse / adjacent"], a: 1,
+        e: "SOH-CAH-TOA : Cosinus = côté Adjacent / Hypoténuse." },
+      { q: "Calcule : (−2)²",
+        c: ["−4", "+4", "−2", "+2"], a: 1,
+        e: "(−2)² = (−2) × (−2) = +4 (mêmes signes → résultat positif)." }
+    ]
+  },
+  {
+    id: "fr-4e", matiere: "Français", niveau: "4ème", icon: "📖", minutes: 8,
+    titre: "Phrase complexe & discours rapporté",
+    qs: [
+      { q: "Dans « le livre que je lis », « que je lis » est une subordonnée :",
+        c: ["complétive", "relative", "circonstancielle", "indépendante"], a: 1,
+        e: "Introduite par le pronom relatif « que », elle complète le nom « livre » : subordonnée relative." },
+      { q: "Discours direct : Il dit : « Je viens. » → Discours indirect :",
+        c: ["Il dit : je viens.", "Il dit que je viens.", "Il dit qu'il vient.", "Il dit venir."], a: 2,
+        e: "Au discours indirect, « je » devient « il » (3e personne) et on supprime les guillemets : Il dit qu'il vient." },
+      { q: "« Bien que tu sois fatigué, tu travailles. » « Bien que » exprime :",
+        c: ["la cause", "le but", "l'opposition (concession)", "le temps"], a: 2,
+        e: "Bien que + subjonctif introduit une opposition : malgré la fatigue, l'action continue." },
+      { q: "Dans « Je pense que tu as raison », « que tu as raison » est :",
+        c: ["une subordonnée complétive", "une relative", "une indépendante", "un adjectif"], a: 0,
+        e: "Elle complète le verbe « pense » (je pense QUOI ?) : subordonnée complétive COD introduite par « que »." },
+      { q: "Le plus-que-parfait de « nous (partir) » est :",
+        c: ["nous partions", "nous étions partis", "nous avons parti", "nous serons partis"], a: 1,
+        e: "Plus-que-parfait = auxiliaire à l'imparfait + participe passé : nous étions partis (être → accord : partis)." }
+    ]
+  },
+  {
+    id: "svt-4e", matiere: "SVT", niveau: "4ème", icon: "🌿", minutes: 8,
+    titre: "Reproduction & activité interne du globe",
+    qs: [
+      { q: "Quelle cellule donne la fécondation chez l'Homme ?",
+        c: ["Un globule rouge", "La cellule-œuf (spermatozoïde + ovule)", "Un neurone", "Une plaquette"], a: 1,
+        e: "La fécondation = rencontre d'un spermatozoïde et d'un ovule → une seule cellule : la cellule-œuf." },
+      { q: "Le déplacement des plaques tectoniques provoque :",
+        c: ["la pluie", "séismes, volcans et montagnes", "les marées", "le jour et la nuit"], a: 1,
+        e: "Aux limites des plaques : frottements (séismes), remontées de magma (volcans), plissements (montagnes)." },
+      { q: "Où se déroule le réflexe (ex : retirer la main d'un objet chaud) ?",
+        c: ["Dans le cerveau uniquement", "Via la moelle épinière", "Dans le cœur", "Dans l'estomac"], a: 1,
+        e: "Le réflexe est une réponse rapide et involontaire commandée par la moelle épinière (sans attendre le cerveau)." },
+      { q: "Quels organes filtrent le sang et produisent l'urine ?",
+        c: ["Les poumons", "Le foie", "Les reins", "Le cœur"], a: 2,
+        e: "Les reins filtrent le sang, éliminent les déchets et fabriquent l'urine évacuée par la vessie." },
+      { q: "Où se déroule la photosynthèse dans la plante ?",
+        c: ["Dans les racines", "Dans les parties vertes (chlorophylle)", "Dans les fleurs seulement", "Dans le sol"], a: 1,
+        e: "La chlorophylle (pigment vert des feuilles) capte la lumière nécessaire à la photosynthèse." }
+    ]
+  },
+
+  /* ================= 2nde (entrée au lycée) ================= */
+  {
+    id: "math-2nde", matiere: "Maths", niveau: "2nde", icon: "📐", minutes: 10,
+    titre: "Fonctions, vecteurs & statistiques",
+    qs: [
+      { q: "Soit f(x) = 2x + 3. Calcule f(4).",
+        c: ["9", "10", "11", "24"], a: 2,
+        e: "On remplace x par 4 : f(4) = 2×4 + 3 = 8 + 3 = 11." },
+      { q: "Dans l'équation de droite y = mx + p, que représente m ?",
+        c: ["L'ordonnée à l'origine", "Le coefficient directeur (pente)", "L'abscisse", "Une erreur"], a: 1,
+        e: "m est la pente : quand x augmente de 1, y varie de m. p est l'ordonnée à l'origine." },
+      { q: "Avec A(1 ; 2) et B(4 ; 6), les coordonnées du vecteur AB sont :",
+        c: ["(5 ; 8)", "(3 ; 4)", "(4 ; 6)", "(−3 ; −4)"], a: 1,
+        e: "AB = (xB − xA ; yB − yA) = (4 − 1 ; 6 − 2) = (3 ; 4)." },
+      { q: "Quelle est la moyenne de 10 ; 12 ; 14 ?",
+        c: ["11", "12", "13", "36"], a: 1,
+        e: "Moyenne = (10 + 12 + 14) ÷ 3 = 36 ÷ 3 = 12." },
+      { q: "x ∈ [2 ; 5] signifie :",
+        c: ["2 < x < 5 strictement", "2 ≤ x ≤ 5", "x = 2 ou x = 5", "x > 5"], a: 1,
+        e: "Les crochets fermés incluent les bornes : x est compris entre 2 et 5, bornes comprises." }
+    ]
+  },
+  {
+    id: "fr-2nde", matiere: "Français", niveau: "2nde", icon: "📖", minutes: 8,
+    titre: "Analyse littéraire & registres",
+    qs: [
+      { q: "Un narrateur personnage de l'histoire raconte à la :",
+        c: ["1re personne (je)", "2e personne (tu)", "3e personne (il)", "il ne raconte pas"], a: 0,
+        e: "Quand le narrateur est un personnage du récit, il dit « je » : point de vue interne." },
+      { q: "Quel registre vise à faire rire le lecteur ?",
+        c: ["Le registre tragique", "Le registre comique", "Le registre lyrique", "Le registre épique"], a: 1,
+        e: "Comique = rire (ironie, caricature) ; tragique = mort et destin ; lyrique = sentiments ; épique = héros." },
+      { q: "« Cette obscure clarté qui tombe des étoiles » (Corneille) est :",
+        c: ["une métaphore", "un oxymore", "une comparaison", "une litote"], a: 1,
+        e: "Oxymore = réunion de deux mots contraires (« obscure » + « clarté ») dans une même expression." },
+      { q: "« Antigone », l'héroïne qui brave l'interdit de Créon, est une tragédie de :",
+        c: ["Molière", "Sophocle", "Victor Hugo", "Racine"], a: 1,
+        e: "Antigone est une tragédie grecque de Sophocle (Ve siècle av. J.-C.), reprise depuis par de nombreux auteurs." },
+      { q: "Quel mot N'APPARTIENT PAS au champ lexical de la mer ?",
+        c: ["les flots", "la vague", "le marin", "le sommet"], a: 3,
+        e: "« Sommet » appartient au champ lexical de la montagne. Flots, vague et marin renvoient à la mer." }
+    ]
+  },
+  {
+    id: "pc-2nde", matiere: "Physique-Chimie", niveau: "2nde", icon: "⚗️", minutes: 8,
+    titre: "Mécanique & chimie",
+    qs: [
+      { q: "Une voiture parcourt 150 km en 2 h. Sa vitesse moyenne est :",
+        c: ["300 km/h", "75 km/h", "152 km/h", "50 km/h"], a: 1,
+        e: "v = d ÷ t = 150 ÷ 2 = 75 km/h." },
+      { q: "Quelle est l'unité de la force ?",
+        c: ["Le joule (J)", "Le newton (N)", "Le pascal (Pa)", "Le volt (V)"], a: 1,
+        e: "La force (ex : le poids) se mesure en newtons (N), au dynamomètre." },
+      { q: "Un ion négatif (anion) est un atome qui a :",
+        c: ["perdu des électrons", "gagné des électrons", "perdu des protons", "gagné des neutrons"], a: 1,
+        e: "Gagner des électrons (−) rend l'atome négatif → anion. En perdre → cation (+)." },
+      { q: "Quelle est la formule de la molécule d'eau ?",
+        c: ["CO₂", "H₂O", "O₂", "NaCl"], a: 1,
+        e: "H₂O : 2 atomes d'hydrogène + 1 atome d'oxygène. CO₂ = gaz carbonique ; NaCl = sel." },
+      { q: "Une solution dont le pH vaut 3 est :",
+        c: ["acide", "neutre", "basique", "pure"], a: 0,
+        e: "pH < 7 = acide ; pH = 7 = neutre ; pH > 7 = basique. Un pH de 3 est fortement acide." }
+    ]
   }
 ];
 

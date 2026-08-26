@@ -2,9 +2,14 @@
 let cur = null, idx = 0, picked = -1, answers = [], timeLeft = 0, tick = null;
 let fLvl = loadLS("slate_edu_lvl", "Tous");   // niveau mémorisé entre deux visites
 let fMat = "Toutes";
+let fMode = "quiz";                            // "quiz" | "resumes"
 const best = loadLS("slate_edu_best", {});
-const LEVELS = ["Tous", "3ème", "1ère", "Terminale"];
-const LVL_INFO = { "3ème": "Préparation BEPC", "1ère": "Première", "Terminale": "Préparation BAC" };
+const LEVELS = ["Tous", "6ème", "5ème", "4ème", "3ème", "2nde", "1ère", "Terminale"];
+const LVL_INFO = {
+  "6ème": "Collège · début du collège", "5ème": "Collège", "4ème": "Collège",
+  "3ème": "Collège · Préparation BEPC", "2nde": "Lycée · Seconde",
+  "1ère": "Lycée · Première", "Terminale": "Lycée · Préparation BAC"
+};
 const esc = s => String(s || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
 /* ---------- Filtres ---------- */
@@ -17,8 +22,9 @@ function renderLvlChips() {
     renderLvlChips(); renderMatChips(); renderList();
   });
 }
+const DATA = () => fMode === "quiz" ? SUBJECTS : RESUMES;
 function renderMatChips() {
-  const pool = SUBJECTS.filter(s => fLvl === "Tous" || s.niveau === fLvl);
+  const pool = DATA().filter(s => fLvl === "Tous" || s.niveau === fLvl);
   const mats = ["Toutes", ...new Set(pool.map(s => s.matiere))];
   if (!mats.includes(fMat)) fMat = "Toutes";
   $("#chips").innerHTML = mats.map(m =>
@@ -28,32 +34,59 @@ function renderMatChips() {
 const matchF = s => (fLvl === "Tous" || s.niveau === fLvl) && (fMat === "Toutes" || s.matiere === fMat);
 const cardHTML = s => `
   <div class="scard" data-id="${s.id}">
-    ${best[s.id] != null ? `<span class="best">★ ${best[s.id]}/${s.qs.length}</span>` : ""}
+    ${fMode === "quiz" && best[s.id] != null ? `<span class="best">★ ${best[s.id]}/${s.qs.length}</span>` : ""}
     <div class="ic">${s.icon}</div>
     <h3>${esc(s.titre)}</h3>
-    <div class="meta">${esc(s.matiere)} · ${esc(s.niveau)} · ${s.qs.length} questions · ⏱ ${s.minutes} min</div>
+    <div class="meta">${esc(s.matiere)} · ${esc(s.niveau)} · ${fMode === "quiz" ? s.qs.length + " questions · ⏱ " + s.minutes + " min" : s.points.length + " points clés"}</div>
   </div>`;
 function renderList() {
+  const src = DATA();
   if (fLvl !== "Tous") {
-    const list = SUBJECTS.filter(matchF);
+    const list = src.filter(matchF);
     $("#subjList").innerHTML = list.length
       ? `<div class="subj-grid">${list.map(cardHTML).join("")}</div>`
-      : `<p class="hint" style="padding:20px">Bientôt de nouveaux sujets pour ce niveau 🔜</p>`;
+      : `<p class="hint" style="padding:20px">Bientôt de nouveaux contenus pour ce niveau 🔜</p>`;
   } else {
-    $("#subjList").innerHTML = ["3ème", "1ère", "Terminale"].map(lv => {
-      const list = SUBJECTS.filter(s => s.niveau === lv).filter(matchF);
+    $("#subjList").innerHTML = LEVELS.slice(1).map(lv => {
+      const list = src.filter(s => s.niveau === lv).filter(matchF);
       if (!list.length) return "";
       return `<h2 class="lvl-head">${lv}</h2>
         <p class="lvl-sub">${LVL_INFO[lv]}</p>
         <div class="subj-grid">${list.map(cardHTML).join("")}</div>`;
     }).join("");
   }
-  $$("#subjList .scard").forEach(c => c.onclick = () => startQuiz(c.dataset.id));
+  $$("#subjList .scard").forEach(c => c.onclick = () =>
+    fMode === "quiz" ? startQuiz(c.dataset.id) : openReader(c.dataset.id));
 }
+function setMode(m) {
+  if (fMode === m) return;
+  fMode = m; fMat = "Toutes";
+  $("#tabQuiz").classList.toggle("on", m === "quiz");
+  $("#tabRes").classList.toggle("on", m === "resumes");
+  renderMatChips(); renderList();
+}
+
+/* ---------- Lecteur de résumé ---------- */
+function openReader(id) {
+  const r = RESUMES.find(x => x.id === id);
+  if (!r) return;
+  $("#readerCard").innerHTML = `
+    <h2>${r.icon} ${esc(r.titre)}</h2>
+    <div class="rmeta">${esc(r.matiere)} · Classe de ${esc(r.niveau)} · Programme de Madagascar</div>
+    ${r.points.map((p, i) => `<div class="rpoint"><span class="rn">${i + 1}</span><span>${p}</span></div>`).join("")}
+    <p class="hint" style="margin-top:18px">💡 Entraîne-toi ensuite dans l'onglet « Quiz », ou photographie un exercice avec le <a href="../scanner/"><b>Correcteur photo IA</b></a>.</p>`;
+  view("readerView");
+}
+document.addEventListener("DOMContentLoaded", () => {
+  $("#tabQuiz").onclick = () => setMode("quiz");
+  $("#tabRes").onclick = () => setMode("resumes");
+  const br = $("#backRead");
+  if (br) br.onclick = () => view("listView");
+});
 
 /* ---------- Quiz ---------- */
 function view(name) {
-  ["listView", "quizView", "resView"].forEach(v => $("#" + v).style.display = v === name ? "block" : "none");
+  ["listView", "quizView", "resView", "readerView"].forEach(v => { const el = $("#" + v); if (el) el.style.display = v === name ? "block" : "none"; });
   window.scrollTo({ top: 0 });
 }
 function startQuiz(id) {

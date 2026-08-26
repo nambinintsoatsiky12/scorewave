@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#151f29">
-<title>EduPrep · SLATE — Quiz corrigés étape par étape (BAC, BEPC)</title>
-<meta name="description" content="EduPrep by Slate : entraînez-vous avec des quiz chronométrés et des corrections détaillées étape par étape. Maths, Physique, Français — BAC & BEPC. Gratuit.">
+<title>EduPrep · SLATE — Quiz corrigés + Résumés de leçons (6ème → Terminale)</title>
+<meta name="description" content="EduPrep by Slate : quiz chronométrés avec corrections détaillées et résumés de leçons selon le programme officiel de Madagascar — de la 6ème à la Terminale (BEPC & BAC). Gratuit.">
 <link rel="icon" type="image/png" href="../assets/img/logo-mark.png">
 <!-- Vérification Monetag -->
 <meta name="monetag" content="b39527e315a4b6ab7a47745830e9c869">
@@ -72,8 +72,22 @@
 .review .rr{font-size:12.5px;margin-bottom:4px}
 .review .rr.good{color:#1b5e20}.review .rr.bad{color:#c62828}
 .review .rx{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px;margin-top:8px;line-height:1.6}
-@media(max-width:720px){.qcard{padding:18px}}
-@media print{.sl-header,.tool-head,.chips-row,#subjList,.scan-teaser,.qfoot,#toast,.ad-slot{display:none!important}}
+/* --- Onglets Quiz / Résumés --- */
+.mode-tabs{display:flex;gap:10px;padding:14px 0 2px}
+.mtab{flex:1;background:#fff;border:1.5px solid var(--line);border-radius:13px;padding:13px 10px;font-family:var(--sans);font-size:14px;font-weight:800;color:var(--muted);cursor:pointer;transition:all .15s}
+.mtab.on{background:var(--slate);color:#fff;border-color:var(--slate);box-shadow:0 10px 26px rgba(34,49,63,.18)}
+.mtab small{display:block;font-size:10px;font-weight:600;opacity:.75;margin-top:2px}
+/* --- Lecteur de résumé --- */
+#readerView{display:none}
+.reader{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin:18px 0 40px}
+.reader h2{font-family:var(--serif);font-size:22px;color:var(--slate);margin-bottom:4px}
+.reader .rmeta{font-size:11.5px;color:var(--gold-d);font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
+.rpoint{display:flex;gap:12px;padding:12px 0;border-bottom:1px dashed var(--line);font-size:14px;line-height:1.7;color:var(--text)}
+.rpoint:last-child{border-bottom:none}
+.rpoint .rn{flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:var(--ivory);border:1px solid var(--gold);color:var(--gold-d);font-size:11.5px;font-weight:800;display:grid;place-items:center;margin-top:2px}
+.rpoint b{color:var(--slate)}
+@media(max-width:720px){.qcard{padding:18px}.reader{padding:18px}}
+@media print{.sl-header,.tool-head,.chips-row,.mode-tabs,#subjList,.scan-teaser,.qfoot,#toast,.ad-slot,#backRead{display:none!important}}
 </style>
 </head>
 <body>
@@ -91,7 +105,7 @@
 
 <div class="tool-head">
   <div class="container">
-    <h1>EduPrep — Quiz corrigés</h1>
+    <h1>EduPrep — Quiz & Résumés · 6ème → Terminale</h1>
   </div>
 </div>
 
@@ -99,8 +113,12 @@
 
   <!-- Liste des sujets -->
   <div id="listView">
-    <div class="flabel">🎓 Choisis ton niveau :</div>
+    <div class="flabel">🎓 Choisis ta classe :</div>
     <div class="chips-row" id="chipsLvl"></div>
+    <div class="mode-tabs">
+      <button class="mtab on" id="tabQuiz">📝 Quiz<small>Entraîne-toi, corrections détaillées</small></button>
+      <button class="mtab" id="tabRes">📖 Résumés<small>Les leçons de ton programme</small></button>
+    </div>
     <div class="flabel">📚 Matière :</div>
     <div class="chips-row" id="chips"></div>
     <div id="subjList"></div>
@@ -133,6 +151,15 @@
     </div>
   </div>
 
+  <!-- Lecteur de résumé de leçon -->
+  <div id="readerView">
+    <div class="reader" id="readerCard"></div>
+    <div style="padding-bottom:40px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-slate" id="backRead">← Retour aux résumés</button>
+      <button class="btn btn-gold" onclick="window.print()">🖨 Imprimer / PDF</button>
+    </div>
+  </div>
+
   <!-- Résultats -->
   <div id="resView">
     <div class="score-card">
@@ -153,6 +180,7 @@
 <script src="../assets/app.js"></script>
 <script src="../assets/ads.js"></script>
 <script src="data.js"></script>
+<script src="resumes.js"></script>
 <script src="edu.js"></script>
 <!-- Monetag In-Page Push -->
 <script>(function(s){s.dataset.zone='11655269',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>

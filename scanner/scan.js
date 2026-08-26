@@ -14,7 +14,7 @@ const MSGS = [
 
 /* ---------- Niveau : chips ---------- */
 function renderLvl() {
-  const lvls = ["3ème", "1ère", "Terminale"];
+  const lvls = ["6ème", "5ème", "4ème", "3ème", "2nde", "1ère", "Terminale"];
   $("#lvlChips").innerHTML = lvls.map(l =>
     `<button class="fchip ${l === niveau ? "on" : ""}" data-l="${l}">${l}</button>`).join("");
   $$("#lvlChips .fchip").forEach(b => b.onclick = () => {
