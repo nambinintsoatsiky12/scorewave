@@ -8,7 +8,8 @@ créée pour les étudiants, freelances et entrepreneurs ambitieux.
 | 💼 **CV Pro** | ✅ En ligne | CV élégant (2 modèles, couleurs, photo) avec export PDF |
 | 🧾 **Facture+** | ✅ En ligne | Devis & factures pro, calculs auto, PDF, partage WhatsApp |
 | 🛍️ **LinkShop** | 🔜 Bientôt | Mini-boutique + commandes WhatsApp pour vendeurs en ligne |
-| 🎓 **EduPrep** | 🔜 Bientôt | Annales corrigées & quiz d'examens |
+| 🎓 **EduPrep** | ✅ En ligne | Quiz chronométrés avec corrections étape par étape (BAC, BEPC) |
+| 📸 **Correcteur photo IA** | 🔜 Bientôt | Photographiez un sujet → correction IA détaillée (via Gemini) |
 
 ---
 
