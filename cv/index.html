@@ -165,6 +165,29 @@
 .cv.pt .sec{margin-bottom:18px}
 /* contact icônes (cl) */
 .cv.cl .ct span{margin:0 7px;white-space:nowrap}
+/* centres d'intérêt dans les 3 modèles */
+.cv .ints{font-size:9.6px;color:#4b5563}
+/* ---------- Assistant d'inspiration ---------- */
+.chiprow{display:flex;flex-wrap:wrap;gap:7px}
+.schip{background:#fff;border:1.5px solid var(--line);border-radius:99px;padding:7px 13px;font-size:11.5px;font-weight:700;color:var(--slate);cursor:pointer;font-family:var(--sans)}
+.schip:hover{border-color:var(--gold);background:rgba(201,162,39,.07)}
+.schip.added{border-color:#2e7d32;background:#e8f5ec;color:#1b5e20}
+/* ---------- Lettre de motivation ---------- */
+.ltrprev{background:#fff;border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:8px;padding:16px;margin-top:12px;font-size:12px;line-height:1.7;white-space:pre-wrap;color:#2a3038;max-height:340px;overflow-y:auto}
+#ltrPrint{display:none;width:190mm;font-family:Georgia,"Playfair Display",serif;font-size:12.5px;line-height:1.75;color:#1e2833}
+#ltrPrint .ltb{margin-bottom:22px}
+#ltrPrint .lbl{font-size:8.5px;color:#9aa4ad;letter-spacing:2px;text-transform:uppercase;text-align:center;margin-top:26mm}
+#ltrPrint .lbl b{color:#c9a227}
+@media print{
+  body.printLtr>*{display:none!important}
+  body.printLtr>#ltrPrint{display:block!important}
+}
+/* ---------- Guide candidature ---------- */
+.gsec{border:1px solid var(--line);border-radius:11px;padding:0;margin-bottom:9px;background:#fbfaf7}
+.gsec summary{cursor:pointer;font-weight:800;font-size:13px;color:var(--slate);padding:12px 14px;font-family:var(--serif)}
+.gsec summary::marker{color:var(--gold-d)}
+.tpl{display:block;background:#fff;border:1px dashed var(--gold);border-radius:9px;padding:12px;margin:0 14px 10px;font-size:11.5px;line-height:1.65;white-space:pre-wrap;font-family:var(--sans);color:#2a3038}
+.copybtn{margin:0 14px 12px;background:var(--slate);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:11.5px;font-weight:700;cursor:pointer}
 
 @media(max-width:980px){
   .workspace{grid-template-columns:1fr}
@@ -278,15 +301,47 @@
         <button class="add-btn" id="addExp">+ Ajouter une expérience</button>
       </div>
 
+      <div class="panel prolock" data-need="pro">
+        <h3>🧰 Missions prêtes par métier <span class="tierchip">PRO</span></h3>
+        <div class="field"><label>Choisissez un métier : une expérience pré-remplie s'ajoute (adaptez-la !)</label>
+          <select id="f-metier"><option value="">— Choisir un métier —</option></select>
+        </div>
+        <button class="add-btn" id="insMetier">✨ Insérer cette expérience prête</button>
+      </div>
+
       <div class="panel">
         <h3>Formation</h3>
         <div id="eduList"></div>
         <button class="add-btn" id="addEdu">+ Ajouter une formation</button>
       </div>
 
+      <div class="panel prolock" data-need="pro">
+        <h3>🎓 Diplômes du programme malgache <span class="tierchip">PRO</span></h3>
+        <div class="field"><label>Un clic = une formation pré-remplie</label>
+          <select id="f-diplome"><option value="">— Choisir un diplôme —</option></select>
+        </div>
+        <button class="add-btn" id="insDiplome">✨ Insérer cette formation prête</button>
+      </div>
+
       <div class="panel">
         <h3>Compétences</h3>
         <div class="field"><label>Séparées par des virgules</label><input id="f-skills" placeholder="Excel, Communication, Anglais…"></div>
+      </div>
+
+      <div class="panel prolock" data-need="pro">
+        <h3>⚡ Compétences prêtes à cliquer <span class="tierchip">PRO</span></h3>
+        <p class="hint" style="margin:0 0 8px">Cliquez sur une compétence → elle s'ajoute à votre liste :</p>
+        <div id="skillChips" class="chiprow"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Centres d'intérêt</h3>
+        <div class="field"><label>Séparés par des virgules</label><input id="f-interests" placeholder="Lecture, football, bénévolat…"></div>
+      </div>
+
+      <div class="panel prolock" data-need="pro">
+        <h3>💫 Idées de centres d'intérêt <span class="tierchip">PRO</span></h3>
+        <div id="intChips" class="chiprow"></div>
       </div>
 
       <div class="panel">
@@ -305,6 +360,87 @@
         <h3>🤝 Références <span class="tierchip gold">HYPER PRO</span></h3>
         <div id="refList"></div>
         <button class="add-btn" id="addRef">+ Ajouter une référence</button>
+      </div>
+
+      <div class="panel prolock" data-need="hyper">
+        <h3>✉️ Lettre de motivation — générateur <span class="tierchip gold">HYPER PRO</span></h3>
+        <div class="grid2">
+          <div class="field"><label>Poste visé</label><input id="f-ltr-poste" placeholder="Ex : Vendeuse"></div>
+          <div class="field"><label>Entreprise</label><input id="f-ltr-ent" placeholder="Ex : Shop Tanà"></div>
+        </div>
+        <div class="field"><label>Votre atout principal</label><select id="f-ltr-atout"></select></div>
+        <div class="field"><label>Ton de la lettre</label>
+          <select id="f-ltr-ton">
+            <option value="classe">🎩 Classique (administration, ONG, banque)</option>
+            <option value="dyna">⚡ Dynamique (commerce, privé, start-up)</option>
+            <option value="debut">🌱 Première expérience (jeune diplômé)</option>
+          </select>
+        </div>
+        <button class="add-btn" id="ltrGo" style="border-style:solid;border-color:var(--gold);background:rgba(201,162,39,.08)">✉️ Générer ma lettre</button>
+        <div id="ltrOut" style="display:none">
+          <div class="ltrprev" id="ltrPrev"></div>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button class="btn btn-slate" id="ltrCopy" style="flex:1;padding:10px;font-size:12px">📋 Copier</button>
+            <button class="btn btn-gold" id="ltrPrint2" style="flex:1;padding:10px;font-size:12px">🖨 Imprimer</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel prolock" data-need="hyper">
+        <h3>📚 Méthode complète de candidature <span class="tierchip gold">HYPER PRO</span></h3>
+
+        <details class="gsec"><summary>1️⃣ L'email d'envoi (à copier-coller)</summary>
+          <pre class="tpl" data-copy>Objet : Candidature au poste de [poste] — [Prénom NOM]
+
+Madame, Monsieur,
+
+Veuillez trouver ci-joint mon CV ainsi que ma lettre de motivation pour le poste de [poste].
+
+Restant à votre disposition pour un entretien, je vous prie d'agréer mes salutations distinguées.
+
+[Prénom NOM]
+[Téléphone]</pre>
+          <button class="copybtn">📋 Copier ce modèle</button>
+        </details>
+
+        <details class="gsec"><summary>2️⃣ Relancer sans harceler (après 7-10 jours)</summary>
+          <pre class="tpl" data-copy>Objet : Relance — candidature au poste de [poste]
+
+Madame, Monsieur,
+
+Je me permets de revenir vers vous au sujet de ma candidature envoyée le [date]. Toujours très motivé(e) par ce poste, je reste disponible pour tout complément d'information ou un entretien.
+
+Cordialement,
+[Prénom NOM]</pre>
+          <button class="copybtn">📋 Copier ce modèle</button>
+        </details>
+
+        <details class="gsec"><summary>3️⃣ Les 8 questions d'entretien à préparer</summary>
+          <ol class="tips">
+            <li><b>« Présentez-vous. »</b> → 1 minute : études + expérience clé + pourquoi ce poste. Pas votre vie entière !</li>
+            <li><b>« Pourquoi notre entreprise ? »</b> → citez 2 choses précises apprises sur eux (produits, valeurs, actualité).</li>
+            <li><b>« Vos qualités ? »</b> → 2 qualités + un exemple concret pour chacune.</li>
+            <li><b>« Votre plus grand défaut ? »</b> → un vrai défaut mineur + ce que vous faites pour progresser (jamais « perfectionniste » !).</li>
+            <li><b>« Pourquoi devrions-nous vous choisir ? »</b> → reliez VOS compétences à LEUR besoin précis.</li>
+            <li><b>« Où vous voyez-vous dans 5 ans ? »</b> → ambition réaliste dans LEUR entreprise.</li>
+            <li><b>« Quel salaire souhaitez-vous ? »</b> → « Selon les standards du poste ; parlons-en après l'entretien si vous me choisissez. »</li>
+            <li><b>« Avez-vous des questions ? »</b> → TOUJOURS oui : « Quelles seraient mes priorités les 3 premiers mois ? »</li>
+          </ol>
+        </details>
+
+        <details class="gsec"><summary>4️⃣ Remercier après l'entretien (le geste qui fait la différence)</summary>
+          <pre class="tpl" data-copy>Objet : Merci pour l'entretien — [poste]
+
+Madame, Monsieur,
+
+Je vous remercie pour le temps accordé aujourd'hui. Notre échange a renforcé ma motivation pour rejoindre votre équipe.
+
+Au plaisir de vous relire,
+[Prénom NOM]</pre>
+          <button class="copybtn">📋 Copier ce modèle</button>
+        </details>
+
+        <p class="hint" style="margin-top:10px">🎯 <b>La méthode SLATE :</b> CV + Lettre personnalisée → Email propre → Relance J+8 → Entretien préparé → Remerciement J+1. 90 % des candidats sautent des étapes — pas vous.</p>
       </div>
 
       <p class="hint advice">💾 Vos informations restent sur votre appareil (rien n'est envoyé en ligne). Pour le PDF : appuyez sur « Télécharger en PDF » puis choisissez « Enregistrer au format PDF ».</p>

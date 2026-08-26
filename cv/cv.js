@@ -6,6 +6,7 @@ const DEFAULTS = {
   exp: [{ poste: "", org: "", debut: "", fin: "", desc: "" }],
   edu: [{ diplome: "", ecole: "", annees: "", desc: "" }],
   skills: "",
+  interests: "",
   langs: [{ lang: "", niveau: "Courant" }],
   certs: [{ nom: "", org: "", annees: "" }],
   refs: [{ nom: "", poste: "", contact: "" }]
@@ -18,7 +19,94 @@ const RANK = { free: 0, pro: 1, hyper: 2 };
 const PRIX = { pro: 5000, hyper: 15000 };
 let myTier = "free";
 
-/* ===== 5 accroches prêtes (offre Pro) ===== */
+/* ===== Contenus prêts à l'emploi (offres payantes) ===== */
+const MISSIONS = [
+  { m: "🛒 Vendeur / Caissier", p: "Vendeur(se)", d: "Accueil et conseil de la clientèle au quotidien · Encaissements et gestion de la caisse en fin de journée · Mise en rayon, étiquetage et suivi des stocks · Objectifs de vente atteints régulièrement." },
+  { m: "📋 Secrétaire / Assistant(e)", p: "Secrétaire administratif(ve)", d: "Rédaction et classement des courriers et dossiers · Accueil des visiteurs et filtrage des appels · Organisation des réunions et gestion des agendas · Saisie informatique (Word, Excel)." },
+  { m: "🏫 Enseignant(e)", p: "Enseignant(e)", d: "Préparation et animation des cours selon le programme officiel · Évaluation des élèves et suivi individuel · Communication régulière avec les parents · Participation à la vie de l'établissement." },
+  { m: "🍽 Serveur / Restauration", p: "Serveur / Employé de restauration", d: "Prise de commandes et service en salle avec le sourire · Gestion de plusieurs tables en simultané · Respect strict des règles d'hygiène · Encaissement et relation client." },
+  { m: "🚗 Chauffeur / Livreur", p: "Chauffeur-livreur", d: "Livraisons quotidiennes dans les délais · Entretien et vérification du véhicule · Tenue du carnet de route · Accueil professionnel des clients lors des livraisons." },
+  { m: "🧮 Comptable / Finance", p: "Assistant comptable", d: "Saisie et classement des pièces comptables · Suivi de trésorerie et rapprochements bancaires · Préparation des factures clients · Déclarations fiscales sous supervision." },
+  { m: "💻 Développeur / Informatique", p: "Développeur", d: "Développement et maintenance d'applications web · Correction de bugs et tests avant déploiement · Documentation technique · Travail en équipe (Git, revues de code)." },
+  { m: "🔧 Ouvrier / BTP", p: "Ouvrier qualifié", d: "Réalisation des travaux selon les plans et les normes · Respect des consignes de sécurité sur chantier · Entretien du matériel · Travail en équipe et respect des délais." },
+  { m: "⚕️ Infirmier / Santé", p: "Infirmier(ère)", d: "Soins et suivi quotidien des patients · Prise des constantes et tenue des dossiers médicaux · Éducation des patients et des familles · Travail coordonné avec l'équipe médicale." },
+  { m: "🛡 Agent de sécurité", p: "Agent de sécurité", d: "Surveillance des locaux et contrôle des accès · Rondes régulières et rédaction des rapports · Gestion calme des situations délicates · Premiers secours et réaction aux alertes." },
+  { m: "🌾 Agriculture / Élevage", p: "Ouvrier agricole", d: "Culture, entretien et récolte des parcelles · Soin et alimentation du bétail · Utilisation et entretien du matériel agricole · Suivi des rendements." },
+  { m: "📱 Community Manager", p: "Community manager", d: "Animation des pages (Facebook, WhatsApp Business) · Création de visuels et rédaction de publications · Réponse rapide aux messages clients · Suivi des vues et des ventes générées." }
+];
+const DIPLOMES = [
+  { t: "BEPC", d: "" }, { t: "BACC série A (Littéraire)", d: "" },
+  { t: "BACC série C (Sciences exactes)", d: "" }, { t: "BACC série D (Sciences naturelles)", d: "" },
+  { t: "BTS", d: "Formation technique professionnalisante" }, { t: "Licence", d: "" },
+  { t: "Master", d: "" }, { t: "Certificat professionnel", d: "Formation qualifiante" }
+];
+const SKILLCHIPS = ["Microsoft Word", "Excel", "Communication", "Travail en équipe", "Ponctualité", "Sens de l'organisation", "Gestion de caisse", "Relation client", "Conduite (permis B)", "Français écrit", "Anglais", "Informatique de base", "Gestion des stocks", "Réseaux sociaux", "Négociation"];
+const INTCHIPS = ["Lecture", "Football", "Basket-ball", "Musique", "Chant", "Bénévolat / associatif", "Voyage", "Cuisine", "Randonnée", "Échecs"];
+const ATOUTS = [
+  "Ma rigueur et ma ponctualité sont reconnues de tous ceux qui m'ont vu travailler : je tiens mes engagements et je finis ce que je commence.",
+  "Mon expérience de terrain m'a appris l'essentiel : comprendre vite le besoin du client ou du public, et y répondre avec efficacité.",
+  "Mon sens du contact et mon aisance relationnelle me permettent de créer rapidement un climat de confiance avec les clients comme avec les collègues.",
+  "À l'aise avec les outils informatiques (Word, Excel, messageries, réseaux sociaux), je suis capable de m'adapter rapidement à vos logiciels internes.",
+  "Mon esprit d'équipe et mon sens de l'organisation me permettent de coordonner les tâches et de garder le cap même sous pression.",
+  "Autonome et débrouillard(e), je sais prendre des initiatives responsables sans attendre qu'on me dicte chaque détail."
+];
+const LETTRES = {
+  classe: (poste, ent, atout, nom, ville, date) => `${nom}
+${ville}, le ${date}
+
+À l'attention du Responsable du recrutement
+${ent}
+
+Objet : Candidature au poste de ${poste}
+
+Madame, Monsieur,
+
+Actuellement à la recherche d'une opportunité professionnelle, je me permets de vous adresser ma candidature au poste de ${poste} au sein de ${ent}.
+
+${atout} Partager ces qualités au service d'une structure sérieuse comme la vôtre serait pour moi une source de fierté et d'engagement quotidien.
+
+Disponible immédiatement, je serais honoré(e) de vous exposer ma motivation lors d'un entretien, à votre convenance.
+
+Dans cette attente, je vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.
+
+${nom}`,
+  dyna: (poste, ent, atout, nom, ville, date) => `${nom}
+${ville}, le ${date}
+
+${ent}
+Objet : Candidature au poste de ${poste} — et si on en parlait ?
+
+Madame, Monsieur,
+
+Votre entreprise cherche quelqu'un de fiable pour le poste de ${poste} : ce défi me motive, et ce message est ma candidature.
+
+${atout} Ce que j'apporte est simple : du sérieux, des résultats mesurables, et l'envie de faire grandir votre équipe avec moi.
+
+Je vous propose de nous rencontrer pour vous montrer concrètement ce que je peux apporter à ${ent}. Disponible dès maintenant.
+
+Bien cordialement,
+
+${nom}`,
+  debut: (poste, ent, atout, nom, ville, date) => `${nom}
+${ville}, le ${date}
+
+À l'attention du Responsable du recrutement
+${ent}
+
+Objet : Candidature au poste de ${poste}
+
+Madame, Monsieur,
+
+Fraîchement diplômé(e), je me permets de vous présenter ma candidature au poste de ${poste} au sein de ${ent}, dont le sérieux et la réputation m'ont convaincu(e) de frapper à votre porte.
+
+${atout} Conscient(e) qu'un premier poste se mérite, je suis prêt(e) à apprendre vite, à être formé(e) et à prouver ma valeur sur le terrain.
+
+Je serais honoré(e) de pouvoir vous exposer ma motivation lors d'un entretien, à la date qui vous conviendra.
+
+Veuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées.
+
+${nom}`
+};
 const ACCROCHES = [
   { t: "😊 Généraliste motivé", x: "Personne rigoureuse, ponctuelle et déterminée, je m'adapte rapidement et j'accorde une grande importance au travail bien fait. Disponible immédiatement, je souhaite mettre mon énergie et mon sérieux au service de votre équipe." },
   { t: "🎓 Jeune diplômé(e)", x: "Jeune diplômé(e) en [votre domaine], passionné(e) et formé(e) aux méthodes actuelles de mon secteur. Je recherche un premier poste où apprendre vite, produire des résultats concrets et grandir aux côtés de votre équipe." },
@@ -100,7 +188,7 @@ function renderRows() {
 
 /* ---------- Collecte DOM → état ---------- */
 function collect() {
-  ["name", "role", "email", "phone", "city", "link", "summary", "skills"].forEach(k => state[k] = $("#f-" + k).value);
+  ["name", "role", "email", "phone", "city", "link", "summary", "skills", "interests"].forEach(k => state[k] = $("#f-" + k).value);
   state.tpl = $("#f-tpl").value;
   [["exp", ["poste", "org", "debut", "fin", "desc"]],
    ["edu", ["diplome", "ecole", "annees", "desc"]],
@@ -122,6 +210,7 @@ const itemHTML = (t, o, d1, d2, p) => `
 const expHTML = () => state.exp.filter(x => x.poste || x.org).map(x => itemHTML(x.poste, x.org, x.debut, x.fin, x.desc)).join("");
 const eduHTML = () => state.edu.filter(x => x.diplome || x.ecole).map(x => itemHTML(x.diplome, x.ecole, x.annees, "", x.desc)).join("");
 const skillsArr = () => state.skills.split(",").map(s => s.trim()).filter(Boolean);
+const intsArr = () => (state.interests || "").split(",").map(s => s.trim()).filter(Boolean);
 const dots = n => { const i = LEVELS.indexOf(n) + 1 || 3; return `<span class="dots">${[1,2,3,4,5].map(j => `<i class="${j <= i ? "f" : ""}"></i>`).join("")}</span>`; };
 const certHTML = () => state.certs.filter(x => x.nom || x.org).map(x =>
   `<div class="it"><div class="r1"><span class="t" style="font-size:10px">${esc(x.nom)}</span><span class="d">${esc(x.annees)}</span></div>${x.org ? `<div class="o">${esc(x.org)}</div>` : ""}</div>`).join("");
@@ -166,7 +255,8 @@ function render() {
         ${skillsArr().length ? `<div class="blk" style="margin-bottom:16px"><h6>Compétences</h6>${skillsArr().map(x => `<span class="chip">${esc(x)}</span>`).join("")}</div>` : ""}
         ${s.langs.some(l => l.lang) ? `<div class="blk" style="margin-bottom:16px"><h6>Langues</h6>${langBars()}</div>` : ""}
         ${certHTML() ? `<div class="blk" style="margin-bottom:16px"><h6>Certifications</h6>${certHTML()}</div>` : ""}
-        ${refHTML() ? `<div class="blk"><h6>Références</h6>${refHTML()}</div>` : ""}
+        ${refHTML() ? `<div class="blk" style="${intsArr().length ? "margin-bottom:16px" : ""}"><h6>Références</h6>${refHTML()}</div>` : ""}
+        ${intsArr().length ? `<div class="blk"><h6>Intérêts</h6>${intsArr().map(x => `<span class="chip">${esc(x)}</span>`).join("")}</div>` : ""}
       </div>
     </div>`;
   } else if (s.tpl === "md") {
@@ -176,6 +266,7 @@ function render() {
       <div class="blk"><h6>Contact</h6>${contactLI() || "<p>—</p>"}</div>
       ${skillsArr().length ? `<div class="blk"><h6>Compétences</h6>${skillsArr().map(x => `<div class="sk">${esc(x)}</div>`).join("")}</div>` : ""}
       ${s.langs.some(l => l.lang) ? `<div class="blk"><h6>Langues</h6>${langBarsW()}</div>` : ""}
+      ${intsArr().length ? `<div class="blk"><h6>Intérêts</h6>${intsArr().map(x => `<div class="sk">${esc(x)}</div>`).join("")}</div>` : ""}
     </aside>
     <main>
       <div class="name">${esc(s.name) || "Votre Nom"}</div>
@@ -197,7 +288,8 @@ function render() {
     ${expHTML() ? `<div class="sec"><h6>Expérience professionnelle</h6>${expHTML()}</div>` : ""}
     ${eduHTML() ? `<div class="sec"><h6>Formation</h6>${eduHTML()}</div>` : ""}
     ${skillsArr().length ? `<div class="sec"><h6>Compétences</h6><p>${skillsArr().map(esc).join(" · ")}</p></div>` : ""}
-    ${s.langs.some(l => l.lang) ? `<div class="sec"><h6>Langues</h6><p>${s.langs.filter(l => l.lang).map(l => esc(l.lang) + " <span class='muted'>(" + esc(l.niveau) + ")</span>").join(" · ")}</p></div>` : ""}`;
+    ${s.langs.some(l => l.lang) ? `<div class="sec"><h6>Langues</h6><p>${s.langs.filter(l => l.lang).map(l => esc(l.lang) + " <span class='muted'>(" + esc(l.niveau) + ")</span>").join(" · ")}</p></div>` : ""}
+    ${intsArr().length ? `<div class="sec"><h6>Centres d'intérêt</h6><p class="ints">${intsArr().map(esc).join(" · ")}</p></div>` : ""}`;
   }
   $("#paper").innerHTML = `<div class="cv ${s.tpl}" style="--ac:${s.ac}">${inner}</div>`;
 }
@@ -339,7 +431,7 @@ async function verifier() {
 
 /* ---------- Init formulaire ---------- */
 function fillForm() {
-  ["name", "role", "email", "phone", "city", "link", "summary", "skills"].forEach(k => $("#f-" + k).value = state[k] || "");
+  ["name", "role", "email", "phone", "city", "link", "summary", "skills", "interests"].forEach(k => $("#f-" + k).value = state[k] || "");
   $("#f-tpl").value = state.tpl;
   $$("#swatches .sw").forEach(sw => sw.classList.toggle("on", sw.dataset.c === state.ac));
   renderRows();
@@ -356,6 +448,78 @@ document.addEventListener("DOMContentLoaded", () => {
     collect(); render(); save();
     toast("Accroche insérée ✨ Adaptez-la à votre profil !");
     e.target.value = "";
+  });
+
+  /* ---------- Assistant d'inspiration (Pro/Hyper) ---------- */
+  $("#f-metier").innerHTML = `<option value="">— Choisir un métier —</option>` + MISSIONS.map((m, i) => `<option value="${i}">${m.m}</option>`).join("");
+  $("#f-diplome").innerHTML = `<option value="">— Choisir un diplôme —</option>` + DIPLOMES.map((d, i) => `<option value="${i}">${d.t}</option>`).join("");
+  $("#f-ltr-atout").innerHTML = ATOUTS.map((a, i) => `<option value="${i}">Atout ${i + 1} — ${a.slice(0, 48)}…</option>`).join("");
+  $("#insMetier").onclick = () => {
+    const i = $("#f-metier").value;
+    if (i === "") { toast("Choisis un métier d'abord 😊"); return; }
+    collect();
+    const M = MISSIONS[+i];
+    state.exp.push({ poste: M.p, org: "", debut: "", fin: "", desc: M.d });
+    renderRows(); render(); save();
+    toast("Expérience insérée ✨ Complète l'entreprise et les dates !");
+    $("#f-metier").value = "";
+  };
+  $("#insDiplome").onclick = () => {
+    const i = $("#f-diplome").value;
+    if (i === "") { toast("Choisis un diplôme d'abord 😊"); return; }
+    collect();
+    const D = DIPLOMES[+i];
+    state.edu.push({ diplome: D.t, ecole: "", annees: "", desc: D.d });
+    renderRows(); render(); save();
+    toast("Formation insérée ✨ Ajoute l'établissement !");
+    $("#f-diplome").value = "";
+  };
+  const chipAdd = (chip, fieldId, arrFn) => {
+    if (RANK.pro > RANK[myTier]) { openPay("pro"); return; }
+    const inp = $("#" + fieldId);
+    const cur = inp.value.split(",").map(s => s.trim()).filter(Boolean);
+    if (!cur.includes(chip)) cur.push(chip);
+    inp.value = cur.join(", ");
+    collect(); render(); save();
+  };
+  $("#skillChips").innerHTML = SKILLCHIPS.map(s => `<button class="schip" data-c="${s}">+ ${s}</button>`).join("");
+  $$("#skillChips .schip").forEach(b => b.onclick = () => { chipAdd(b.dataset.c, "f-skills"); b.classList.add("added"); });
+  $("#intChips").innerHTML = INTCHIPS.map(s => `<button class="schip" data-c="${s}">+ ${s}</button>`).join("");
+  $$("#intChips .schip").forEach(b => b.onclick = () => { chipAdd(b.dataset.c, "f-interests"); b.classList.add("added"); });
+
+  /* ---------- Générateur de lettre de motivation (Hyper) ---------- */
+  let LTR_TEXT = "";
+  $("#ltrGo").onclick = () => {
+    if (RANK.hyper > RANK[myTier]) { openPay("hyper"); return; }
+    const ton = $("#f-ltr-ton").value;
+    const poste = $("#f-ltr-poste").value.trim() || "le poste proposé";
+    const ent = $("#f-ltr-ent").value.trim() || "votre entreprise";
+    const atout = ATOUTS[+($("#f-ltr-atout").value || 0)];
+    const nom = state.name || "[Votre Nom]";
+    const ville = state.city || "Antananarivo";
+    const date = new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+    LTR_TEXT = LETTRES[ton](poste, ent, atout, nom, ville, date);
+    $("#ltrPrev").textContent = LTR_TEXT;
+    $("#ltrOut").style.display = "block";
+    $("#ltrOut").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    toast("Lettre générée ✉️ Relis et adapte-la à ta situation !");
+  };
+  $("#ltrCopy").onclick = async () => {
+    if (!LTR_TEXT) return;
+    try { await navigator.clipboard.writeText(LTR_TEXT); toast("Lettre copiée 📋"); }
+    catch { toast("Sélectionne le texte et copie-le manuellement 📋"); }
+  };
+  $("#ltrPrint2").onclick = () => {
+    if (!LTR_TEXT) return;
+    $("#ltrPrint").innerHTML = `<div class="ltb">${esc(LTR_TEXT).replace(/\n/g, "<br>")}</div><div class="lbl">Créée avec <b>SLATE</b> · slate-vh8d.onrender.com</div>`;
+    document.body.classList.add("printLtr");
+    window.print();
+    setTimeout(() => document.body.classList.remove("printLtr"), 500);
+  };
+  /* Modèles du guide : boutons copier */
+  $$(".copybtn").forEach(b => b.onclick = async () => {
+    const pre = b.closest(".gsec").querySelector(".tpl");
+    try { await navigator.clipboard.writeText(pre.textContent); toast("Modèle copié 📋"); } catch { toast("Sélectionne et copie manuellement 📋"); }
   });
 
   refreshPass(); fillForm(); render(); fit();
