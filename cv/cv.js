@@ -340,6 +340,7 @@ function refreshPass(silent) {
 }
 
 function applyTier() {
+  document.body.classList.toggle("paid", myTier !== "free"); // PDF payant = zéro mention SLATE
   $$("#swatches .sw").forEach(sw => sw.classList.toggle("lock", RANK[sw.dataset.t || "free"] > RANK[myTier]));
   $$(".prolock").forEach(p => {
     const need = p.dataset.need;

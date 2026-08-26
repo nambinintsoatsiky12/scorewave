@@ -199,6 +199,7 @@
 }
 @media print{
   body{background:#fff}
+  body>*:not(.container):not(#ltrPrint){display:none!important}
   .sl-header,.tool-head,.form-col,.seg,#toast,.ad-slot,.advice,#payModal,#passBar,.ovl{display:none!important}
   .container{max-width:none;padding:0}
   .workspace{display:block;padding:0}
@@ -206,7 +207,9 @@
   .paper-scaler{height:auto!important}
   .paper{transform:none!important;box-shadow:none;position:static}
   .brandline{display:block!important}
+  body.paid .brandline{display:none!important}
 }
+body.paid .brandline{display:none!important}
 .brandline{display:none;text-align:center;font-size:9px;color:#9aa4ad;letter-spacing:1.5px;padding:10mm 0 4mm;text-transform:uppercase}
 .brandline b{color:#c9a227}
 @page{size:A4;margin:0}
@@ -471,12 +474,12 @@ Au plaisir de vous relire,
       <h3>👑 Débloquez un CV qui embauche</h3>
       <div class="offer" data-tier="pro">
         <span class="oi">💼</span>
-        <span><b>CV Pro</b><span class="op">Modèle Moderne + toutes les couleurs + 5 accroches prêtes + 10 secrets de recruteurs</span></span>
+        <span><b>CV Pro</b><span class="op">Modèle Moderne + toutes les couleurs + 5 accroches + missions prêtes par métier + PDF <b>sans mention Slate</b></span></span>
         <span class="pr">5 000 Ar<small style="font-size:10px;color:var(--muted)">/ mois</small></span>
       </div>
       <div class="offer gold" data-tier="hyper">
         <span class="oi">👑</span>
-        <span><b>CV Hyper Pro</b><span class="op">TOUT le Pro + modèle exclusif Prestige ✨ + couleur Or + Certifications & Références + coulisses complètes</span></span>
+        <span><b>CV Hyper Pro</b><span class="op">TOUT le Pro + modèle exclusif Prestige ✨ + lettre de motivation + méthode entretien + PDF <b>sans mention Slate</b></span></span>
         <span class="pr"><s>20 000 Ar</s>15 000 Ar<small style="font-size:10px;color:var(--muted)">/ mois</small></span>
       </div>
       <p class="hint" style="text-align:center">🔓 Un seul paiement = 30 jours d'accès, sans engagement.<br>Paiement par <b>Mvola</b> ou <b>Airtel Money</b>, vérification IA instantanée 🤖</p>
