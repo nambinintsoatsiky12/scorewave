@@ -21,8 +21,12 @@
 .tool-head{background:#fff;border-bottom:1px solid var(--line);padding:14px 0}
 .tool-head .container{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .tool-head h1{font-family:var(--serif);font-size:20px;color:var(--slate)}
-.chips-row{display:flex;gap:8px;overflow-x:auto;padding:18px 0 4px;scrollbar-width:none}
+.chips-row{display:flex;gap:8px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none}
 .chips-row::-webkit-scrollbar{display:none}
+.flabel{padding:16px 0 0;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-d)}
+.lvl-head{font-family:var(--serif);font-size:23px;color:var(--slate);margin:26px 0 2px;display:flex;align-items:center;gap:10px}
+.lvl-head::after{content:"";flex:1;height:1.5px;background:linear-gradient(90deg,var(--gold),transparent)}
+.lvl-sub{font-size:12px;color:var(--muted);margin:0 0 4px}
 .fchip{flex:0 0 auto;background:#fff;border:1px solid var(--line);border-radius:99px;padding:8px 16px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;font-family:var(--sans)}
 .fchip.on{background:var(--slate);color:#fff;border-color:var(--slate)}
 .subj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;padding:18px 0 40px}
@@ -95,8 +99,11 @@
 
   <!-- Liste des sujets -->
   <div id="listView">
+    <div class="flabel">🎓 Choisis ton niveau :</div>
+    <div class="chips-row" id="chipsLvl"></div>
+    <div class="flabel">📚 Matière :</div>
     <div class="chips-row" id="chips"></div>
-    <div class="subj-grid" id="subjList"></div>
+    <div id="subjList"></div>
 
     <div class="scan-teaser reveal">
       <span class="big">📸</span>
