@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#151f29">
+<title>EduPrep · SLATE — Quiz corrigés + Résumés de leçons (6ème → Terminale)</title>
+<meta name="description" content="EduPrep by Slate : quiz chronométrés avec corrections détaillées et résumés de leçons selon le programme officiel de Madagascar — de la 6ème à la Terminale (BEPC & BAC). Gratuit.">
+<link rel="icon" type="image/png" href="../assets/img/logo-mark.png">
+<!-- Vérification Monetag -->
+<meta name="monetag" content="b39527e315a4b6ab7a47745830e9c869">
+
+<!-- Monetag Push Notification -->
+<script src="https://5gvci.com/act/files/tag.min.js?z=11655246" data-cfasync="false" async></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.tool-head{background:#fff;border-bottom:1px solid var(--line);padding:14px 0}
+.tool-head .container{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tool-head h1{font-family:var(--serif);font-size:20px;color:var(--slate)}
+.chips-row{display:flex;gap:8px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none}
+.chips-row::-webkit-scrollbar{display:none}
+.flabel{padding:16px 0 0;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-d)}
+.lvl-head{font-family:var(--serif);font-size:23px;color:var(--slate);margin:26px 0 2px;display:flex;align-items:center;gap:10px}
+.lvl-head::after{content:"";flex:1;height:1.5px;background:linear-gradient(90deg,var(--gold),transparent)}
+.lvl-sub{font-size:12px;color:var(--muted);margin:0 0 4px}
+.fchip{flex:0 0 auto;background:#fff;border:1px solid var(--line);border-radius:99px;padding:8px 16px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;font-family:var(--sans)}
+.fchip.on{background:var(--slate);color:#fff;border-color:var(--slate)}
+.subj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;padding:18px 0 40px}
+.scard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative}
+.scard:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(34,49,63,.13)}
+.scard .ic{width:48px;height:48px;border-radius:13px;background:var(--ivory);border:1px solid var(--line);display:grid;place-items:center;font-size:23px;margin-bottom:12px}
+.scard h3{font-family:var(--serif);font-size:19px;color:var(--slate);margin-bottom:5px}
+.scard .meta{font-size:11.5px;color:var(--muted)}
+.scard .best{position:absolute;top:16px;right:16px;font-size:10px;font-weight:800;letter-spacing:1px;color:var(--gold-d);background:rgba(201,162,39,.12);padding:5px 10px;border-radius:99px}
+.scan-teaser{background:linear-gradient(120deg,var(--slate),var(--slate-2));color:#fff;border-radius:var(--radius);padding:24px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:40px;border:1px solid rgba(201,162,39,.35)}
+.scan-teaser .big{font-size:34px}
+.scan-teaser b{font-family:var(--serif);font-size:18px;display:block}
+.scan-teaser p{font-size:12.5px;color:rgba(255,255,255,.7);margin:4px 0 0}
+.scan-teaser .bstate{position:static;margin-left:auto}
+/* --- Quiz --- */
+#quizView,#resView{display:none}
+.qbar{height:6px;background:var(--ivory);border-radius:99px;overflow:hidden;margin:20px 0 14px;border:1px solid var(--line)}
+.qbar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-d));border-radius:99px;transition:width .3s}
+.qmeta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);margin-bottom:18px;font-weight:600}
+.timer{background:var(--slate);color:#fff;padding:6px 13px;border-radius:99px;font-weight:800;font-variant-numeric:tabular-nums}
+.timer.hot{background:#c23b3b;animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.55}}
+.qcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin-bottom:14px}
+.qcard h2{font-family:var(--serif);font-size:20px;color:var(--slate);line-height:1.45;margin-bottom:18px}
+.choice{display:block;width:100%;text-align:left;background:var(--ivory);border:1.5px solid var(--line);border-radius:11px;padding:13px 16px;font-size:14.5px;font-weight:600;color:var(--text);margin-bottom:9px;cursor:pointer;font-family:var(--sans);transition:all .15s}
+.choice:hover{border-color:var(--gold)}
+.choice.good{background:#e8f5ec;border-color:#2e7d32;color:#1b5e20}
+.choice.bad{background:#fdeaea;border-color:#c62828;color:#c62828}
+.choice:disabled{cursor:default;opacity:.85}
+.explain{background:#fff;border-left:4px solid var(--gold);border-radius:0 11px 11px 0;padding:16px 18px;margin:6px 0 14px;display:none}
+.explain.show{display:block;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+.explain b{color:var(--gold-d);font-size:11px;letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:6px}
+.explain p{font-size:14px;color:var(--text);line-height:1.65;margin:0}
+.qfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:40px}
+/* --- Résultats --- */
+.score-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:36px 24px;text-align:center;margin:20px 0}
+.score-card .num{font-family:var(--serif);font-size:54px;font-weight:800;color:var(--slate)}
+.score-card .num em{font-style:normal;color:var(--gold)}
+.score-card p{color:var(--muted);font-size:14px}
+.review{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:12px}
+.review .qt{font-weight:700;font-size:14px;color:var(--slate);margin-bottom:8px}
+.review .rr{font-size:12.5px;margin-bottom:4px}
+.review .rr.good{color:#1b5e20}.review .rr.bad{color:#c62828}
+.review .rx{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px;margin-top:8px;line-height:1.6}
+/* --- Onglets Quiz / Résumés --- */
+.mode-tabs{display:flex;gap:10px;padding:14px 0 2px}
+.mtab{flex:1;background:#fff;border:1.5px solid var(--line);border-radius:13px;padding:13px 10px;font-family:var(--sans);font-size:14px;font-weight:800;color:var(--muted);cursor:pointer;transition:all .15s}
+.mtab.on{background:var(--slate);color:#fff;border-color:var(--slate);box-shadow:0 10px 26px rgba(34,49,63,.18)}
+.mtab small{display:block;font-size:10px;font-weight:600;opacity:.75;margin-top:2px}
+/* --- Lecteur de résumé --- */
+#readerView{display:none}
+.reader{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin:18px 0 40px}
+.reader h2{font-family:var(--serif);font-size:22px;color:var(--slate);margin-bottom:4px}
+.reader .rmeta{font-size:11.5px;color:var(--gold-d);font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
+.rpoint{display:flex;gap:12px;padding:12px 0;border-bottom:1px dashed var(--line);font-size:14px;line-height:1.7;color:var(--text)}
+.rpoint:last-child{border-bottom:none}
+.rpoint .rn{flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:var(--ivory);border:1px solid var(--gold);color:var(--gold-d);font-size:11.5px;font-weight:800;display:grid;place-items:center;margin-top:2px}
+.rpoint b{color:var(--slate)}
+@media(max-width:720px){.qcard{padding:18px}.reader{padding:18px}}
+@media print{.sl-header,.tool-head,.chips-row,.mode-tabs,#subjList,.scan-teaser,.qfoot,#toast,.ad-slot,#backRead{display:none!important}}
+</style>
+</head>
+<body>
+
+<header class="sl-header">
+  <div class="container">
+    <a class="brand" href="../">
+      <img src="../assets/img/logo-mark.png" alt="Logo Slate">
+      <span><span class="wm">SLATE</span><span class="tag">Écrivez votre réussite</span></span>
+    </a>
+    <div class="sl-spacer"></div>
+    <nav class="sl-nav"><a href="../">← Accueil</a></nav>
+  </div>
+</header>
+
+<div class="tool-head">
+  <div class="container">
+    <h1>EduPrep — Quiz & Résumés · 6ème → Terminale</h1>
+  </div>
+</div>
+
+<main class="container">
+
+  <!-- Liste des sujets -->
+  <div id="listView">
+    <div class="flabel">🎓 Choisis ta classe :</div>
+    <div class="chips-row" id="chipsLvl"></div>
+    <div class="mode-tabs">
+      <button class="mtab on" id="tabQuiz">📝 Quiz<small>Entraîne-toi, corrections détaillées</small></button>
+      <button class="mtab" id="tabRes">📖 Résumés<small>Les leçons de ton programme</small></button>
+    </div>
+    <div class="flabel">📚 Matière :</div>
+    <div class="chips-row" id="chips"></div>
+    <div id="subjList"></div>
+
+    <a class="scan-teaser reveal" href="../scanner/" style="cursor:pointer;text-decoration:none">
+      <span class="big">📸</span>
+      <div style="flex:1;min-width:200px">
+        <b>Correcteur photo IA</b>
+        <p>Photographiez votre sujet : l'IA répond à chaque question, étape par étape.</p>
+      </div>
+      <span class="bstate ok">Nouveau</span>
+    </a>
+  </div>
+
+  <!-- Quiz -->
+  <div id="quizView">
+    <div class="qbar"><i id="qbar"></i></div>
+    <div class="qmeta">
+      <span id="qcount">Question 1/5</span>
+      <span class="timer" id="qtimer">10:00</span>
+    </div>
+    <div class="qcard">
+      <h2 id="qtext"></h2>
+      <div id="choices"></div>
+    </div>
+    <div class="explain" id="explain"><b>💡 Correction détaillée</b><p id="explainTxt"></p></div>
+    <div class="qfoot">
+      <button class="btn btn-outline" id="quitBtn" style="border-color:var(--line);color:var(--muted)">Quitter</button>
+      <button class="btn btn-gold" id="nextBtn" disabled>Question suivante →</button>
+    </div>
+  </div>
+
+  <!-- Lecteur de résumé de leçon -->
+  <div id="readerView">
+    <div class="reader" id="readerCard"></div>
+    <div style="padding-bottom:40px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-slate" id="backRead">← Retour aux résumés</button>
+      <button class="btn btn-gold" onclick="window.print()">🖨 Imprimer / PDF</button>
+    </div>
+  </div>
+
+  <!-- Résultats -->
+  <div id="resView">
+    <div class="score-card">
+      <div class="num" id="scoreNum">0<em>/5</em></div>
+      <p id="scoreMsg"></p>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap">
+        <button class="btn btn-slate" id="retryBtn">↻ Refaire ce quiz</button>
+        <button class="btn btn-gold" id="backBtn">Autres sujets</button>
+      </div>
+    </div>
+    <h3 style="font-family:var(--serif);color:var(--slate);margin:10px 0 14px">📝 Correction détaillée</h3>
+    <div id="review" style="padding-bottom:40px"></div>
+  </div>
+
+</main>
+
+<div id="toast"></div>
+<script src="../assets/app.js"></script>
+<script src="../assets/ads.js"></script>
+<script src="data.js"></script>
+<script src="resumes.js"></script>
+<script src="edu.js"></script>
+<!-- Monetag In-Page Push -->
+<script>(function(s){s.dataset.zone='11655269',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+</body>
+</html>

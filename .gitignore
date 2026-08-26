@@ -1,0 +1,8 @@
+# Dépendances (réinstallées par Render via npm install)
+node_modules/
+server/node_modules/
+
+# Fichiers système / éditeurs
+.DS_Store
+Thumbs.db
+*.log

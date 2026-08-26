@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#151f29">
+<title>CV Pro · SLATE — Créez un CV professionnel gratuit</title>
+<meta name="description" content="CV Pro by Slate : créez un CV élégant et professionnel en quelques minutes. Modèles premium, export PDF, 100 % gratuit et sans inscription.">
+<link rel="icon" type="image/png" href="../assets/img/logo-mark.png">
+<!-- Vérification Monetag -->
+<meta name="monetag" content="b39527e315a4b6ab7a47745830e9c869">
+
+<!-- Monetag Push Notification -->
+<script src="https://5gvci.com/act/files/tag.min.js?z=11655246" data-cfasync="false" async></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+/* ---------- Page CV Pro ---------- */
+.tool-head{background:#fff;border-bottom:1px solid var(--line);padding:14px 0;position:sticky;top:69px;z-index:40}
+.tool-head .container{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tool-head h1{font-family:var(--serif);font-size:20px;color:var(--slate)}
+.tool-head .actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.tool-head .btn{padding:10px 16px;font-size:13px}
+
+.seg{display:none;gap:6px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:4px;margin:16px 0 0}
+.seg button{flex:1;background:none;border:none;color:var(--muted);font-weight:700;font-size:13px;padding:9px;border-radius:8px;cursor:pointer;font-family:var(--sans)}
+.seg button.on{background:var(--slate);color:#fff}
+
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:22px;align-items:start;padding:22px 0 50px}
+.preview-col{position:sticky;top:150px}
+.paper-scaler{width:100%;overflow:hidden;position:relative}
+.paper{width:794px;height:1123px;background:#fff;transform-origin:top left;box-shadow:0 20px 60px rgba(34,49,63,.22);overflow:hidden;position:absolute;top:0;left:0}
+
+.row-item{background:var(--ivory);border:1px solid var(--line);border-radius:11px;padding:14px;margin-bottom:10px}
+.row-item .del{float:right;background:none;border:none;color:#c23b3b;cursor:pointer;font-size:11px;font-weight:700;font-family:var(--sans)}
+.add-btn{width:100%;background:none;border:1.5px dashed var(--line);color:var(--gold-d);border-radius:10px;padding:10px;font-weight:700;font-size:13px;cursor:pointer;font-family:var(--sans)}
+.add-btn:hover{border-color:var(--gold)}
+.swatches{display:flex;gap:9px}
+.sw{width:34px;height:34px;border-radius:10px;cursor:pointer;border:2.5px solid transparent}
+.sw.on{border-color:var(--gold-d);box-shadow:0 0 0 2px #fff inset}
+
+/* ---------- Modèles CV ---------- */
+.cv{--ac:#22313f;width:794px;height:1123px;font-family:var(--sans);color:#2a3038;font-size:10.5px;line-height:1.5}
+.cv h6{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ac);font-weight:800;margin:0 0 8px;padding-bottom:4px;border-bottom:1.5px solid var(--ac)}
+.cv .sec{margin-bottom:16px}
+.cv .muted{color:#6b7280}
+/* Classique */
+.cv.cl{padding:52px 60px}
+.cv.cl .hd{text-align:center;margin-bottom:18px}
+.cv.cl .name{font-family:"Playfair Display",Georgia,serif;font-size:30px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#1e2833}
+.cv.cl .role{font-size:12px;letter-spacing:3.5px;text-transform:uppercase;color:var(--ac);font-weight:700;margin-top:5px}
+.cv.cl .ct{margin-top:9px;font-size:9.5px;color:#6b7280}
+.cv.cl hr{border:none;border-top:2px solid #c9a227;width:64px;margin:14px auto 0}
+.it{margin-bottom:10px}
+.it .r1{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.it .t{font-weight:700;font-size:11px;color:#1e2833}
+.it .d{font-size:9px;color:#6b7280;white-space:nowrap;font-style:italic}
+.it .o{color:var(--ac);font-weight:600;font-size:10px}
+.it p{font-size:9.8px;color:#4b5563;margin-top:2px}
+/* Moderne */
+.cv.md{display:grid;grid-template-columns:250px 1fr}
+.cv.md aside{background:var(--ac);color:#fff;padding:40px 26px;display:flex;flex-direction:column;gap:18px}
+.cv.md .ph{width:130px;height:130px;border-radius:50%;object-fit:cover;margin:0 auto;border:4px solid rgba(255,255,255,.25)}
+.cv.md aside h6{color:#fff;border-color:rgba(255,255,255,.4)}
+.cv.md aside .blk p{font-size:9.5px;color:rgba(255,255,255,.85);margin-bottom:5px;word-break:break-word}
+.cv.md main{padding:44px 36px}
+.cv.md .name{font-family:"Playfair Display",Georgia,serif;font-size:27px;font-weight:800;color:#1e2833;line-height:1.15}
+.cv.md .role{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--ac);font-weight:700;margin:6px 0 0}
+.dotrow{display:flex;align-items:center;gap:6px;font-size:9.5px;margin-bottom:6px;color:rgba(255,255,255,.9)}
+.dots{display:inline-flex;gap:3px}
+.dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.3)}
+.dots i.f{background:#c9a227}
+
+/* ---------- Offres & paiement ---------- */
+.tierchip{background:rgba(201,162,39,.15);color:var(--gold-d);font-size:9px;font-weight:800;letter-spacing:1.5px;padding:3px 9px;border-radius:99px;vertical-align:middle;margin-left:6px}
+.tierchip.gold{background:linear-gradient(90deg,#c9a227,#a8842c);color:#fff}
+#passBar{margin:14px auto 0;max-width:1200px}
+.passbox{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-radius:12px;padding:11px 16px;font-size:13px;font-weight:700}
+.passbox.free{background:var(--ivory);border:1px dashed var(--gold);color:var(--gold-d)}
+.passbox.ok{background:linear-gradient(120deg,var(--slate),var(--slate-2));color:#fff;border:1px solid rgba(201,162,39,.4)}
+.passbox.warn{background:#fdeaea;border:1px solid #e5b3b3;color:#8a2020}
+.passbox .btn{padding:7px 14px;font-size:12px;margin-left:auto}
+.prolock{position:relative}
+.prolock .cover{position:absolute;inset:0;z-index:5;background:rgba(250,249,246,.88);backdrop-filter:blur(2px);border-radius:var(--radius);display:grid;place-items:center;text-align:center;padding:16px}
+.prolock .cover b{font-family:var(--serif);color:var(--slate);font-size:15px;display:block}
+.prolock .cover p{font-size:12px;color:var(--muted);margin:4px 0 10px}
+.prolock .cover .btn{padding:9px 18px;font-size:12.5px}
+.sw.lock{opacity:.45;position:relative}
+.sw.lock::after{content:"🔒";position:absolute;inset:0;display:grid;place-items:center;font-size:13px;background:rgba(255,255,255,.55);border-radius:8px}
+.tips{padding-left:20px;font-size:13px;line-height:1.7;color:var(--text)}
+.tips li{margin-bottom:8px}
+.tips b{color:var(--slate)}
+/* Modal */
+.ovl{position:fixed;inset:0;z-index:200;background:rgba(21,31,41,.72);backdrop-filter:blur(3px);display:none;align-items:flex-start;justify-content:center;padding:76px 14px 30px;overflow-y:auto}
+.ovl.show{display:flex}
+.mcard{position:relative;background:var(--bg,#faf9f6);border-radius:16px;max-width:480px;width:100%;padding:24px;border:1px solid rgba(201,162,39,.35);box-shadow:0 30px 80px rgba(0,0,0,.4);animation:fadeIn .25s}
+.mcard h3{font-family:var(--serif);color:var(--slate);font-size:19px;margin-bottom:12px;padding-right:26px}
+.mclose{position:absolute;top:12px;right:12px;background:var(--ivory);border:1px solid var(--line);border-radius:9px;width:32px;height:32px;cursor:pointer;font-size:14px;color:var(--muted)}
+.offer{background:#fff;border:1.5px solid var(--line);border-radius:13px;padding:16px;margin-bottom:12px;cursor:pointer;transition:all .15s;display:flex;gap:14px;align-items:center}
+.offer:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 12px 30px rgba(34,49,63,.1)}
+.offer.gold{border-color:var(--gold);background:linear-gradient(120deg,#fffdf6,#fdf6e0)}
+.offer .oi{font-size:28px}
+.offer b{font-family:var(--serif);color:var(--slate);display:block;font-size:16px}
+.offer .op{font-size:11.5px;color:var(--muted);line-height:1.5}
+.offer .pr{margin-left:auto;text-align:right;font-weight:800;color:var(--gold-d);font-size:15px;white-space:nowrap}
+.offer .pr s{display:block;font-size:10px;color:#c62828;font-weight:600}
+.paynum{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:10px 13px;margin-top:8px}
+.paynum .opn{font-size:20px}
+.paynum b{font-size:14px;color:var(--slate);font-variant-numeric:tabular-nums;flex:1}
+.paynum small{display:block;font-size:10.5px;color:var(--muted);font-weight:600}
+.paynum .cp{background:var(--slate);color:#fff;border:none;border-radius:8px;padding:8px 12px;font-size:11px;font-weight:700;cursor:pointer}
+.upzone2{border:2px dashed var(--gold);border-radius:12px;background:var(--ivory);text-align:center;padding:20px 14px;cursor:pointer;margin-top:12px;font-size:13px;font-weight:700;color:var(--slate)}
+.upzone2 small{display:block;font-weight:600;color:var(--muted);font-size:11px;margin-top:4px}
+.pprev{display:none;max-height:220px;margin:12px auto 0;border-radius:10px;border:1px solid var(--line)}
+.pprev.show{display:block}
+.spin2{width:36px;height:36px;border:4px solid var(--line);border-top-color:var(--gold);border-radius:50%;margin:16px auto 8px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.errbox2{display:none;background:#fdeaea;border:1px solid #e5b3b3;color:#8a2020;border-radius:11px;padding:12px 14px;font-size:12.5px;margin-top:12px;line-height:1.5}
+.errbox2.show{display:block}
+.okbox{display:none;background:#e8f5ec;border:1px solid #2e7d32;color:#1b5e20;border-radius:11px;padding:14px;font-size:13px;margin-top:12px;line-height:1.6}
+.okbox.show{display:block}
+/* ---------- Modèle Prestige (Hyper Pro) ---------- */
+.cv.pt{display:flex;flex-direction:column;font-size:10.8px}
+.cv.pt .pt-head{background:var(--ac);color:#fff;padding:34px 42px 26px;display:flex;gap:20px;align-items:center;border-bottom:5px solid #c9a227}
+.cv.pt .pt-ph{width:98px;height:98px;min-width:98px;border-radius:50%;object-fit:cover;border:4px solid #c9a227}
+.cv.pt .pt-name{font-family:"Playfair Display",Georgia,serif;font-size:30px;font-weight:800;line-height:1.1;letter-spacing:.5px}
+.cv.pt .pt-role{font-size:11.5px;letter-spacing:3.5px;text-transform:uppercase;color:#c9a227;font-weight:800;margin-top:6px}
+.cv.pt .pt-ct{margin-top:8px;font-size:9px;color:rgba(255,255,255,.75);letter-spacing:.4px}
+.cv.pt .pt-body{flex:1;display:grid;grid-template-columns:1fr 232px;min-height:0}
+.cv.pt .pt-main{padding:26px 30px 26px 42px}
+.cv.pt .pt-rail{background:#f3efe6;padding:26px 24px;border-left:1px solid #e6ddca}
+.cv.pt .pt-rail h6{border-bottom-color:#c9a227}
+.cv.pt .timeline{border-left:2px solid #e2d9c2;padding-left:14px}
+.cv.pt .timeline .it{position:relative;margin-bottom:12px}
+.cv.pt .timeline .it::before{content:"";position:absolute;left:-19.5px;top:4px;width:9px;height:9px;border-radius:50%;background:#c9a227;border:2px solid #fff;box-shadow:0 0 0 1.5px #c9a227}
+.cv.pt .chip{display:inline-block;background:#fff;border:1px solid #ddd3b8;border-radius:99px;padding:3px 10px;font-size:9px;font-weight:700;color:#5b5342;margin:0 4px 5px 0}
+.cv.pt .bar{height:6px;background:#e0d8c4;border-radius:99px;overflow:hidden;margin:3px 0 8px}
+.cv.pt .bar i{display:block;height:100%;background:linear-gradient(90deg,#d4b545,#a8842c);border-radius:99px}
+.cv.pt .prsum{background:#fbf8ef;border-left:3px solid #c9a227;padding:10px 12px;font-style:italic;color:#4b4637;margin-bottom:16px;font-size:10.5px;line-height:1.6}
+/* contact icônes (cl) */
+.cv.cl .ct span{margin:0 7px;white-space:nowrap}
+
+@media(max-width:980px){
+  .workspace{grid-template-columns:1fr}
+  .preview-col{position:static;display:none}
+  .workspace.showP .preview-col{display:block}
+  .workspace.showP .form-col{display:none}
+  .seg{display:flex}
+  .tool-head{top:0;position:static}
+}
+@media print{
+  body{background:#fff}
+  .sl-header,.tool-head,.form-col,.seg,#toast,.ad-slot,.advice,#payModal,#passBar,.ovl{display:none!important}
+  .container{max-width:none;padding:0}
+  .workspace{display:block;padding:0}
+  .preview-col{position:static;display:block!important}
+  .paper-scaler{height:auto!important}
+  .paper{transform:none!important;box-shadow:none;position:static}
+  .brandline{display:block!important}
+}
+.brandline{display:none;text-align:center;font-size:9px;color:#9aa4ad;letter-spacing:1.5px;padding:10mm 0 4mm;text-transform:uppercase}
+.brandline b{color:#c9a227}
+@page{size:A4;margin:0}
+</style>
+</head>
+<body>
+
+<header class="sl-header">
+  <div class="container">
+    <a class="brand" href="../">
+      <img src="../assets/img/logo-mark.png" alt="Logo Slate">
+      <span><span class="wm">SLATE</span><span class="tag">Écrivez votre réussite</span></span>
+    </a>
+    <div class="sl-spacer"></div>
+    <nav class="sl-nav"><a href="../">← Accueil</a></nav>
+  </div>
+</header>
+
+<div class="tool-head">
+  <div class="container">
+    <h1>CV Pro</h1>
+    <div class="actions">
+      <button class="btn btn-slate" id="proBtn">👑 Offres Pro</button>
+      <button class="btn btn-outline" id="resetBtn" style="border-color:var(--line);color:var(--muted)">Effacer</button>
+      <button class="btn btn-gold" id="pdfBtn">Télécharger en PDF
+        <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="container"><div id="passBar"></div></div>
+
+<div class="container">
+  <div class="seg" id="seg">
+    <button class="on" data-t="edit">✏️ Éditer</button>
+    <button data-t="view">👁️ Aperçu</button>
+  </div>
+  <div class="workspace" id="ws">
+
+    <div class="form-col">
+      <div class="panel">
+        <h3>Identité</h3>
+        <div class="field"><label>Nom complet</label><input id="f-name" placeholder="Ex : Andry Rakoto"></div>
+        <div class="field"><label>Titre / Poste visé</label><input id="f-role" placeholder="Ex : Développeur Web"></div>
+        <div class="grid2">
+          <div class="field"><label>Email</label><input id="f-email" placeholder="andry@mail.com"></div>
+          <div class="field"><label>Téléphone</label><input id="f-phone" placeholder="+261 34 00 000 00"></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>Ville</label><input id="f-city" placeholder="Antananarivo"></div>
+          <div class="field"><label>LinkedIn / Site</label><input id="f-link" placeholder="linkedin.com/in/…"></div>
+        </div>
+        <div class="field"><label>Photo (optionnel — modèle Moderne)</label><input id="f-photo" type="file" accept="image/*"></div>
+        <div class="field"><label>Résumé / Profil</label><textarea id="f-summary" placeholder="2-3 phrases qui donnent envie de vous embaucher…"></textarea></div>
+      </div>
+
+      <div class="panel">
+        <h3>Modèle & couleur</h3>
+        <div class="field"><label>Modèle</label>
+          <select id="f-tpl">
+            <option value="cl" data-t="free">Classique — Gratuit</option>
+            <option value="md" data-t="pro">Moderne (avec colonne) — Pro 🔒</option>
+            <option value="pt" data-t="hyper">✨ Prestige — Hyper Pro 👑</option>
+          </select>
+        </div>
+        <div class="field"><label>Couleur d'accent</label>
+          <div class="swatches" id="swatches">
+            <div class="sw on" data-c="#22313f" data-t="free" style="background:#22313f" title="Ardoise — Gratuit"></div>
+            <div class="sw" data-c="#1f4e79" data-t="free" style="background:#1f4e79" title="Bleu marine — Gratuit"></div>
+            <div class="sw" data-c="#1e5e46" data-t="pro" style="background:#1e5e46" title="Forêt — Pro"></div>
+            <div class="sw" data-c="#7b2d3b" data-t="pro" style="background:#7b2d3b" title="Bordeaux — Pro"></div>
+            <div class="sw" data-c="#a8842c" data-t="hyper" style="background:#a8842c" title="Or Impérial — Hyper Pro"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel prolock" data-need="pro">
+        <h3>✨ Accroches professionnelles <span class="tierchip">PRO</span></h3>
+        <div class="field"><label>Choisissez une accroche, elle remplit votre « Profil » — adaptez-la !</label>
+          <select id="f-accroche"><option value="">— Choisir une accroche prête à l'emploi —</option></select>
+        </div>
+      </div>
+
+      <div class="panel prolock" data-need="pro">
+        <h3>💡 Les 10 secrets d'un CV qui décroche <span class="tierchip">PRO</span></h3>
+        <ol class="tips" id="tipsList"></ol>
+      </div>
+
+      <div class="panel">
+        <h3>Expériences professionnelles</h3>
+        <div id="expList"></div>
+        <button class="add-btn" id="addExp">+ Ajouter une expérience</button>
+      </div>
+
+      <div class="panel">
+        <h3>Formation</h3>
+        <div id="eduList"></div>
+        <button class="add-btn" id="addEdu">+ Ajouter une formation</button>
+      </div>
+
+      <div class="panel">
+        <h3>Compétences</h3>
+        <div class="field"><label>Séparées par des virgules</label><input id="f-skills" placeholder="Excel, Communication, Anglais…"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Langues</h3>
+        <div id="langList"></div>
+        <button class="add-btn" id="addLang">+ Ajouter une langue</button>
+      </div>
+
+      <div class="panel prolock" data-need="hyper">
+        <h3>🏆 Certifications & distinctions <span class="tierchip gold">HYPER PRO</span></h3>
+        <div id="certList"></div>
+        <button class="add-btn" id="addCert">+ Ajouter une certification</button>
+      </div>
+
+      <div class="panel prolock" data-need="hyper">
+        <h3>🤝 Références <span class="tierchip gold">HYPER PRO</span></h3>
+        <div id="refList"></div>
+        <button class="add-btn" id="addRef">+ Ajouter une référence</button>
+      </div>
+
+      <p class="hint advice">💾 Vos informations restent sur votre appareil (rien n'est envoyé en ligne). Pour le PDF : appuyez sur « Télécharger en PDF » puis choisissez « Enregistrer au format PDF ».</p>
+
+      <div class="promo-mini">
+        <span class="lab">⭐ Offre sponsorisée</span>
+        <b>Soutenez Slate gratuitement</b>
+        <p>Découvrez l'offre de notre partenaire — chaque visite aide Slate à rester 100 % gratuit.</p>
+        <a class="btn btn-gold" href="https://omg10.com/4/11655260" target="_blank" rel="noopener sponsored">Voir l'offre</a>
+      </div>
+    </div>
+
+    <div class="preview-col">
+      <div class="paper-scaler" id="scaler"><div class="paper" id="paper"></div></div>
+      <div class="brandline">Créé gratuitement avec <b>SLATE</b> · slate-vh8d.onrender.com</div>
+      <p class="hint" style="text-align:center;margin-top:10px">Aperçu en direct du rendu final (format A4)</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== Modal Passer Pro ===== -->
+<div class="ovl" id="payModal">
+  <div class="mcard">
+    <button class="mclose" id="payClose">✕</button>
+
+    <div id="payStep1">
+      <h3>👑 Débloquez un CV qui embauche</h3>
+      <div class="offer" data-tier="pro">
+        <span class="oi">💼</span>
+        <span><b>CV Pro</b><span class="op">Modèle Moderne + toutes les couleurs + 5 accroches prêtes + 10 secrets de recruteurs</span></span>
+        <span class="pr">5 000 Ar<small style="font-size:10px;color:var(--muted)">/ mois</small></span>
+      </div>
+      <div class="offer gold" data-tier="hyper">
+        <span class="oi">👑</span>
+        <span><b>CV Hyper Pro</b><span class="op">TOUT le Pro + modèle exclusif Prestige ✨ + couleur Or + Certifications & Références + coulisses complètes</span></span>
+        <span class="pr"><s>20 000 Ar</s>15 000 Ar<small style="font-size:10px;color:var(--muted)">/ mois</small></span>
+      </div>
+      <p class="hint" style="text-align:center">🔓 Un seul paiement = 30 jours d'accès, sans engagement.<br>Paiement par <b>Mvola</b> ou <b>Airtel Money</b>, vérification IA instantanée 🤖</p>
+    </div>
+
+    <div id="payStep2" style="display:none">
+      <h3 id="payTitle">Paiement</h3>
+      <p class="hint" style="margin-top:0">1️⃣ Envoyez <b id="payAmount"></b> vers l'un de ces numéros :</p>
+      <div class="paynum">
+        <span class="opn">🟡</span>
+        <span><small>Mvola</small><b>038 53 032 11</b></span>
+        <button class="cp" data-n="0385303211">Copier</button>
+      </div>
+      <div class="paynum">
+        <span class="opn">🔴</span>
+        <span><small>Airtel Money</small><b>033 49 890 48</b></span>
+        <button class="cp" data-n="0334989048">Copier</button>
+      </div>
+      <p class="hint" style="margin-top:14px">2️⃣ Envoyez la <b>capture d'écran du reçu</b> :</p>
+      <div class="upzone2" id="payZone">📸 Prendre une photo / choisir dans la galerie<small>Reçu complet et net : montant, date, référence visibles</small></div>
+      <input type="file" id="payFile" accept="image/*" hidden>
+      <img id="payPrev" class="pprev" alt="Aperçu du reçu">
+      <button class="btn btn-gold" id="payGo" style="width:100%;margin-top:12px" disabled>Vérifier mon paiement ✔</button>
+      <div id="payLoad" style="display:none"><div class="spin2"></div><p class="hint" style="text-align:center" id="payLoadMsg">🤖 L'IA vérifie votre reçu…</p></div>
+      <div class="errbox2" id="payErr"></div>
+      <div class="okbox" id="payOk"></div>
+      <p class="hint" style="text-align:center;margin-top:12px">Un souci ? <a href="https://wa.me/261385303211" target="_blank" rel="noopener"><b>Écrivez-nous sur WhatsApp 💬</b></a></p>
+      <button class="btn btn-outline" id="payBack" style="width:100%;margin-top:8px;border-color:var(--line);color:var(--muted)">← Retour aux offres</button>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="../assets/app.js"></script>
+<script src="../assets/ads.js"></script>
+<script src="cv.js"></script>
+<!-- Monetag In-Page Push -->
+<script>(function(s){s.dataset.zone='11655269',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+</body>
+</html>

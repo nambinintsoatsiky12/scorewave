@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nambinintsoatsiky12.github.io/scorewave/sitemap.xml
