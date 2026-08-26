@@ -7,7 +7,7 @@ app.use(cors());
 app.use(express.json({ limit: "8mb" }));
 
 const KEY = process.env.GEMINI_API_KEY;
-const MODEL = "gemini-2.0-flash";
+const MODEL = "gemini-3.6-flash";
 
 const PROMPT = `Tu es un professeur expérimenté de Madagascar (programme officiel MEN, système francophone : collège 6ème→3ème/BEPC, lycée 2nde→Terminale/BAC).
 
